@@ -67,11 +67,14 @@ export default function JournalClient() {
   return (
     <div className="space-y-6">
       <Card>
-        <CardContent className="p-6">
+        <CardHeader>
+          <CardTitle>New Entry</CardTitle>
+          <CardDescription>
+            Today, I am grateful for...
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
           <div className="space-y-4">
-            <label htmlFor="journal-entry" className="font-medium">
-              Today, I am grateful for...
-            </label>
             <Textarea
               id="journal-entry"
               value={entry}
@@ -113,7 +116,7 @@ export default function JournalClient() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <p className="text-sm">{pastEntry.text}</p>
+                        <p className="whitespace-pre-wrap">{pastEntry.text}</p>
                     </CardContent>
                 </Card>
             ))}
