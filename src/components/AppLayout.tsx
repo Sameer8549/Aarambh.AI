@@ -20,6 +20,7 @@ import {
   Sheet,
   SheetContent,
   SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from './ui/sheet';
 
@@ -87,6 +88,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                     <AarambhIcon className="h-8 w-8" />
                     <h1 className="text-xl font-bold font-headline">Aarambh.AI</h1>
                 </Link>
+                <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
               </SheetHeader>
               <nav className="p-4 space-y-2">
                 {navItems.map((item) => (
