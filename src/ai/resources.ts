@@ -14,7 +14,7 @@ export enum IndianResourceType {
 }
 
 export const indianResources: Resource[] = [
-    // Helplines
+    // Helplines (Verified and Stable)
     {
       title: 'Vandrevala Foundation Mental Health Helpline',
       description: '24/7, free and confidential support for people in distress, available in multiple Indian languages.',
@@ -29,29 +29,29 @@ export const indianResources: Resource[] = [
       type: 'helpline' as any,
       keywords: ['helpline', 'government', 'anxiety', 'stress', 'depression', 'help'],
     },
-    // Guided Meditations from Web Sources
+    // Guided Meditations & Breathing Exercises (Stable Web Sources)
     {
         title: 'Art of Living - Guided Meditation for Relaxation',
         description: 'An online guided meditation from the Art of Living foundation to calm the mind and body.',
         link: 'https://www.artofliving.org/in-en/guided-meditations-for-relaxation',
         type: 'video',
-        keywords: ['meditation', 'english', 'art of living', 'relaxation', 'calm'],
+        keywords: ['meditation', 'english', 'art of living', 'relaxation', 'calm', 'video'],
     },
     {
-        title: 'Isha Foundation - Isha Kriya',
+        title: 'Isha Foundation - Isha Kriya for Clarity',
         description: 'A powerful 12-minute guided meditation for clarity and wellbeing from Sadhguru\'s Isha Foundation.',
         link: 'https://www.isha.sadhguru.org/in/en/yoga-meditation/yoga-program-for-beginners/isha-kriya',
         type: 'video',
-        keywords: ['meditation', 'english', 'sadhguru', 'clarity', 'well-being', 'isha'],
+        keywords: ['meditation', 'english', 'sadhguru', 'clarity', 'well-being', 'isha', 'video'],
     },
      {
-        title: 'Mindful - A 10-Minute Breathing Meditation',
+        title: 'Mindful - 10-Minute Breathing Meditation',
         description: 'A simple, effective breathing meditation practice to ground yourself in the present moment.',
         link: 'https://www.mindful.org/a-10-minute-breathing-meditation-to-foster-mindfulness/',
-        type: 'video', // Categorized as video for simplicity, though it's an audio player on a webpage
-        keywords: ['meditation', 'english', 'breathing', 'mindfulness', 'quick'],
+        type: 'video', // Categorized as video as it contains an audio/visual guide
+        keywords: ['meditation', 'english', 'breathing', 'mindfulness', 'quick', 'video'],
     },
-    // Podcasts
+    // Podcasts (Stable Platforms)
     {
       title: 'The Ranveer Show (English)',
       description: 'Conversations on health, career, and mindset for young Indians.',
@@ -66,9 +66,9 @@ export const indianResources: Resource[] = [
       type: 'podcast',
       keywords: ['podcast', 'english', 'habits', 'life advice', 'motivation'],
     },
-    // Articles & Information
+    // Articles & Information (Reputable Organizations)
     {
-      title: 'The Live Love Laugh Foundation',
+      title: 'The Live Love Laugh Foundation - Helplines & Resources',
       description: 'Articles and resources on stress, anxiety, depression, and more from an Indian perspective.',
       link: 'https://www.thelivelovelaughfoundation.org/helpline',
       type: 'article',
@@ -81,9 +81,16 @@ export const indianResources: Resource[] = [
       type: 'article',
       keywords: ['article', 'booklet', 'nimhans', 'self help', 'mental health'],
     },
-    // Music from Web Sources
     {
-      title: 'Raga Yaman by Hariprasad Chaurasia',
+        title: 'Fortis Healthcare - Understanding Mental Health',
+        description: 'An information hub covering various mental health topics from a leading healthcare provider in India.',
+        link: 'https://www.fortishealthcare.com/india/speciality/mental-health-and-behavioural-sciences',
+        type: 'article',
+        keywords: ['article', 'fortis', 'mental health', 'information', 'stress', 'anxiety'],
+    },
+    // Music & Calming Sounds (Curated from reliable platforms)
+    {
+      title: 'Raga Yaman - Flute by Hariprasad Chaurasia',
       description: 'Classical Indian flute music for relaxation. (YouTube)',
       link: 'https://www.youtube.com/watch?v=O8keFY32-iU',
       type: 'music',
@@ -91,14 +98,14 @@ export const indianResources: Resource[] = [
     },
     {
       title: 'Maeri by Euphoria',
-      description: 'Iconic Indian folk rock song. (YouTube)',
+      description: 'Iconic Indian folk rock song to lift your spirits. (YouTube)',
       link: 'https://www.youtube.com/watch?v=d2G9A8t1k2s',
       type: 'music',
       keywords: ['music', 'indian folk rock', 'euphoria', 'maeri'],
     },
     {
       title: 'Kun Faya Kun by A.R. Rahman',
-      description: 'A soulful Sufi track from the movie Rockstar. (YouTube)',
+      description: 'A soulful Sufi track from the movie Rockstar for contemplation. (YouTube)',
       link: 'https://www.youtube.com/watch?v=T94PHkuydcw',
       type: 'music',
       keywords: ['music', 'sufi', 'ar rahman', 'kun faya kun', 'bollywood'],
