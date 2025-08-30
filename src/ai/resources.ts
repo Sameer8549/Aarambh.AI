@@ -285,6 +285,20 @@ export const wellnessResources: Resource[] = [
       type: ResourceTypeEnum.Music,
       keywords: ['music', 'stress relief', 'anxiety', 'calming', 'soothing'],
     },
+    {
+      title: 'Uplifting English Pop Songs',
+      description: 'A playlist of feel-good pop music to boost your mood and energy.',
+      link: 'uplifting pop songs',
+      type: ResourceTypeEnum.Music,
+      keywords: ['music', 'english', 'pop', 'happy', 'uplifting', 'feel good'],
+    },
+    {
+      title: 'Calm Bollywood Melodies',
+      description: 'A collection of gentle and soothing Bollywood songs perfect for unwinding.',
+      link: 'calm bollywood songs',
+      type: ResourceTypeEnum.Music,
+      keywords: ['music', 'indian', 'bollywood', 'hindi', 'calming', 'soothing'],
+    },
 ];
 
 /**
