@@ -44,13 +44,23 @@ export default function Home() {
         <h1 className="font-headline text-4xl md:text-5xl font-bold text-foreground tracking-tight mt-4">
           Aarambh.AI
         </h1>
-        <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-          Your safe and supportive space for mental wellness. Start your journey
-          to a calmer mind today.
+        <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+          Your private, AI-powered wellness companion designed for young people.
+          Whether you need a safe space to talk, tools to relax your mind, or a
+          place to practice gratitude, Aarambh.AI is here to support you on
+          your journey to a calmer, healthier mind.
         </p>
       </header>
 
       <main className="w-full max-w-4xl">
+        <div className="text-center my-8">
+            <h2 className="font-headline text-3xl font-bold text-foreground">
+                What We Offer
+            </h2>
+            <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
+                A suite of tools designed to provide immediate, accessible, and private mental wellness support.
+            </p>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {features.map((feature) => (
             <Link href={feature.href} key={feature.href} passHref>
