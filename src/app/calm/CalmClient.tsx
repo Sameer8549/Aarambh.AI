@@ -21,35 +21,41 @@ import { calmingActivityEncouragement } from '@/ai/flows/calming-activity-encour
 import { cn } from '@/lib/utils';
 
 const musicTracks = [
-  {
-    name: 'Indian Classical',
-    url: 'https://open.spotify.com/playlist/37i9dQZF1DWVcbz34n5evx',
-    dataAiHint: 'indian classical music',
-  },
-  {
-    name: 'Lo-fi Beats',
-    url: 'https://open.spotify.com/playlist/37i9dQZF1DWWQRwui02bsF',
-    dataAiHint: 'lofi beats playlist',
-  },
-  {
-    name: 'Ambient Music',
-    url: 'https://open.spotify.com/playlist/37i9dQZF1DX3Ogo9pFv56R',
+    {
+    name: 'Weightless',
+    artist: 'Marconi Union',
+    url: 'https://open.spotify.com/track/6kGTP2Y01D8h24b2lTbu1z',
     dataAiHint: 'ambient music',
   },
   {
-    name: 'Nature Sounds',
-    url: 'https://open.spotify.com/playlist/37i9dQZF1DX4PP3DA4J0N8',
-    dataAiHint: 'nature sounds',
+    name: 'Clair de Lune',
+    artist: 'Claude Debussy',
+    url: 'https://open.spotify.com/track/4u7EnebtmKWzANvK6piFSL',
+    dataAiHint: 'classical piano',
   },
   {
-    name: 'Piano Music',
-    url: 'https://open.spotify.com/playlist/37i9dQZF1DX4sWSpwq3LiO',
-    dataAiHint: 'peaceful piano',
+    name: 'Canzonetta Sull\'aria',
+    artist: 'Wolfgang Amadeus Mozart',
+    url: 'https://open.spotify.com/track/560t2t3n2Q81N33cWl9V63',
+    dataAiHint: 'opera classical',
   },
   {
-    name: 'Acoustic Hits',
-    url: 'https://open.spotify.com/playlist/37i9dQZF1DX2yvmlOd2n1p',
-    dataAiHint: 'acoustic songs',
+    name: 'Spiegel im Spiegel',
+    artist: 'Arvo Pärt',
+    url: 'https://open.spotify.com/track/7zHd9soLwecr36pc3tizf6',
+    dataAiHint: 'minimalist classical',
+  },
+  {
+    name: 'Gymnopédie No. 1',
+    artist: 'Erik Satie',
+    url: 'https://open.spotify.com/track/5NGtFXVpXSvwunEIGeviY3',
+    dataAiHint: 'solo piano',
+  },
+  {
+    name: 'Raga Yaman',
+    artist: 'Hariprasad Chaurasia',
+    url: 'https://open.spotify.com/track/2hMsY33v136N632x23p42v',
+    dataAiHint: 'indian classical flute',
   }
 ];
 
@@ -134,13 +140,16 @@ const MusicPlayer = ({ onComplete }: { onComplete: (activity: string) => void })
           key={track.name}
           target="_blank"
           rel="noopener noreferrer"
-          onClick={() => onComplete(track.name)}
+          onClick={() => onComplete(`${track.name} by ${track.artist}`)}
           className="block group"
         >
           <Card className="flex items-center justify-between p-4 group-hover:bg-secondary/50 transition-colors" data-ai-hint={track.dataAiHint}>
             <div className="flex items-center gap-4">
               <Music className="h-6 w-6 text-primary" />
-              <p className="font-semibold">{track.name}</p>
+              <div>
+                <p className="font-semibold">{track.name}</p>
+                <p className="text-sm text-muted-foreground">{track.artist}</p>
+              </div>
             </div>
             <ExternalLink className="h-5 w-5 text-muted-foreground group-hover:text-primary" />
           </Card>
