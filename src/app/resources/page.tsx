@@ -14,31 +14,48 @@ const resourceCategories = [
     icon: <Phone className="h-6 w-6 text-primary" />,
     items: [
       {
-        name: 'National Suicide Prevention Lifeline',
-        description: '24/7, free and confidential support for people in distress.',
-        link: 'tel:988',
+        name: 'Vandrevala Foundation Mental Health Helpline',
+        description: '24/7, free and confidential support for people in distress, available in multiple Indian languages.',
+        link: 'tel:9999666555',
       },
       {
-        name: 'Govt. of India National Helpline',
+        name: 'KIRAN - Mental Health Rehabilitation Helpline',
         description:
-          'Mental Health Support from the Government of India.',
+          'A national helpline by the Govt. of India for anxiety, stress, depression, and other mental health concerns.',
         link: 'tel:1800-599-0019',
       },
     ],
   },
   {
-    title: 'Guided Meditations',
+    title: 'Guided Meditations (Hindi)',
+    icon: <Youtube className="h-6 w-6 text-primary" />,
+    items: [
+      {
+        name: '10-Minute Meditation for Stress & Anxiety',
+        description: 'A popular, calming guided meditation in Hindi to find peace.',
+        link: 'https://www.youtube.com/watch?v=sJ02s1-2vto',
+      },
+      {
+        name: '5-Minute Meditation for Positive Energy',
+        description:
+          'A short practice to refresh your mind and boost positivity.',
+        link: 'https://www.youtube.com/watch?v=s75_N6s59as',
+      },
+    ],
+  },
+   {
+    title: 'Guided Meditations (English)',
     icon: <Youtube className="h-6 w-6 text-primary" />,
     items: [
       {
         name: '10-Minute Meditation for Beginners',
-        description: 'A short, guided meditation to calm your mind.',
+        description: 'A simple and effective meditation to start your practice.',
         link: 'https://www.youtube.com/watch?v=O-6f5wQXSu8',
       },
       {
         name: 'Meditation for Anxiety',
         description:
-          'A guided practice to help ease anxiety and find peace.',
+          'A guided practice specifically designed to help ease anxiety and find calm.',
         link: 'https://www.youtube.com/watch?v=4pLUleLdwYI',
       },
     ],
@@ -48,33 +65,33 @@ const resourceCategories = [
     icon: <Headphones className="h-6 w-6 text-primary" />,
     items: [
       {
-        name: 'The Happiness Lab',
+        name: 'The Ranveer Show (English)',
         description:
-          'Dr. Laurie Santos explores the science of happiness.',
-        link: 'https://open.spotify.com/show/3i5TCKhc6GY42pOWkpWveG',
+          'Conversations on health, career, and mindset for young Indians.',
+        link: 'https://open.spotify.com/show/6ZcvVBPQ2To2C2I4pB2HRm',
       },
       {
-        name: 'Feeling Good Podcast',
+        name: 'The Habit Coach with Ashdin Doctor',
         description:
-          'Dr. David Burns discusses techniques to overcome depression and anxiety.',
-        link: 'https://open.spotify.com/show/0h36N7k3r3aP2aR0Ie19p9',
+          'Actionable advice on building good habits for a better life.',
+        link: 'https://open.spotify.com/show/2Q2GUI0A4vA22dI3Sg2K34',
       },
     ],
   },
   {
-    title: 'Blogs & Articles',
+    title: 'Articles & Information',
     icon: <FileText className="h-6 w-6 text-primary" />,
     items: [
       {
-        name: 'WHO on Mental Health',
+        name: 'Healthline: Mental Health Resources',
         description:
-          'Information and resources from the World Health Organization.',
-        link: 'https://www.who.int/health-topics/mental-health',
+          'Reliable, expert-reviewed articles on various mental health topics.',
+        link: 'https://www.healthline.com/health/mental-health-resources',
       },
       {
-        name: 'Psychology Today',
-        description: 'A collection of articles on mental health and well-being.',
-        link: 'https://www.psychologytoday.com/us',
+        name: 'NIMHANS - Self Help Booklets',
+        description: 'Helpful booklets on various mental health issues from a premier Indian institute.',
+        link: 'https://nimhans.ac.in/well-being-centre-psychology-services/self-help-booklets/',
       },
     ],
   },
@@ -86,7 +103,7 @@ export default function ResourcesPage() {
       <header className="mb-8">
         <h1 className="text-4xl font-bold font-headline">Resource Hub</h1>
         <p className="text-lg text-muted-foreground mt-2">
-          Explore a curated list of resources for mental health and well-being.
+          Explore a curated list of verified resources for mental health and well-being.
         </p>
       </header>
 
