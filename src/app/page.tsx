@@ -1,3 +1,5 @@
+
+'use client';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -8,35 +10,39 @@ import {
   HeartPulse,
 } from 'lucide-react';
 import AarambhIcon from '@/components/AarambhIcon';
-
-const features = [
-  {
-    title: 'AI Chat',
-    description: 'Talk anonymously with an empathetic AI friend.',
-    href: '/chat',
-    icon: <MessageCircle className="h-8 w-8 text-primary" />,
-  },
-  {
-    title: 'Calming Activities',
-    description: 'Relax with guided breathing and soothing music.',
-    href: '/calm',
-    icon: <Wind className="h-8 w-8 text-primary" />,
-  },
-  {
-    title: 'Gratitude Journal',
-    description: 'Reflect on the good things in your life.',
-    href: '/journal',
-    icon: <BookText className="h-8 w-8 text-primary" />,
-  },
-  {
-    title: 'Resource Hub',
-    description: 'Find helpful articles, videos, and helplines.',
-    href: '/resources',
-    icon: <Library className="h-8 w-8 text-primary" />,
-  },
-];
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Home() {
+  const { t } = useLanguage();
+
+  const features = [
+    {
+      title: t('features.chat.title'),
+      description: t('features.chat.description'),
+      href: '/chat',
+      icon: <MessageCircle className="h-8 w-8 text-primary" />,
+    },
+    {
+      title: t('features.calm.title'),
+      description: t('features.calm.description'),
+      href: '/calm',
+      icon: <Wind className="h-8 w-8 text-primary" />,
+    },
+    {
+      title: t('features.journal.title'),
+      description: t('features.journal.description'),
+      href: '/journal',
+      icon: <BookText className="h-8 w-8 text-primary" />,
+    },
+    {
+      title: t('features.resources.title'),
+      description: t('features.resources.description'),
+      href: '/resources',
+      icon: <Library className="h-8 w-8 text-primary" />,
+    },
+  ];
+
+
   return (
     <div className="flex flex-col items-center justify-center min-h-full p-4 md:p-8 from-background to-secondary/50 bg-gradient-to-b">
       <header className="text-center mb-8 md:mb-12">
@@ -45,20 +51,17 @@ export default function Home() {
           Aarambh.AI
         </h1>
         <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-          Your private, AI-powered wellness companion designed for young people.
-          Whether you need a safe space to talk, tools to relax your mind, or a
-          place to practice gratitude, Aarambh.AI is here to support you on
-          your journey to a calmer, healthier mind.
+          {t('home.tagline')}
         </p>
       </header>
 
       <main className="w-full max-w-4xl">
         <div className="text-center my-8">
             <h2 className="font-headline text-3xl font-bold text-foreground">
-                What We Offer
+                {t('home.offerTitle')}
             </h2>
             <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
-                A suite of tools designed to provide immediate, accessible, and private mental wellness support.
+                {t('home.offerSubtitle')}
             </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -83,7 +86,7 @@ export default function Home() {
       <footer className="mt-12 text-center text-muted-foreground text-sm">
         <p>
           <HeartPulse className="inline-block h-4 w-4 mr-1" />
-          You are not alone. Support is always available.
+          {t('home.footer')}
         </p>
       </footer>
     </div>

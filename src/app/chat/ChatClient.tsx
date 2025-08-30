@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -48,7 +49,7 @@ const resourceIcons: Record<ResourceType, React.ElementType> = {
 
 
 export default function ChatClient() {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -66,10 +67,10 @@ export default function ChatClient() {
         {
           id: uuidv4(),
           role: 'assistant',
-          content: "Hello! I'm Aarambh, your AI wellness companion. How are you feeling today? You can talk to me about anything on your mind.",
+          content: t('chat.initialMessage'),
         }
     ])
-  }, []);
+  }, [t]);
 
   const handleSendMessage = async () => {
     if (!input.trim()) return;
@@ -108,7 +109,7 @@ export default function ChatClient() {
       const errorMessage: ChatMessage = {
         id: uuidv4(),
         role: 'assistant',
-        content: 'Sorry, I am having trouble connecting. Please try again later.',
+        content: t('chat.errorMessage'),
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
@@ -146,7 +147,7 @@ export default function ChatClient() {
                 <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                  {message.resources && message.resources.length > 0 && (
                   <div className="space-y-2 mt-4">
-                     <h4 className='font-bold text-sm flex items-center gap-2'><Book className='h-4 w-4'/> Helpful Resources</h4>
+                     <h4 className='font-bold text-sm flex items-center gap-2'><Book className='h-4 w-4'/> {t('chat.helpfulResources')}</h4>
                     {message.resources.map((res, index) => {
                       const Icon = resourceIcons[res.type] || Book;
                       return (
@@ -162,7 +163,7 @@ export default function ChatClient() {
                           </CardContent>
                           <CardFooter className="p-4 pt-0">
                             <a href={res.link} target="_blank" rel="noopener noreferrer">
-                              <Button size="sm">View Resource</Button>
+                              <Button size="sm">{t('chat.viewResource')}</Button>
                             </a>
                           </CardFooter>
                         </Card>
@@ -200,42 +201,41 @@ export default function ChatClient() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && !isLoading && handleSendMessage()}
-            placeholder="Type your message..."
+            placeholder={t('chat.inputPlaceholder')}
             className="flex-1"
             disabled={isLoading}
-            aria-label="Chat input"
+            aria-label={t('chat.inputAriaLabel')}
           />
-          <Button onClick={handleSendMessage} disabled={isLoading} aria-label="Send message" className="px-3 sm:px-4">
+          <Button onClick={handleSendMessage} disabled={isLoading} aria-label={t('chat.sendAriaLabel')} className="px-3 sm:px-4">
             <Send className="h-5 w-5" />
-            <span className="font-medium ml-2 hidden sm:inline">Send</span>
+            <span className="font-medium ml-2 hidden sm:inline">{t('chat.send')}</span>
           </Button>
         </div>
       </div>
-      <CrisisAlertDialog open={showCrisisModal} onOpenChange={setShowCrisisModal} />
+      <CrisisAlertDialog open={showCrisisModal} onOpenChange={setShowCrisisModal} t={t} />
     </div>
   );
 }
 
 
-function CrisisAlertDialog({open, onOpenChange}: {open: boolean, onOpenChange: (open: boolean) => void}) {
+function CrisisAlertDialog({open, onOpenChange, t}: {open: boolean, onOpenChange: (open: boolean) => void, t: (key: string) => string}) {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>It sounds like you're going through a lot.</AlertDialogTitle>
+          <AlertDialogTitle>{t('crisis.title')}</AlertDialogTitle>
           <AlertDialogDescription>
-            Please know that help is available and you don't have to go through this alone.
-            Connecting with a trained professional right now can provide you with the support you need.
+            {t('crisis.description')}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className='w-full flex-col sm:flex-col gap-2'>
            <AlertDialogAction asChild className='w-full'>
             <a href="tel:1800-599-0019" className="flex items-center justify-center gap-2">
-              <Phone className="h-4 w-4"/> Call KIRAN Helpline (India)
+              <Phone className="h-4 w-4"/> {t('crisis.callHelpline')}
             </a>
           </AlertDialogAction>
           <AlertDialogAction asChild variant="outline" className='w-full mt-0' onClick={() => onOpenChange(false)}>
-            <Button>Continue Chatting</Button>
+            <Button>{t('crisis.continueChat')}</Button>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

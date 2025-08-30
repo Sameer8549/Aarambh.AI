@@ -1,0 +1,135 @@
+
+{
+    "common": {
+        "back": "Wapas",
+        "menu": "Menu",
+        "language": "Bhasha",
+        "theme": "Theme"
+    },
+    "nav": {
+        "home": "Home",
+        "chat": "AI Chat",
+        "calm": "Calming Activities",
+        "journal": "Gratitude Journal",
+        "resources": "Resource Hub",
+        "openMenu": "Navigation menu kholen",
+        "title": "App Navigation"
+    },
+    "theme": {
+        "toggle": "Color theme toggle karen",
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+    },
+    "home": {
+        "tagline": "Aapka private, AI-powered wellness saathi jo yuva logon ke liye design kiya gaya hai. Chahe aapko baat karne ke liye ek surakshit jagah chahiye, apne mann ko shaant karne ke liye tools, ya gratitude practice karne ke liye ek jagah, Aarambh.AI aapki shaant, swasth mann ki yatra mein aapka samarthan karne ke liye yahan hai.",
+        "offerTitle": "Hum Kya Offer Karte Hain",
+        "offerSubtitle": "Turant, sulabh, aur private mansik swasthya sahayata pradan karne ke liye design kiye gaye tools ka ek suite.",
+        "footer": "Aap akele nahi hain. Sahayata hamesha uplabdh hai."
+    },
+    "features": {
+        "chat": {
+            "title": "AI Chat",
+            "description": "Ek empathetic AI dost ke saath gumnam roop se baat karen."
+        },
+        "calm": {
+            "title": "Calming Activities",
+            "description": "Guided breathing aur shaant sangeet ke saath aaram karen."
+        },
+        "journal": {
+            "title": "Gratitude Journal",
+            "description": "Apne jeevan ki achhi cheezon par vichar karen."
+        },
+        "resources": {
+            "title": "Resource Hub",
+            "description": "Upyogi lekh, video, aur helplines dhundhen."
+        }
+    },
+    "calm": {
+        "title": "Calming Activities",
+        "subtitle": "Hamare curated गतिविधियों ke saath shaanti ka ek pal dhundhen.",
+        "music": "Sangeet",
+        "breathing": "Saans Lena",
+        "musicTab": "Sangeet tab",
+        "breathingTab": "Saans lene ka tab",
+        "dialogTitle": "Bahut Accha!",
+        "defaultEncouragement": "Apne liye samay nikalne ke liye bahut accha kaam!"
+    },
+    "breathing": {
+        "getReady": "Taiyar ho jao...",
+        "breatheIn": "Saans andar lein",
+        "hold": "Rokein",
+        "breatheOut": "Saans bahar chhodein",
+        "greatJob": "Bahut accha! Jab aap taiyar hon to aap ruk sakte hain.",
+        "start": "Saans Lena Shuru Karein",
+        "stop": "Rokein",
+        "chooseTechnique": "Ek Technique Chunein",
+        "chooseDescription": "Ek saans lene ka exercise chunein jo aapke liye sahi lage.",
+        "default": {
+            "name": "Standard Calm Breathing",
+            "description": "Shuru karne ke liye ek saral technique: 4s andar, 7s rokein, 8s bahar. Aapke nervous system ko shaant karne mein madad karta hai."
+        },
+        "box": {
+            "name": "Box Breathing",
+            "description": "Ise four-square breathing bhi kaha jata hai. 4s ke liye saans lein, 4s ke liye rokein, 4s ke liye saans chhodein, 4s ke liye rokein. Focus ke liye behtareen."
+        },
+        "4-7-8": {
+            "name": "4-7-8 Breathing",
+            "description": "4s ke liye saans lein, 7s ke liye rokein, phir 8s ke liye ek lambi saans chhodein. Relaxation aur neend ke liye ek shaktishali technique."
+        }
+    },
+    "chat": {
+        "initialMessage": "Namaste! Main Aarambh hoon, aapka AI wellness saathi. Aaj aap kaisa mehsoos kar rahe hain? Aap mujhse apne mann ki koi bhi baat kar sakte hain.",
+        "errorMessage": "Maaf kijiye, mujhe connect karne mein samasya ho rahi hai. Kripya baad mein phir se prayas karen.",
+        "helpfulResources": "Upyogi Resources",
+        "viewResource": "Resource Dekhein",
+        "inputPlaceholder": "Apna sandesh type karein...",
+        "inputAriaLabel": "Chat input",
+        "send": "Bhejein",
+        "sendAriaLabel": "Sandesh bhejein"
+    },
+    "crisis": {
+        "title": "Lagta hai aap bahut kuch seh rahe hain.",
+        "description": "Kripya jaan lein ki madad uplabdh hai aur aapko isse akele nahi guzarna hai. Abhi ek trained professional se judna aapko woh sahayata pradan kar sakta hai jiski aapko avashyakta hai.",
+        "callHelpline": "KIRAN Helpline (India) par call karein",
+        "continueChat": "Chatting Jari Rakhein"
+    },
+    "journal": {
+        "title": "Gratitude Journal",
+        "subtitle": "Ek pal nikal kar un cheezon par vichar karein jinke liye aap aabhari hain.",
+        "newEntry": "Nayi Entry",
+        "prompt": "Aaj, main iske liye aabhari hoon...",
+        "placeholder": "Aaj acchi tarah se chali teen cheezon ke baare mein likhein, ya kuch bhi jo aapko khushi de.",
+        "reflect": "Vichar Karein",
+        "ariaLabel": "Journal entry textarea",
+        "reflectAriaLabel": "Journal entry par vichar karein",
+        "pastEntries": "Pichli Entries",
+        "toast": {
+            "empty": {
+                "title": "Khali Entry",
+                "description": "Kripya vichar karne se pehle kuch likhein."
+            },
+            "saved": {
+                "title": "Vichar Save Ho Gaya"
+            },
+            "error": {
+                "title": "Galti",
+                "description": "Vichar save nahi ho saka. Kripya phir se prayas karen."
+            }
+        }
+    },
+    "resources": {
+        "title": "Resource Hub",
+        "subtitle": "Mansik swasthya aur kalyan ke liye verified global resources ki ek curated list explore karein.",
+        "categories": {
+            "helpline": "Global Helplines & Support",
+            "video": "Guided Meditations & Mindfulness",
+            "podcast": "Podcasts for Mental Well-being",
+            "article": "Articles & Information",
+            "music": "Calming Music & Sounds",
+            "exercise": "Exercises for Mental Health",
+            "app": "Helpful Apps",
+            "book": "Book Recommendations"
+        }
+    }
+}

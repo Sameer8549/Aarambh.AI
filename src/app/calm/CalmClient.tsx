@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -22,45 +23,45 @@ import { calmingActivityEncouragement } from '@/ai/flows/calming-activity-encour
 import { cn } from '@/lib/utils';
 import { getResourcesByType, ResourceTypeEnum } from '@/ai/resources';
 import type { Resource } from '@/types';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 type BreathingTechnique = 'default' | 'box' | '4-7-8';
 
-const breathingTechniques = {
-  default: {
-    name: 'Standard Calm Breathing',
-    description: 'A simple technique to start: 4s in, 7s hold, 8s out. Helps to calm your nervous system.',
-    cycle: [
-      { text: 'Breathe In', duration: 4000 },
-      { text: 'Hold', duration: 7000 },
-      { text: 'Breathe Out', duration: 8000 },
-    ],
-  },
-  box: {
-    name: 'Box Breathing',
-    description: 'Also known as four-square breathing. Inhale for 4s, hold for 4s, exhale for 4s, hold for 4s. Excellent for focus.',
-    cycle: [
-      { text: 'Breathe In', duration: 4000 },
-      { text: 'Hold', duration: 4000 },
-      { text: 'Breathe Out', duration: 4000 },
-      { text: 'Hold', duration: 4000 },
-    ],
-  },
-  '4-7-8': {
-    name: '4-7-8 Breathing',
-    description: 'Inhale for 4s, hold for 7s, then a long exhale for 8s. A powerful technique for relaxation and sleep.',
-    cycle: [
-      { text: 'Breathe In', duration: 4000 },
-      { text: 'Hold', duration: 7000 },
-      { text: 'Breathe Out', duration: 8000 },
-    ],
-  },
-};
-
-
-const BreathingAnimation = ({ onComplete, technique }: { onComplete: () => void, technique: BreathingTechnique }) => {
+const BreathingAnimation = ({ onComplete, technique, t }: { onComplete: () => void, technique: BreathingTechnique, t: (key: string) => string }) => {
   const [isBreathing, setIsBreathing] = useState(false);
-  const [text, setText] = useState('Get Ready...');
+  const [text, setText] = useState(t('breathing.getReady'));
 
+  const breathingTechniques = {
+    default: {
+      name: t('breathing.default.name'),
+      description: t('breathing.default.description'),
+      cycle: [
+        { text: t('breathing.breatheIn'), duration: 4000 },
+        { text: t('breathing.hold'), duration: 7000 },
+        { text: t('breathing.breatheOut'), duration: 8000 },
+      ],
+    },
+    box: {
+      name: t('breathing.box.name'),
+      description: t('breathing.box.description'),
+      cycle: [
+        { text: t('breathing.breatheIn'), duration: 4000 },
+        { text: t('breathing.hold'), duration: 4000 },
+        { text: t('breathing.breatheOut'), duration: 4000 },
+        { text: t('breathing.hold'), duration: 4000 },
+      ],
+    },
+    '4-7-8': {
+      name: t('breathing.4-7-8.name'),
+      description: t('breathing.4-7-8.description'),
+      cycle: [
+        { text: t('breathing.breatheIn'), duration: 4000 },
+        { text: t('breathing.hold'), duration: 7000 },
+        { text: t('breathing.breatheOut'), duration: 8000 },
+      ],
+    },
+  };
+  
   const { cycle } = breathingTechniques[technique];
   const timerRef = useRef<NodeJS.Timeout>();
   
@@ -80,15 +81,15 @@ const BreathingAnimation = ({ onComplete, technique }: { onComplete: () => void,
   const stopBreathingCycle = () => {
     setIsBreathing(false);
     clearTimeout(timerRef.current);
-    setText('Great job! You can stop when you are ready.');
+    setText(t('breathing.greatJob'));
     onComplete();
   };
 
   useEffect(() => {
     setIsBreathing(false);
     clearTimeout(timerRef.current);
-    setText('Get Ready...');
-  }, [technique]);
+    setText(t('breathing.getReady'));
+  }, [technique, t]);
 
   useEffect(() => {
     return () => clearTimeout(timerRef.current);
@@ -100,10 +101,10 @@ const BreathingAnimation = ({ onComplete, technique }: { onComplete: () => void,
         <div
           className={cn(
             'absolute w-full h-full bg-secondary rounded-full',
-            isBreathing && text === 'Breathe In' && 'animate-[pulse_4s_ease-in-out_infinite]',
-            isBreathing && text === 'Breathe Out' && 'animate-[pulse_8s_ease-in-out_infinite_reverse]'
+            isBreathing && text === t('breathing.breatheIn') && 'animate-[pulse_4s_ease-in-out_infinite]',
+            isBreathing && text === t('breathing.breatheOut') && 'animate-[pulse_8s_ease-in-out_infinite_reverse]'
           )}
-          style={{ animationDuration: isBreathing && text === 'Breathe In' ? `${cycle[0].duration}ms` : `${cycle.find(c => c.text === 'Breathe Out')?.duration || 8000}ms`}}
+          style={{ animationDuration: isBreathing && text === t('breathing.breatheIn') ? `${cycle[0].duration}ms` : `${cycle.find(c => c.text === t('breathing.breatheOut'))?.duration || 8000}ms`}}
         ></div>
          <div className="absolute w-24 h-24 bg-primary/20 rounded-full"></div>
         <p className="z-10 text-2xl font-bold font-headline text-primary-foreground bg-primary p-4 rounded-full">
@@ -111,12 +112,12 @@ const BreathingAnimation = ({ onComplete, technique }: { onComplete: () => void,
         </p>
       </div>
       {!isBreathing ? (
-        <Button onClick={startBreathingCycle} aria-label="Start breathing exercise">
-          <Play className="mr-2 h-4 w-4" /> Start Breathing
+        <Button onClick={startBreathingCycle} aria-label={t('breathing.start')}>
+          <Play className="mr-2 h-4 w-4" /> {t('breathing.start')}
         </Button>
       ) : (
-        <Button onClick={stopBreathingCycle} variant="secondary" aria-label="Stop breathing exercise">
-          <Pause className="mr-2 h-4 w-4" /> Stop
+        <Button onClick={stopBreathingCycle} variant="secondary" aria-label={t('breathing.stop')}>
+          <Pause className="mr-2 h-4 w-4" /> {t('breathing.stop')}
         </Button>
       )}
        <style>{`
@@ -172,6 +173,23 @@ const MusicPlayer = ({ onComplete }: { onComplete: (activity: string) => void })
 
 const BreathingPage = ({onComplete}: {onComplete: (activity: string) => void}) => {
   const [technique, setTechnique] = useState<BreathingTechnique>('default');
+  const { t } = useLanguage();
+  
+  const breathingTechniques = {
+    default: {
+      name: t('breathing.default.name'),
+      description: t('breathing.default.description'),
+    },
+    box: {
+      name: t('breathing.box.name'),
+      description: t('breathing.box.description'),
+    },
+    '4-7-8': {
+      name: t('breathing.4-7-8.name'),
+      description: t('breathing.4-7-8.description'),
+    },
+  };
+
   const selectedTechnique = breathingTechniques[technique];
 
   return (
@@ -179,8 +197,8 @@ const BreathingPage = ({onComplete}: {onComplete: (activity: string) => void}) =
         <div className="lg:col-span-1">
           <Card>
             <CardHeader>
-              <CardTitle>Choose a Technique</CardTitle>
-              <CardDescription>Select a breathing exercise that feels right for you.</CardDescription>
+              <CardTitle>{t('breathing.chooseTechnique')}</CardTitle>
+              <CardDescription>{t('breathing.chooseDescription')}</CardDescription>
             </CardHeader>
             <CardContent>
               <RadioGroup value={technique} onValueChange={(val) => setTechnique(val as BreathingTechnique)}>
@@ -198,7 +216,7 @@ const BreathingPage = ({onComplete}: {onComplete: (activity: string) => void}) =
           </Card>
         </div>
         <div className="lg:col-span-2">
-           <BreathingAnimation onComplete={() => onComplete(selectedTechnique.name)} technique={technique} />
+           <BreathingAnimation onComplete={() => onComplete(selectedTechnique.name)} technique={technique} t={t} />
         </div>
 
     </div>
@@ -211,6 +229,7 @@ export default function CalmClient() {
   const [showDialog, setShowDialog] = useState(false);
   const [encouragement, setEncouragement] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const { t } = useLanguage();
 
   const handleActivityCompletion = async (activityType: string) => {
     setIsLoading(true);
@@ -219,7 +238,7 @@ export default function CalmClient() {
       const result = await calmingActivityEncouragement({ activityType });
       setEncouragement(result.encouragementMessage);
     } catch (e) {
-      setEncouragement('Great job on taking time for yourself!');
+      setEncouragement(t('calm.defaultEncouragement'));
     } finally {
       setIsLoading(false);
     }
@@ -229,11 +248,11 @@ export default function CalmClient() {
     <>
       <Tabs defaultValue="music" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="music" aria-label="Music tab">
-            <Music className="mr-2 h-4 w-4" /> Music
+          <TabsTrigger value="music" aria-label={t('calm.musicTab')}>
+            <Music className="mr-2 h-4 w-4" /> {t('calm.music')}
           </TabsTrigger>
-          <TabsTrigger value="breathing" aria-label="Breathing tab">
-            <Wind className="mr-2 h-4 w-4" /> Breathing
+          <TabsTrigger value="breathing" aria-label={t('calm.breathingTab')}>
+            <Wind className="mr-2 h-4 w-4" /> {t('calm.breathing')}
           </TabsTrigger>
         </TabsList>
         <TabsContent value="music">
@@ -246,7 +265,7 @@ export default function CalmClient() {
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Great Job!</DialogTitle>
+            <DialogTitle>{t('calm.dialogTitle')}</DialogTitle>
           </DialogHeader>
           <div className="pt-4 text-center text-lg">
             {isLoading ? (

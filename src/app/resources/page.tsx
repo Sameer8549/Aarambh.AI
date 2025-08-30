@@ -11,7 +11,8 @@ import {
   Music,
   Dumbbell,
   AppWindow,
-  ExternalLink
+  ExternalLink,
+  Book
 } from 'lucide-react';
 import {
   wellnessResources,
@@ -19,6 +20,7 @@ import {
   ResourceTypeEnum,
 } from '@/ai/resources';
 import type { Resource, ResourceType } from '@/types';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 
 const iconMap: Record<string, React.ElementType> = {
@@ -29,18 +31,9 @@ const iconMap: Record<string, React.ElementType> = {
   music: Music,
   exercise: Dumbbell,
   app: AppWindow,
+  book: Book
 };
 
-
-const categoryTitles: Record<string, string> = {
-    helpline: "Global Helplines & Support",
-    video: "Guided Meditations & Mindfulness",
-    podcast: "Podcasts for Mental Well-being",
-    article: "Articles & Information",
-    music: "Calming Music & Sounds",
-    exercise: "Exercises for Mental Health",
-    app: "Helpful Apps",
-}
 
 function constructSearchUrl(item: Resource): string {
     switch (item.type) {
@@ -49,7 +42,7 @@ function constructSearchUrl(item: Resource): string {
         case ResourceTypeEnum.Music:
             return `https://open.spotify.com/search/${encodeURIComponent(item.link)}`;
         case ResourceTypeEnum.Podcast:
-            return `https://open.spotify.com/search/${encodeURIComponent(item.link)}`;
+             return `https://open.spotify.com/search/${encodeURIComponent(item.link)}`;
         case ResourceTypeEnum.App:
             return `https://play.google.com/store/search?q=${encodeURIComponent(item.link)}&c=apps`;
         case ResourceTypeEnum.Helpline:
@@ -63,19 +56,31 @@ function constructSearchUrl(item: Resource): string {
 
 export default function ResourcesPage() {
     const [groupedResources, setGroupedResources] = useState<Record<string, Resource[]>>({});
+    const { t } = useLanguage();
+
+    const categoryTitles: Record<string, string> = {
+        helpline: t('resources.categories.helpline'),
+        video: t('resources.categories.video'),
+        podcast: t('resources.categories.podcast'),
+        article: t('resources.categories.article'),
+        music: t('resources.categories.music'),
+        exercise: t('resources.categories.exercise'),
+        app: t('resources.categories.app'),
+        book: t('resources.categories.book')
+    }
 
     useEffect(() => {
         setGroupedResources(groupResourcesByType(wellnessResources));
     }, []);
 
-    const orderedCategories: ResourceType[] = ['helpline', 'exercise', 'app', 'video', 'music', 'podcast', 'article'];
+    const orderedCategories: ResourceType[] = ['helpline', 'exercise', 'app', 'video', 'music', 'podcast', 'article', 'book'];
 
   return (
     <div>
       <header className="mb-8">
-        <h1 className="text-4xl font-bold font-headline">Resource Hub</h1>
+        <h1 className="text-4xl font-bold font-headline">{t('resources.title')}</h1>
         <p className="text-lg text-muted-foreground mt-2">
-          Explore a curated list of verified global resources for mental health and well-being.
+          {t('resources.subtitle')}
         </p>
       </header>
 

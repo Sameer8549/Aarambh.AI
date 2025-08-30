@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -20,7 +21,7 @@ const languages: { value: Language; label: string }[] = [
 ];
 
 export default function LanguageToggle() {
-  const { language, setLanguage } = useLanguage();
+  const { language, setLanguage, t } = useLanguage();
 
   const handleValueChange = (value: string) => {
     setLanguage(value as Language);
@@ -29,7 +30,7 @@ export default function LanguageToggle() {
   return (
     <Select value={language} onValueChange={handleValueChange}>
       <SelectTrigger className="w-full">
-        <SelectValue placeholder="Language" />
+        <SelectValue placeholder={t('common.language')} />
       </SelectTrigger>
       <SelectContent>
         {languages.map((lang) => (

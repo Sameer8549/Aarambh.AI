@@ -1,3 +1,4 @@
+
 'use client';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -13,6 +14,7 @@ import {
 } from '@/components/ui/card';
 import { Loader2 } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 type JournalEntry = {
   id: string;
@@ -25,12 +27,13 @@ export default function JournalClient() {
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const handleJournalSubmit = async () => {
     if (!entry.trim()) {
       toast({
-        title: 'Empty Entry',
-        description: 'Please write something before reflecting.',
+        title: t('journal.toast.empty.title'),
+        description: t('journal.toast.empty.description'),
         variant: 'destructive',
       });
       return;
@@ -41,7 +44,7 @@ export default function JournalClient() {
         activityType: 'gratitude journaling',
       });
       toast({
-        title: 'Reflection Saved',
+        title: t('journal.toast.saved.title'),
         description: result.encouragementMessage,
       });
       
@@ -55,8 +58,8 @@ export default function JournalClient() {
 
     } catch (error) {
       toast({
-        title: 'Error',
-        description: 'Could not save reflection. Please try again.',
+        title: t('journal.toast.error.title'),
+        description: t('journal.toast.error.description'),
         variant: 'destructive',
       });
     } finally {
@@ -68,9 +71,9 @@ export default function JournalClient() {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>New Entry</CardTitle>
+          <CardTitle>{t('journal.newEntry')}</CardTitle>
           <CardDescription>
-            Today, I am grateful for...
+            {t('journal.prompt')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -79,19 +82,19 @@ export default function JournalClient() {
               id="journal-entry"
               value={entry}
               onChange={(e) => setEntry(e.target.value)}
-              placeholder="Write about three things that went well today, or anything that brings you joy."
+              placeholder={t('journal.placeholder')}
               className="min-h-[200px] text-base"
               disabled={isLoading}
-              aria-label="Journal entry textarea"
+              aria-label={t('journal.ariaLabel')}
             />
             <Button
               onClick={handleJournalSubmit}
               disabled={isLoading}
               className="w-full sm:w-auto"
-              aria-label="Reflect on journal entry"
+              aria-label={t('journal.reflectAriaLabel')}
             >
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Reflect
+              {t('journal.reflect')}
             </Button>
           </div>
         </CardContent>
@@ -99,7 +102,7 @@ export default function JournalClient() {
 
       {entries.length > 0 && (
         <div className="space-y-4">
-            <h2 className="text-2xl font-bold font-headline">Past Entries</h2>
+            <h2 className="text-2xl font-bold font-headline">{t('journal.pastEntries')}</h2>
             {entries.map((pastEntry) => (
                 <Card key={pastEntry.id}>
                     <CardHeader>

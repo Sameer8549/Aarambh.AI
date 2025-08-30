@@ -1,0 +1,135 @@
+
+{
+    "common": {
+        "back": "Back",
+        "menu": "Menu",
+        "language": "Language",
+        "theme": "Theme"
+    },
+    "nav": {
+        "home": "Home",
+        "chat": "AI Chat",
+        "calm": "Calming Activities",
+        "journal": "Gratitude Journal",
+        "resources": "Resource Hub",
+        "openMenu": "Open navigation menu",
+        "title": "App Navigation"
+    },
+    "theme": {
+        "toggle": "Toggle color theme",
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+    },
+    "home": {
+        "tagline": "Your private, AI-powered wellness companion designed for young people. Whether you need a safe space to talk, tools to relax your mind, or a place to practice gratitude, Aarambh.AI is here to support you on your journey to a calmer, healthier mind.",
+        "offerTitle": "What We Offer",
+        "offerSubtitle": "A suite of tools designed to provide immediate, accessible, and private mental wellness support.",
+        "footer": "You are not alone. Support is always available."
+    },
+    "features": {
+        "chat": {
+            "title": "AI Chat",
+            "description": "Talk anonymously with an empathetic AI friend."
+        },
+        "calm": {
+            "title": "Calming Activities",
+            "description": "Relax with guided breathing and soothing music."
+        },
+        "journal": {
+            "title": "Gratitude Journal",
+            "description": "Reflect on the good things in your life."
+        },
+        "resources": {
+            "title": "Resource Hub",
+            "description": "Find helpful articles, videos, and helplines."
+        }
+    },
+    "calm": {
+        "title": "Calming Activities",
+        "subtitle": "Find a moment of peace with our curated activities.",
+        "music": "Music",
+        "breathing": "Breathing",
+        "musicTab": "Music tab",
+        "breathingTab": "Breathing tab",
+        "dialogTitle": "Great Job!",
+        "defaultEncouragement": "Great job on taking time for yourself!"
+    },
+    "breathing": {
+        "getReady": "Get Ready...",
+        "breatheIn": "Breathe In",
+        "hold": "Hold",
+        "breatheOut": "Breathe Out",
+        "greatJob": "Great job! You can stop when you are ready.",
+        "start": "Start Breathing",
+        "stop": "Stop",
+        "chooseTechnique": "Choose a Technique",
+        "chooseDescription": "Select a breathing exercise that feels right for you.",
+        "default": {
+            "name": "Standard Calm Breathing",
+            "description": "A simple technique to start: 4s in, 7s hold, 8s out. Helps to calm your nervous system."
+        },
+        "box": {
+            "name": "Box Breathing",
+            "description": "Also known as four-square breathing. Inhale for 4s, hold for 4s, exhale for 4s, hold for 4s. Excellent for focus."
+        },
+        "4-7-8": {
+            "name": "4-7-8 Breathing",
+            "description": "Inhale for 4s, hold for 7s, then a long exhale for 8s. A powerful technique for relaxation and sleep."
+        }
+    },
+    "chat": {
+        "initialMessage": "Hello! I'm Aarambh, your AI wellness companion. How are you feeling today? You can talk to me about anything on your mind.",
+        "errorMessage": "Sorry, I am having trouble connecting. Please try again later.",
+        "helpfulResources": "Helpful Resources",
+        "viewResource": "View Resource",
+        "inputPlaceholder": "Type your message...",
+        "inputAriaLabel": "Chat input",
+        "send": "Send",
+        "sendAriaLabel": "Send message"
+    },
+    "crisis": {
+        "title": "It sounds like you're going through a lot.",
+        "description": "Please know that help is available and you don't have to go through this alone. Connecting with a trained professional right now can provide you with the support you need.",
+        "callHelpline": "Call KIRAN Helpline (India)",
+        "continueChat": "Continue Chatting"
+    },
+    "journal": {
+        "title": "Gratitude Journal",
+        "subtitle": "Take a moment to reflect on what you're thankful for.",
+        "newEntry": "New Entry",
+        "prompt": "Today, I am grateful for...",
+        "placeholder": "Write about three things that went well today, or anything that brings you joy.",
+        "reflect": "Reflect",
+        "ariaLabel": "Journal entry textarea",
+        "reflectAriaLabel": "Reflect on journal entry",
+        "pastEntries": "Past Entries",
+        "toast": {
+            "empty": {
+                "title": "Empty Entry",
+                "description": "Please write something before reflecting."
+            },
+            "saved": {
+                "title": "Reflection Saved"
+            },
+            "error": {
+                "title": "Error",
+                "description": "Could not save reflection. Please try again."
+            }
+        }
+    },
+    "resources": {
+        "title": "Resource Hub",
+        "subtitle": "Explore a curated list of verified global resources for mental health and well-being.",
+        "categories": {
+            "helpline": "Global Helplines & Support",
+            "video": "Guided Meditations & Mindfulness",
+            "podcast": "Podcasts for Mental Well-being",
+            "article": "Articles & Information",
+            "music": "Calming Music & Sounds",
+            "exercise": "Exercises for Mental Health",
+            "app": "Helpful Apps",
+            "book": "Book Recommendations"
+        }
+    }
+}
