@@ -4,11 +4,25 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { calmingActivityEncouragement } from '@/ai/flows/calming-activity-encouragement';
-import { Card, CardContent } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Loader2 } from 'lucide-react';
+import { v4 as uuidv4 } from 'uuid';
+
+type JournalEntry = {
+  id: string;
+  text: string;
+  date: Date;
+};
 
 export default function JournalClient() {
   const [entry, setEntry] = useState('');
+  const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
@@ -30,7 +44,15 @@ export default function JournalClient() {
         title: 'Reflection Saved',
         description: result.encouragementMessage,
       });
+      
+      const newEntry: JournalEntry = {
+        id: uuidv4(),
+        text: entry,
+        date: new Date(),
+      };
+      setEntries([newEntry, ...entries]);
       setEntry('');
+
     } catch (error) {
       toast({
         title: 'Error',
@@ -43,27 +65,60 @@ export default function JournalClient() {
   };
 
   return (
-    <Card>
-      <CardContent className="p-6">
+    <div className="space-y-6">
+      <Card>
+        <CardContent className="p-6">
+          <div className="space-y-4">
+            <label htmlFor="journal-entry" className="font-medium">
+              Today, I am grateful for...
+            </label>
+            <Textarea
+              id="journal-entry"
+              value={entry}
+              onChange={(e) => setEntry(e.target.value)}
+              placeholder="Write about three things that went well today, or anything that brings you joy."
+              className="min-h-[200px] text-base"
+              disabled={isLoading}
+              aria-label="Journal entry textarea"
+            />
+            <Button
+              onClick={handleJournalSubmit}
+              disabled={isLoading}
+              className="w-full sm:w-auto"
+              aria-label="Reflect on journal entry"
+            >
+              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Reflect
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {entries.length > 0 && (
         <div className="space-y-4">
-          <label htmlFor="journal-entry" className="font-medium">
-            Today, I am grateful for...
-          </label>
-          <Textarea
-            id="journal-entry"
-            value={entry}
-            onChange={(e) => setEntry(e.target.value)}
-            placeholder="Write about three things that went well today, or anything that brings you joy."
-            className="min-h-[250px] text-base"
-            disabled={isLoading}
-            aria-label="Journal entry textarea"
-          />
-          <Button onClick={handleJournalSubmit} disabled={isLoading} className="w-full sm:w-auto" aria-label="Reflect on journal entry">
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Reflect
-          </Button>
+            <h2 className="text-2xl font-bold font-headline">Past Entries</h2>
+            {entries.map((pastEntry) => (
+                <Card key={pastEntry.id}>
+                    <CardHeader>
+                        <CardTitle className='text-lg'>
+                            {pastEntry.date.toLocaleDateString('en-US', {
+                                weekday: 'long',
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                            })}
+                        </CardTitle>
+                        <CardDescription>
+                             {pastEntry.date.toLocaleTimeString()}
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="text-sm">{pastEntry.text}</p>
+                    </CardContent>
+                </Card>
+            ))}
         </div>
-      </CardContent>
-    </Card>
+      )}
+    </div>
   );
 }
