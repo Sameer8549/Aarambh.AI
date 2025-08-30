@@ -8,14 +8,34 @@ export default function AarambhIcon({ className }: { className?: string }) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-        <path d="M25,85 C20,70 20,50 30,30 C35,20 40,15 50,15 C60,15 65,20 70,30 C80,50 80,70 75,85" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M50,15 Q40,5 30,10" stroke="hsl(var(--secondary))" fill="none" strokeWidth="8" strokeLinecap="round"/>
-        <path d="M50,15 Q60,5 70,10" stroke="hsl(var(--secondary))" fill="none" strokeWidth="8" strokeLinecap="round"/>
+      {/* Outer Circle/Sun */}
+      <circle cx="50" cy="50" r="45" fill="hsl(var(--primary) / 0.1)" />
 
-        <circle cx="42" cy="45" r="6" fill="hsl(var(--primary-foreground))" />
-        <circle cx="58" cy="45" r="6" fill="hsl(var(--primary-foreground))" />
+      {/* Sprout Stem */}
+      <path
+        d="M50 80 C 50 80, 40 60, 60 45"
+        stroke="hsl(var(--primary))"
+        strokeWidth="8"
+        strokeLinecap="round"
+      />
 
-        <path d="M40 60 Q50 75 60 60" stroke="hsl(var(--primary-foreground))" strokeWidth="5" fill="none" strokeLinecap="round" />
+      {/* Sprout Leaves */}
+      <path
+        d="M60 45 C 50 30, 70 25, 80 35"
+        fill="hsl(var(--primary))"
+        stroke="hsl(var(--primary))"
+        strokeWidth="5"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+      <path
+        d="M60 45 C 75 55, 65 65, 50 60"
+        fill="hsl(var(--primary) / 0.7)"
+        stroke="hsl(var(--primary))"
+        strokeWidth="5"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
