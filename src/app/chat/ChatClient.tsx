@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Book, Loader2, Phone } from 'lucide-react';
+import { Send, Bot, User, Book, Loader2, Phone, Youtube, FileText, Headphones } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { Button } from '@/components/ui/button';
@@ -28,12 +28,20 @@ import {
 
 import { useLanguage } from '@/contexts/LanguageContext';
 import { chatbotRespondMultilingually } from '@/ai/flows/multilingual-chatbot';
-import type { ChatMessage } from '@/types';
+import type { ChatMessage, ResourceType } from '@/types';
 import { cn } from '@/lib/utils';
 
 const crisisKeywords = [
   'kill myself', 'suicide', 'want to die', 'end my life', 'hopeless', 'can\'t go on'
 ];
+
+const resourceIcons: Record<ResourceType, React.ElementType> = {
+  book: Book,
+  video: Youtube,
+  article: FileText,
+  podcast: Headphones,
+};
+
 
 export default function ChatClient() {
   const { language } = useLanguage();
@@ -89,7 +97,7 @@ export default function ChatClient() {
         id: uuidv4(),
         role: 'assistant',
         content: response.response,
-        recommendations: response.recommendations,
+        resources: response.resources,
       };
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
@@ -132,25 +140,30 @@ export default function ChatClient() {
                 )}
               >
                 <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                {message.recommendations && message.recommendations.length > 0 && (
+                {message.resources && message.resources.length > 0 && (
                   <div className="space-y-2 mt-4">
-                     <h4 className='font-bold text-sm flex items-center gap-2'><Book className='h-4 w-4'/> Helpful Books</h4>
-                    {message.recommendations.map((rec, index) => (
-                      <Card key={index} className="bg-background/70">
-                        <CardHeader className="p-4">
-                          <CardTitle className="text-base">{rec.title}</CardTitle>
-                          <CardDescription>{rec.author}</CardDescription>
-                        </CardHeader>
-                        <CardContent className="p-4 pt-0 text-sm">
-                          <p>{rec.summary}</p>
-                        </CardContent>
-                        <CardFooter className="p-4 pt-0">
-                          <a href={rec.link} target="_blank" rel="noopener noreferrer">
-                            <Button size="sm">View Book</Button>
-                          </a>
-                        </CardFooter>
-                      </Card>
-                    ))}
+                     <h4 className='font-bold text-sm flex items-center gap-2'><Book className='h-4 w-4'/> Helpful Resources</h4>
+                    {message.resources.map((res, index) => {
+                      const Icon = resourceIcons[res.type] || Book;
+                      return (
+                        <Card key={index} className="bg-background/70">
+                          <CardHeader className="p-4">
+                            <CardTitle className="text-base flex items-center gap-2">
+                              <Icon className="h-4 w-4 text-primary" />
+                              {res.title}
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent className="p-4 pt-0 text-sm">
+                            <p>{res.description}</p>
+                          </CardContent>
+                          <CardFooter className="p-4 pt-0">
+                            <a href={res.link} target="_blank" rel="noopener noreferrer">
+                              <Button size="sm">View Resource</Button>
+                            </a>
+                          </CardFooter>
+                        </Card>
+                      )
+                    })}
                   </div>
                 )}
               </div>

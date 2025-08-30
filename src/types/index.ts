@@ -3,6 +3,7 @@ export type ChatMessage = {
   role: 'user' | 'assistant' | 'system';
   content: string;
   recommendations?: BookRecommendation[];
+  resources?: Resource[];
 };
 
 export type BookRecommendation = {
@@ -13,3 +14,12 @@ export type BookRecommendation = {
 };
 
 export type Language = 'en' | 'hi' | 'hinglish' | 'ta' | 'kn' | 'bn';
+
+export type ResourceType = 'book' | 'video' | 'article' | 'podcast';
+
+export type Resource = {
+    title: string;
+    description: string;
+    link: string;
+    type: ResourceType;
+};

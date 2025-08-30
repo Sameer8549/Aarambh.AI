@@ -11,7 +11,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import { BookRecommendation } from '@/types';
+import { BookRecommendation, Resource } from '@/types';
 
 const ChatbotInputSchema = z.object({
   language: z.enum(['en', 'hi', 'hinglish', 'ta', 'kn', 'bn']).describe('The language code to respond in (en: English, hi: Hindi, hinglish: Hinglish, ta: Tamil, kn: Kannada, bn: Bengali).'),
@@ -22,14 +22,14 @@ export type ChatbotInput = z.infer<typeof ChatbotInputSchema>;
 
 const ChatbotOutputSchema = z.object({
   response: z.string().describe('The chatbot response in the specified language.'),
-  recommendations: z.array(
+  resources: z.array(
     z.object({
-      title: z.string().describe('The title of the book.'),
-      author: z.string().describe('The author of the book.'),
-      summary: z.string().describe('A brief summary of the book.'),
-      link: z.string().describe('A direct link to purchase the book.'),
+      title: z.string().describe('The title of the resource.'),
+      description: z.string().describe('A brief, one-sentence summary of the resource.'),
+      link: z.string().describe('A direct and valid link to the resource.'),
+      type: z.enum(['book', 'video', 'article', 'podcast']).describe('The type of resource.'),
     })
-  ).optional().describe('A list of book recommendations based on the conversation history.'),
+  ).optional().describe('A list of helpful resources based on the conversation history.'),
 });
 export type ChatbotOutput = z.infer<typeof ChatbotOutputSchema>;
 
@@ -53,7 +53,7 @@ Your response format is VERY specific. Follow these rules exactly.
 - Leave one empty line between sections.
 - Use simple, clear, and empathetic language. No jargon.
 - The response must be tailored to the user's message, providing specific, detailed advice and insights.
-- If the user's message indicates a need for deeper knowledge on a topic (like anxiety, focus, habits), recommend 1-2 relevant, well-known, and genuinely helpful books. Provide the title, author, a one-sentence summary, and a direct, valid purchase link.
+- If the user's message indicates a need for deeper knowledge on a topic (like anxiety, focus, habits), provide 1-2 relevant, well-known, and genuinely helpful resources like books, articles, YouTube videos, or podcasts. For each resource, provide the title, a one-sentence description, a direct and working link, and its type.
 
 ---
 **Example 1: User says "I feel so stressed and scared, I don't know what to do."**
@@ -103,7 +103,7 @@ Your response format is VERY specific. Follow these rules exactly.
 ---
 
 **Your Task:**
-Respond to the user's message below. Follow the format EXACTLY. Provide detailed, practical, and structured advice based on their input. If relevant, include book recommendations. The response must be in the specified language.
+Respond to the user's message below. Follow the format EXACTLY. Provide detailed, practical, and structured advice based on their input. If relevant, include helpful resources. The response must be in the specified language.
 
 Language: {{language}}
 Conversation History: {{{conversationHistory}}}
