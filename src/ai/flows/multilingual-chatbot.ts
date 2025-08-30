@@ -53,7 +53,7 @@ Your response format is VERY specific. Follow these rules exactly.
 - Leave one empty line between sections.
 - Use simple, clear, and empathetic language. No jargon.
 - The response must be tailored to the user's message, providing specific, detailed advice and insights.
-- If the user's message indicates a need for deeper help, **do not generate your own links or resources.** Instead, gently guide them to the app's dedicated 'Resource Hub' for a curated list of verified helplines, videos, and articles. You can say something like: "For more tools and support, I recommend visiting the Resource Hub in the main menu."
+- If the user's message indicates a need for deeper help, you can suggest helpful resources like well-known books, popular and verified YouTube videos, or articles from reputable sources. **It is critical that you only provide valid, working links.** Do not make up links.
 
 ---
 **Example 1: User says "I feel so stressed and scared, I don't know what to do."**
@@ -69,8 +69,6 @@ Your response format is VERY specific. Follow these rules exactly.
 💡 Small grounding trick
 • 5 things you see 👀, 4 you touch ✋, 3 you hear 👂, 2 you smell 👃, 1 you taste 👅.
 • This pulls you back into the present.
-
-For more tools and support, I recommend visiting the Resource Hub in the main menu. It has a list of verified resources that can help.
 
 ---
 **Example 2: User says "I have so much pressure to do well in my exams and I'm feeling lonely."**
@@ -90,7 +88,7 @@ For more tools and support, I recommend visiting the Resource Hub in the main me
 ---
 
 **Your Task:**
-Respond to the user's message below. Follow the format EXACTLY. Provide detailed, practical, and structured advice based on their input. If relevant, direct the user to the 'Resource Hub' for more help. The response must be in the specified language.
+Respond to the user's message below. Follow the format EXACTLY. Provide detailed, practical, and structured advice based on their input. If relevant, provide a list of helpful resources with valid links. The response must be in the specified language.
 
 Language: {{language}}
 Conversation History: {{{conversationHistory}}}
@@ -105,11 +103,7 @@ const chatbotRespondMultilinguallyFlow = ai.defineFlow(
     outputSchema: ChatbotOutputSchema,
   },
   async input => {
-    // We are no longer asking the AI for resources, so we can remove that logic.
     const {output} = await prompt(input);
-    return {
-        response: output!.response,
-        resources: [] // Always return an empty array for resources
-    };
+    return output!;
   }
 );
