@@ -8,20 +8,14 @@ export default function AarambhIcon({ className }: { className?: string }) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path
-        d="M50 10C27.9086 10 10 27.9086 10 50C10 72.0914 27.9086 90 50 90"
-        stroke="hsl(var(--primary))"
-        strokeWidth="10"
-        strokeLinecap="round"
-      />
-      <path
-        d="M50 90C72.0914 90 90 72.0914 90 50C90 27.9086 72.0914 10 50 10"
-        stroke="hsl(var(--secondary))"
-        strokeWidth="10"
-        strokeLinecap="round"
-        strokeDasharray="2 18"
-      />
-      <circle cx="50" cy="50" r="15" fill="hsl(var(--primary))" />
+        <path d="M25,85 C20,70 20,50 30,30 C35,20 40,15 50,15 C60,15 65,20 70,30 C80,50 80,70 75,85" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M50,15 Q40,5 30,10" stroke="hsl(var(--secondary))" fill="none" strokeWidth="8" strokeLinecap="round"/>
+        <path d="M50,15 Q60,5 70,10" stroke="hsl(var(--secondary))" fill="none" strokeWidth="8" strokeLinecap="round"/>
+
+        <circle cx="42" cy="45" r="6" fill="hsl(var(--primary-foreground))" />
+        <circle cx="58" cy="45" r="6" fill="hsl(var(--primary-foreground))" />
+
+        <path d="M40 60 Q50 75 60 60" stroke="hsl(var(--primary-foreground))" strokeWidth="5" fill="none" strokeLinecap="round" />
     </svg>
   );
 }
