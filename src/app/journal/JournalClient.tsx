@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { calmingActivityEncouragement } from '@/ai/flows/calming-activity-encouragement';
 import { Card, CardContent } from '@/components/ui/card';
 import { Loader2 } from 'lucide-react';
