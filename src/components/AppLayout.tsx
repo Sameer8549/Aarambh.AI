@@ -79,17 +79,20 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             {showBackButton && (
               <Button
                 variant="ghost"
-                size="icon"
                 onClick={() => router.back()}
                 aria-label="Go back"
+                className="pl-2 pr-3"
               >
                 <ArrowLeft className="h-6 w-6" />
+                <span className="ml-2 font-medium">Back</span>
               </Button>
             )}
-            <Link href="/" className="flex items-center gap-2">
-              <AarambhIcon className="h-8 w-8" />
-              <h1 className="text-xl font-bold font-headline">Aarambh.AI</h1>
-            </Link>
+             {!showBackButton && (
+                <Link href="/" className="flex items-center gap-2">
+                    <AarambhIcon />
+                    <h1 className="text-xl font-bold font-headline">Aarambh.AI</h1>
+                </Link>
+             )}
           </div>
           <div className="flex items-center gap-2">
             <ThemeToggle />
@@ -97,15 +100,16 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <SheetTrigger asChild>
                 <Button
                   variant="ghost"
-                  size="icon"
                   aria-label="Open navigation menu"
+                  className="px-3"
                 >
                   <PanelLeft className="h-6 w-6" />
+                   <span className="ml-2 font-medium">Menu</span>
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-64 p-0">
                 <SheetHeader className="p-4 border-b">
-                  <SheetTitle>App Navigation</SheetTitle>
+                   <SheetTitle>App Navigation</SheetTitle>
                 </SheetHeader>
                 <nav className="p-4 space-y-2">
                   {navItems.map((item) => (

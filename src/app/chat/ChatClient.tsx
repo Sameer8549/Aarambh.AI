@@ -207,7 +207,7 @@ export default function ChatClient() {
           />
           <Button onClick={handleSendMessage} disabled={isLoading} aria-label="Send message">
             <Send className="h-5 w-5" />
-            <span className="sr-only">Send</span>
+            <span className="font-medium">Send</span>
           </Button>
         </div>
       </div>
