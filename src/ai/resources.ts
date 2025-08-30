@@ -10,9 +10,10 @@ export enum IndianResourceType {
     Podcast = 'podcast',
     Article = 'article',
     Book = 'book',
+    Music = 'music',
 }
 
-const indianResources: Resource[] = [
+export const indianResources: Resource[] = [
     // Helplines
     {
       title: 'Vandrevala Foundation Mental Health Helpline',
@@ -88,6 +89,49 @@ const indianResources: Resource[] = [
       type: 'article',
       keywords: ['article', 'booklet', 'nimhans', 'self help', 'mental health'],
     },
+    // Music
+     {
+      title: 'Raga Yaman by Hariprasad Chaurasia',
+      description: 'Classiccal Indian flute music for relaxation.',
+      link: 'https://www.youtube.com/watch?v=O8keFY32-iU',
+      type: 'music',
+      keywords: ['music', 'indian classical', 'flute', 'yaman', 'hariprasad chaurasia'],
+    },
+    {
+      title: 'Maeri by Euphoria',
+      description: 'Iconic Indian folk rock song.',
+      link: 'https://www.youtube.com/watch?v=d2G9A8t1k2s',
+      type: 'music',
+      keywords: ['music', 'indian folk rock', 'euphoria', 'maeri'],
+    },
+    {
+      title: 'Kun Faya Kun by A.R. Rahman',
+      description: 'A soulful Sufi track from the movie Rockstar.',
+      link: 'https://www.youtube.com/watch?v=T94PHkuydcw',
+      type: 'music',
+      keywords: ['music', 'sufi', 'ar rahman', 'kun faya kun', 'bollywood'],
+    },
+    {
+      title: 'Kabira by Tochi Raina, Rekha Bhardwaj',
+      description: 'A beautiful folk-pop song from Yeh Jawaani Hai Deewani.',
+      link: 'https://www.youtube.com/watch?v=jHNNMj5bNQw',
+      type: 'music',
+      keywords: ['music', 'indian folk pop', 'kabira', 'bollywood'],
+    },
+    {
+      title: 'Ik Onkar by Harshdeep Kaur',
+      description: 'A powerful devotional chant from Rang De Basanti.',
+      link: 'https://www.youtube.com/watch?v=s_w8tncf2-M',
+      type: 'music',
+      keywords: ['music', 'punjabi devotional', 'ik onkar', 'sikh'],
+    },
+    {
+      title: 'Namo Namo by Amit Trivedi',
+      description: 'A devotional pop song from the movie Kedarnath.',
+      link: 'https://www.youtube.com/watch?v=1_4c2N3_vLg',
+      type: 'music',
+      keywords: ['music', 'devotional pop', 'namo namo', 'amit trivedi'],
+    },
 ];
 
 /**
@@ -117,4 +161,30 @@ export function getIndianResources(query: string, resourceType?: IndianResourceT
 
     // Return a limited number of the best matches
     return matchedResources.slice(0, 3);
+}
+
+
+/**
+ * Returns a filtered list of resources by type.
+ * @param types An array of resource types to filter by.
+ * @returns A list of matching resources.
+ */
+export function getResourcesByType(types: IndianResourceType[]): Resource[] {
+    return indianResources.filter(resource => types.includes(resource.type as IndianResourceType));
+}
+
+/**
+ * Groups resources by their type.
+ * @param resources A list of resources.
+ * @returns An object where keys are resource types and values are lists of resources.
+ */
+export function groupResourcesByType(resources: Resource[]): Record<string, Resource[]> {
+    return resources.reduce((acc, resource) => {
+        const type = resource.type;
+        if (!acc[type]) {
+            acc[type] = [];
+        }
+        acc[type].push(resource);
+        return acc;
+    }, {} as Record<string, Resource[]>);
 }

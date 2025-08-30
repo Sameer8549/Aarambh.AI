@@ -1,103 +1,48 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Phone,
   Youtube,
-  Mic,
-  FileText,
-  Globe,
   Headphones,
+  FileText,
+  Music,
 } from 'lucide-react';
+import {
+  indianResources,
+  groupResourcesByType,
+} from '@/ai/resources';
+import type { Resource } from '@/types';
 
-const resourceCategories = [
-  {
-    title: 'Helplines',
-    icon: <Phone className="h-6 w-6 text-primary" />,
-    items: [
-      {
-        name: 'Vandrevala Foundation Mental Health Helpline',
-        description: '24/7, free and confidential support for people in distress, available in multiple Indian languages.',
-        link: 'tel:9999666555',
-      },
-      {
-        name: 'KIRAN - Mental Health Rehabilitation Helpline',
-        description:
-          'A national helpline by the Govt. of India for anxiety, stress, depression, and other mental health concerns.',
-        link: 'tel:1800-599-0019',
-      },
-    ],
-  },
-  {
-    title: 'Guided Meditations (Hindi)',
-    icon: <Youtube className="h-6 w-6 text-primary" />,
-    items: [
-      {
-        name: '10-Minute Meditation for Stress & Anxiety',
-        description: 'A popular, calming guided meditation in Hindi to find peace.',
-        link: 'https://www.youtube.com/watch?v=sJ02s1-2vto',
-      },
-      {
-        name: '5-Minute Meditation for Positive Energy',
-        description:
-          'A short practice to refresh your mind and boost positivity.',
-        link: 'https://www.youtube.com/watch?v=s75_N6s59as',
-      },
-    ],
-  },
-   {
-    title: 'Guided Meditations (English)',
-    icon: <Youtube className="h-6 w-6 text-primary" />,
-    items: [
-      {
-        name: 'Sadhguru - Isha Kriya',
-        description: 'A simple yet powerful 12-minute guided meditation for clarity and well-being.',
-        link: 'https://www.youtube.com/watch?v=yzM94_a7de0',
-      },
-      {
-        name: 'Sri Sri Ravi Shankar - Meditation for Hope',
-        description:
-          'A guided meditation for anxiety and to instill hope, from the Art of Living foundation.',
-        link: 'https://www.youtube.com/watch?v=3m_i0_yD8so',
-      },
-    ],
-  },
-  {
-    title: 'Podcasts',
-    icon: <Headphones className="h-6 w-6 text-primary" />,
-    items: [
-      {
-        name: 'The Ranveer Show (English)',
-        description:
-          'Conversations on health, career, and mindset for young Indians.',
-        link: 'https://open.spotify.com/show/6ZcvVBPQ2To2C2I4pB2HRm',
-      },
-      {
-        name: 'The Habit Coach with Ashdin Doctor',
-        description:
-          'Actionable advice on building good habits for a better life.',
-        link: 'https://open.spotify.com/show/2Q2GUI0A4vA22dI3Sg2K34',
-      },
-    ],
-  },
-  {
-    title: 'Articles & Information',
-    icon: <FileText className="h-6 w-6 text-primary" />,
-    items: [
-      {
-        name: 'The Live Love Laugh Foundation',
-        description:
-          'Articles and resources on stress, anxiety, depression, and more from an Indian perspective.',
-        link: 'https://www.thelivelovelaughfoundation.org/helpline',
-      },
-      {
-        name: 'NIMHANS - Self Help Booklets',
-        description: 'Helpful booklets on various mental health issues from a premier Indian institute.',
-        link: 'https://nimhans.ac.in/well-being-centre-psychology-services/self-help-booklets/',
-      },
-    ],
-  },
-];
+
+const iconMap: Record<string, React.ElementType> = {
+  helpline: Phone,
+  video: Youtube,
+  podcast: Headphones,
+  article: FileText,
+  music: Music,
+};
+
+
+const categoryTitles: Record<string, string> = {
+    helpline: "Helplines",
+    video: "Guided Meditations",
+    podcast: "Podcasts",
+    article: "Articles & Information",
+    music: "Calming Music"
+}
+
 
 export default function ResourcesPage() {
+    const [groupedResources, setGroupedResources] = useState<Record<string, Resource[]>>({});
+
+    useEffect(() => {
+        setGroupedResources(groupResourcesByType(indianResources));
+    }, []);
+
+    const orderedCategories = ['helpline', 'video', 'music', 'podcast', 'article'];
+
   return (
     <div>
       <header className="mb-8">
@@ -108,36 +53,44 @@ export default function ResourcesPage() {
       </header>
 
       <div className="space-y-8">
-        {resourceCategories.map((category) => (
-          <section key={category.title}>
-            <h2 className="text-2xl font-bold font-headline flex items-center gap-3 mb-4">
-              {category.icon}
-              {category.title}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {category.items.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block"
-                >
-                  <Card className="h-full hover:bg-secondary/50 transition-colors">
-                    <CardHeader>
-                      <CardTitle className="text-lg">{item.name}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground text-sm">
-                        {item.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </a>
-              ))}
-            </div>
-          </section>
-        ))}
+        {orderedCategories.map(categoryKey => {
+            const resources = groupedResources[categoryKey];
+            if(!resources || resources.length === 0) return null;
+
+            const CategoryIcon = iconMap[categoryKey] || FileText;
+            const categoryTitle = categoryTitles[categoryKey] || "Resources";
+
+            return (
+                 <section key={categoryTitle}>
+                    <h2 className="text-2xl font-bold font-headline flex items-center gap-3 mb-4">
+                        <CategoryIcon className="h-6 w-6 text-primary" />
+                        {categoryTitle}
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {resources.map((item) => (
+                            <a
+                            key={item.title}
+                            href={item.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block"
+                            >
+                            <Card className="h-full hover:bg-secondary/50 transition-colors">
+                                <CardHeader>
+                                <CardTitle className="text-lg">{item.title}</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                <p className="text-muted-foreground text-sm">
+                                    {item.description}
+                                </p>
+                                </CardContent>
+                            </Card>
+                            </a>
+                        ))}
+                    </div>
+                </section>
+            )
+        })}
       </div>
     </div>
   );

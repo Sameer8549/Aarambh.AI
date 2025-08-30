@@ -19,45 +19,9 @@ import {
 } from '@/components/ui/dialog';
 import { calmingActivityEncouragement } from '@/ai/flows/calming-activity-encouragement';
 import { cn } from '@/lib/utils';
+import { getResourcesByType, IndianResourceType } from '@/ai/resources';
+import type { Resource } from '@/types';
 
-const musicTracks = [
-  {
-    name: 'Raga Yaman',
-    artist: 'Hariprasad Chaurasia',
-    url: 'https://open.spotify.com/track/2hMsY33v136N632x23p42v',
-    dataAiHint: 'indian classical flute',
-  },
-  {
-    name: 'Maeri',
-    artist: 'Euphoria',
-    url: 'https://open.spotify.com/track/2bV32sod3z2g262oA5A7tF',
-    dataAiHint: 'indian folk rock',
-  },
-  {
-    name: 'Kun Faya Kun',
-    artist: 'A.R. Rahman, Javed Ali, Mohit Chauhan',
-    url: 'https://open.spotify.com/track/7iAqv2nI2nEa3XvIkhs5B8',
-    dataAiHint: 'sufi music',
-  },
-  {
-    name: 'Kabira',
-    artist: 'Tochi Raina, Rekha Bhardwaj',
-    url: 'https://open.spotify.com/track/4bD9z9qa4qg9BhryvYwb3T',
-    dataAiHint: 'indian folk pop',
-  },
-  {
-    name: 'Ik Onkar',
-    artist: 'Harshdeep Kaur',
-    url: 'https://open.spotify.com/track/2_VKO1L1pB8iWnL0d8naYF',
-    dataAiHint: 'punjabi devotional',
-  },
-  {
-    name: 'Namo Namo',
-    artist: 'Amit Trivedi',
-    url: 'https://open.spotify.com/track/5nK5A2m2V44y4E2s2v929s',
-    dataAiHint: 'devotional pop',
-  }
-];
 
 const BreathingAnimation = ({ onComplete }: { onComplete: () => void }) => {
   const [isBreathing, setIsBreathing] = useState(false);
@@ -132,23 +96,30 @@ const BreathingAnimation = ({ onComplete }: { onComplete: () => void }) => {
 
 
 const MusicPlayer = ({ onComplete }: { onComplete: (activity: string) => void }) => {
+  const [musicTracks, setMusicTracks] = useState<Resource[]>([]);
+
+  useEffect(() => {
+    const tracks = getResourcesByType([IndianResourceType.Music]);
+    setMusicTracks(tracks);
+  }, []);
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
       {musicTracks.map((track) => (
         <a
-          href={track.url}
-          key={track.name}
+          href={track.link}
+          key={track.title}
           target="_blank"
           rel="noopener noreferrer"
-          onClick={() => onComplete(`${track.name} by ${track.artist}`)}
+          onClick={() => onComplete(track.title)}
           className="block group"
         >
-          <Card className="flex items-center justify-between p-4 group-hover:bg-secondary/50 transition-colors" data-ai-hint={track.dataAiHint}>
+          <Card className="flex items-center justify-between p-4 group-hover:bg-secondary/50 transition-colors" data-ai-hint={track.keywords?.join(' ')}>
             <div className="flex items-center gap-4">
               <Music className="h-6 w-6 text-primary" />
               <div>
-                <p className="font-semibold">{track.name}</p>
-                <p className="text-sm text-muted-foreground">{track.artist}</p>
+                <p className="font-semibold">{track.title}</p>
+                <p className="text-sm text-muted-foreground">{track.description}</p>
               </div>
             </div>
             <ExternalLink className="h-5 w-5 text-muted-foreground group-hover:text-primary" />
