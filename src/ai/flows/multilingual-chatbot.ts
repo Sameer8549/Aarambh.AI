@@ -19,7 +19,7 @@ const findResourcesTool = ai.defineTool(
     description: 'Finds relevant resources (articles, videos, etc.) for the user based on a query.',
     inputSchema: z.object({
       query: z.string().describe('A search query describing the type of resource needed (e.g., "video for anxiety", "article on stress").'),
-      resourceType: z.nativeEnum(IndianResourceType).optional().describe('The specific type of resource to find.'),
+      resourceType: z.enum(['book', 'video', 'article', 'podcast', 'helpline']).optional().describe('The specific type of resource to find.'),
     }),
     outputSchema: z.array(
       z.object({
@@ -31,7 +31,7 @@ const findResourcesTool = ai.defineTool(
     ),
   },
   async ({query, resourceType}) => {
-    return getIndianResources(query, resourceType);
+    return getIndianResources(query, resourceType as IndianResourceType);
   }
 );
 
@@ -50,7 +50,7 @@ const ChatbotOutputSchema = z.object({
       title: z.string().describe('The title of the resource.'),
       description: z.string().describe('A brief, one-sentence summary of the resource.'),
       link: z.string().describe('A direct and valid link to the resource. **It is critical that you only provide valid, working links from Indian sources. Do not make up links.**'),
-      type: z.enum(['book', 'video', 'article', 'podcast']).describe('The type of resource.'),
+      type: z.enum(['book', 'video', 'article', 'podcast', 'helpline']).describe('The type of resource.'),
     })
   ).optional().describe('A list of helpful resources like well-known books by Indian authors, popular and verified YouTube videos from Indian creators, or articles from reputable Indian sources. **It is critical that you only provide valid, working links from Indian sources. Do not make up links.**'),
 });
