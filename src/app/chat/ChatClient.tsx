@@ -40,6 +40,7 @@ const resourceIcons: Record<ResourceType, React.ElementType> = {
   video: Youtube,
   article: FileText,
   podcast: Headphones,
+  helpline: Phone,
 };
 
 

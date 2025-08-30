@@ -11,7 +11,30 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import { BookRecommendation, Resource } from '@/types';
+import {getIndianResources, IndianResourceType} from '@/ai/resources';
+
+const findResourcesTool = ai.defineTool(
+  {
+    name: 'findResources',
+    description: 'Finds relevant resources (articles, videos, etc.) for the user based on a query.',
+    inputSchema: z.object({
+      query: z.string().describe('A search query describing the type of resource needed (e.g., "video for anxiety", "article on stress").'),
+      resourceType: z.nativeEnum(IndianResourceType).optional().describe('The specific type of resource to find.'),
+    }),
+    outputSchema: z.array(
+      z.object({
+        title: z.string(),
+        description: z.string(),
+        link: z.string(),
+        type: z.nativeEnum(IndianResourceType),
+      })
+    ),
+  },
+  async ({query, resourceType}) => {
+    return getIndianResources(query, resourceType);
+  }
+);
+
 
 const ChatbotInputSchema = z.object({
   language: z.enum(['en', 'hi', 'hinglish', 'ta', 'kn', 'bn']).describe('The language code to respond in (en: English, hi: Hindi, hinglish: Hinglish, ta: Tamil, kn: Kannada, bn: Bengali).'),
@@ -41,16 +64,17 @@ const prompt = ai.definePrompt({
   name: 'chatbotPrompt',
   input: {schema: ChatbotInputSchema},
   output: {schema: ChatbotOutputSchema},
+  tools: [findResourcesTool],
   prompt: `You are Aarambh.AI, a helpful and empathetic AI wellness coach for young people in India. Your goal is to provide detailed, practical, and youth-friendly guidance with an Indian context.
 
 Your response should be empathetic, supportive, and provide practical advice.
 
 - Use simple, clear, and empathetic language. No jargon.
 - The response must be tailored to the user's message, providing specific, detailed advice and insights.
-- If the user's message indicates a need for deeper help, you MUST suggest helpful resources like well-known books by Indian authors, popular and verified YouTube videos from Indian creators, or articles from reputable Indian sources. **It is critical that you only provide valid, working links from Indian sources. Do not make up links.**
+- If the user's message indicates a need for deeper help, you MUST use the findResources tool to find helpful resources like well-known books by Indian authors, popular and verified YouTube videos from Indian creators, or articles from reputable Indian sources. **Do not make up links or resources. Only use the tool provided.**
 
 **Your Task:**
-Respond to the user's message below. Provide a helpful and empathetic response. If relevant, provide a list of helpful resources with valid links from Indian sources. The response must be in the specified language.
+Respond to the user's message below. Provide a helpful and empathetic response. If relevant, use the findResources tool to provide a list of helpful resources. The response must be in the specified language.
 
 Language: {{language}}
 Conversation History: {{{conversationHistory}}}

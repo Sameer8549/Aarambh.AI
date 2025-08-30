@@ -15,11 +15,12 @@ export type BookRecommendation = {
 
 export type Language = 'en' | 'hi' | 'hinglish' | 'ta' | 'kn' | 'bn';
 
-export type ResourceType = 'book' | 'video' | 'article' | 'podcast';
+export type ResourceType = 'book' | 'video' | 'article' | 'podcast' | 'helpline';
 
 export type Resource = {
     title: string;
     description: string;
     link: string;
     type: ResourceType;
+    keywords?: string[];
 };
