@@ -199,16 +199,16 @@ export default function CalmClient() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Great Job!</DialogTitle>
-            <DialogDescription className="pt-4 text-center text-lg">
-              {isLoading ? (
-                <div className="flex justify-center items-center h-20">
-                    <Loader2 className="h-8 w-8 animate-spin text-primary"/>
-                </div>
-              ) : (
-                encouragement
-              )}
-            </DialogDescription>
           </DialogHeader>
+          <div className="pt-4 text-center text-lg">
+            {isLoading ? (
+              <div className="flex justify-center items-center h-20">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              </div>
+            ) : (
+              <p>{encouragement}</p>
+            )}
+          </div>
         </DialogContent>
       </Dialog>
     </>
