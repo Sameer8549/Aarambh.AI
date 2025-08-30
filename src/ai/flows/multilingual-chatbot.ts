@@ -27,7 +27,7 @@ const ChatbotOutputSchema = z.object({
       title: z.string().describe('The title of the book.'),
       author: z.string().describe('The author of the book.'),
       summary: z.string().describe('A brief summary of the book.'),
-      link: z.string().url().describe('A direct link to purchase the book.'),
+      link: z.string().describe('A direct link to purchase the book.'),
     })
   ).optional().describe('A list of book recommendations based on the conversation history.'),
 });
