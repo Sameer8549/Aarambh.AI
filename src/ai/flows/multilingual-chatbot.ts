@@ -19,7 +19,7 @@ const findResourcesTool = ai.defineTool(
     description: 'Finds relevant resources (articles, videos, etc.) for the user based on a query.',
     inputSchema: z.object({
       query: z.string().describe('A search query describing the type of resource needed (e.g., "video for anxiety", "article on stress").'),
-      resourceType: z.enum(['book', 'video', 'article', 'podcast', 'helpline', 'music']).optional().describe('The specific type of resource to find.'),
+      resourceType: z.string().optional().describe('The specific type of resource to find.'),
     }),
     outputSchema: z.array(
       z.object({
@@ -73,7 +73,7 @@ Your response should be empathetic, supportive, and provide practical advice, re
 - Do not use markdown formatting like asterisks for bolding. Use plain text.
 - The response must be tailored to the user's message, providing specific, detailed advice and insights.
 - Provide a list of recommended actions or small, manageable steps the user can take to address their feelings or situation.
-- If the user's message indicates a need for deeper help, you MUST use the findResources tool to find helpful resources like well-known books, popular and verified videos, or articles from reputable sources. Only use the tool provided.
+- If the user's message indicates a need for deeper help (e.g., they mention "anxiety", "stress", "depression", "feeling low"), you MUST use the findResources tool to find helpful resources. Create a search query for the tool based on the user's message to find the most relevant resources.
 
 Your Task:
 Respond to the user's message below. Provide a helpful and empathetic response that includes advice and recommended actions. If relevant, use the findResources tool to provide a list of helpful resources. The response must be in the specified language.
