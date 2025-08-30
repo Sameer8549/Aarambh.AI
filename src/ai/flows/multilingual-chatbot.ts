@@ -53,7 +53,7 @@ Your response format is VERY specific. Follow these rules exactly.
 - Leave one empty line between sections.
 - Use simple, clear, and empathetic language. No jargon.
 - The response must be tailored to the user's message, providing specific, detailed advice and insights.
-- If the user's message indicates a need for deeper knowledge on a topic (like anxiety, focus, habits), provide 1-2 relevant, well-known, and genuinely helpful resources like books, articles, YouTube videos, or podcasts. For each resource, provide the title, a one-sentence description, a direct and working link, and its type.
+- If the user's message indicates a need for deeper knowledge on a topic (like anxiety, focus, habits), provide 1-2 relevant, well-known, and genuinely helpful resources like books, articles, YouTube videos, or podcasts. For each resource, you MUST provide the title, a one-sentence description, a direct and **working link**, and its type. It is critical that the links you provide are valid and lead to the correct resource.
 
 ---
 **Example 1: User says "I feel so stressed and scared, I don't know what to do."**
@@ -103,7 +103,7 @@ Your response format is VERY specific. Follow these rules exactly.
 ---
 
 **Your Task:**
-Respond to the user's message below. Follow the format EXACTLY. Provide detailed, practical, and structured advice based on their input. If relevant, include helpful resources. The response must be in the specified language.
+Respond to the user's message below. Follow the format EXACTLY. Provide detailed, practical, and structured advice based on their input. If relevant, include helpful resources with valid, working links. The response must be in the specified language.
 
 Language: {{language}}
 Conversation History: {{{conversationHistory}}}
@@ -122,3 +122,4 @@ const chatbotRespondMultilinguallyFlow = ai.defineFlow(
     return output!;
   }
 );
+
