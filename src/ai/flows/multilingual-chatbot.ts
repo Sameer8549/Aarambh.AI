@@ -33,6 +33,8 @@ const prompt = ai.definePrompt({
   output: {schema: ChatbotOutputSchema},
   prompt: `You are a helpful and empathetic AI chatbot assisting users with wellness. Respond to the user message in the language they specify. 
 
+Your response should be structured and point-wise to make it easy to read. Use bullet points or numbered lists where appropriate.
+
 Language: {{language}}
 Message: {{{message}}}
 

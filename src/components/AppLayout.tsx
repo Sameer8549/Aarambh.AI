@@ -35,12 +35,10 @@ const NavLink = ({
   href,
   label,
   icon: Icon,
-  isMobile = false,
 }: {
   href: string;
   label: string;
   icon: React.ElementType;
-  isMobile?: boolean;
 }) => {
   const pathname = usePathname();
   const isActive = pathname === href;
@@ -49,11 +47,11 @@ const NavLink = ({
     <Link href={href} passHref>
       <Button
         variant={isActive ? 'secondary' : 'ghost'}
-        className={cn('w-full justify-start', isMobile && 'justify-center')}
+        className={'w-full justify-start'}
         aria-current={isActive ? 'page' : undefined}
       >
         <Icon className="h-5 w-5 mr-3" />
-        <span className={cn(isMobile && 'sr-only', 'font-medium')}>
+        <span className={'font-medium'}>
           {label}
         </span>
       </Button>
@@ -61,58 +59,23 @@ const NavLink = ({
   );
 };
 
-const MobileNav = () => (
-  <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-card border-t shadow-t-lg z-50">
-    <div className="flex justify-around items-center h-16">
-      {navItems.map((item) => (
-        <Link href={item.href} key={item.href} className="flex-1">
-          <Button
-            variant="ghost"
-            size="sm"
-            className={cn(
-              'flex flex-col h-full w-full rounded-none',
-              usePathname() === item.href && 'text-primary bg-secondary'
-            )}
-          >
-            <item.icon className="h-6 w-6" />
-            <span className="text-xs">{item.label}</span>
-          </Button>
-        </Link>
-      ))}
-    </div>
-  </nav>
-);
-
-const DesktopSidebar = () => (
-  <aside className="hidden md:flex flex-col w-64 border-r bg-card/50">
-    <div className="p-4 border-b">
-      <Link href="/" className="flex items-center gap-2">
-        <AarambhIcon className="h-8 w-8" />
-        <h1 className="text-xl font-bold font-headline">Aarambh.AI</h1>
-      </Link>
-    </div>
-    <nav className="flex-1 p-4 space-y-2">
-      {navItems.map((item) => (
-        <NavLink key={item.href} {...item} />
-      ))}
-    </nav>
-    <div className="p-4 border-t">
-      <LanguageToggle />
-    </div>
-  </aside>
-);
-
 export default function AppLayout({ children }: { children: React.ReactNode }) {
+  const [isSheetOpen, setIsSheetOpen] = React.useState(false);
+  const pathname = usePathname();
+
+  React.useEffect(() => {
+    setIsSheetOpen(false);
+  }, [pathname]);
+
   return (
     <div className="flex h-screen bg-background">
-      <DesktopSidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <header className="md:hidden flex items-center justify-between p-4 border-b bg-card">
+        <header className="flex items-center justify-between p-4 border-b bg-card">
           <Link href="/" className="flex items-center gap-2">
             <AarambhIcon className="h-8 w-8" />
             <h1 className="text-xl font-bold font-headline">Aarambh.AI</h1>
           </Link>
-          <Sheet>
+          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <PanelLeft className="h-6 w-6" />
@@ -136,11 +99,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </SheetContent>
           </Sheet>
         </header>
-        <main className="flex-1 overflow-y-auto p-4 md:p-8 pb-20 md:pb-8">
+        <main className="flex-1 overflow-y-auto p-4 md:p-8">
           {children}
         </main>
       </div>
-      <MobileNav />
     </div>
   );
 }
