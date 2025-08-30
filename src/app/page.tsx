@@ -38,13 +38,11 @@ const features = [
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-full p-4 md:p-8">
+    <div className="flex flex-col items-center justify-center min-h-full p-4 md:p-8 from-background to-slate-900/50 bg-gradient-to-b">
       <header className="text-center mb-8 md:mb-12">
-        <div className="inline-block p-4 bg-white/80 rounded-full shadow-md mb-4">
-          <AarambhIcon className="h-24 w-24" />
-        </div>
-        <h1 className="font-headline text-4xl md:text-6xl font-bold text-foreground tracking-tight">
-          Welcome to Aarambh.AI
+        <AarambhIcon className="h-40 w-40 mx-auto" />
+        <h1 className="font-headline text-4xl md:text-5xl font-bold text-foreground tracking-tight mt-4">
+          Aarambh.AI
         </h1>
         <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
           Your safe and supportive space for mental wellness. Start your journey
