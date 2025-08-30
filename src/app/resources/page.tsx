@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -47,6 +48,10 @@ function constructSearchUrl(item: Resource): string {
             return `https://www.youtube.com/results?search_query=${encodeURIComponent(item.link)}`;
         case ResourceTypeEnum.Music:
             return `https://open.spotify.com/search/${encodeURIComponent(item.link)}`;
+        case ResourceTypeEnum.Podcast:
+            return `https://open.spotify.com/search/${encodeURIComponent(item.link)}`;
+        case ResourceTypeEnum.App:
+            return `https://play.google.com/store/search?q=${encodeURIComponent(item.link)}&c=apps`;
         case ResourceTypeEnum.Helpline:
              if (item.link.startsWith('tel:')) return item.link;
              return `https://www.google.com/search?q=${encodeURIComponent(item.link)}`;
