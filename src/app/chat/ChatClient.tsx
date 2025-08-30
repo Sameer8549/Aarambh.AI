@@ -17,12 +17,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
-import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogContent,
@@ -41,34 +35,6 @@ import { cn } from '@/lib/utils';
 const crisisKeywords = [
   'kill myself', 'suicide', 'want to die', 'end my life', 'hopeless', 'can\'t go on'
 ];
-
-const ChatResponse = ({ content }: { content: string }) => {
-  if (!content.includes('#')) {
-    return <p className="text-sm whitespace-pre-wrap">{content}</p>;
-  }
-  const sections = content.split(/(?=#[^#]+#)/g).filter(s => s.trim());
-
-  return (
-    <Accordion type="single" collapsible className="w-full">
-      {sections.map((section, index) => {
-        const parts = section.split('#');
-        if (parts.length < 3) return null;
-        
-        const heading = parts[1];
-        const body = parts[2].trim();
-
-        return (
-          <AccordionItem value={`item-${index}`} key={index}>
-            <AccordionTrigger className="text-sm text-left hover:no-underline">{heading}</AccordionTrigger>
-            <AccordionContent>
-              <p className="text-sm whitespace-pre-wrap">{body}</p>
-            </AccordionContent>
-          </AccordionItem>
-        );
-      })}
-    </Accordion>
-  );
-}
 
 export default function ChatClient() {
   const { language } = useLanguage();
@@ -194,7 +160,7 @@ export default function ChatClient() {
                     : 'bg-secondary text-secondary-foreground rounded-bl-none'
                 )}
               >
-                <ChatResponse content={message.content} />
+                <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                 {message.recommendations && (
                   <div className="space-y-2 mt-3">
                     {message.recommendations.map((rec, index) => (
