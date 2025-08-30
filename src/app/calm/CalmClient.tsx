@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/dialog';
 import { calmingActivityEncouragement } from '@/ai/flows/calming-activity-encouragement';
 import { cn } from '@/lib/utils';
-import { getResourcesByType, IndianResourceType } from '@/ai/resources';
+import { getResourcesByType, ResourceTypeEnum } from '@/ai/resources';
 import type { Resource } from '@/types';
 
 
@@ -99,7 +99,7 @@ const MusicPlayer = ({ onComplete }: { onComplete: (activity: string) => void })
   const [musicTracks, setMusicTracks] = useState<Resource[]>([]);
 
   useEffect(() => {
-    const tracks = getResourcesByType([IndianResourceType.Music]);
+    const tracks = getResourcesByType([ResourceTypeEnum.Music]);
     setMusicTracks(tracks);
   }, []);
 

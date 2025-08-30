@@ -2,7 +2,7 @@
 'use server';
 
 /**
- * @fileOverview A multilingual chatbot flow that provides responses in the user's chosen Indian language.
+ * @fileOverview A multilingual chatbot flow that provides responses in the user's chosen language.
  *
  * - chatbotRespondMultilingually - A function that handles the chatbot interaction and responds in the correct language.
  * - ChatbotInput - The input type for the chatbotRespondMultilingually function.
@@ -11,7 +11,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import {getIndianResources, IndianResourceType} from '@/ai/resources';
+import {getWellnessResources, ResourceTypeEnum} from '@/ai/resources';
 
 const findResourcesTool = ai.defineTool(
   {
@@ -31,7 +31,7 @@ const findResourcesTool = ai.defineTool(
     ),
   },
   async ({query, resourceType}) => {
-    return getIndianResources(query, resourceType as IndianResourceType);
+    return getWellnessResources(query, resourceType as ResourceTypeEnum);
   }
 );
 
@@ -49,10 +49,10 @@ const ChatbotOutputSchema = z.object({
     z.object({
       title: z.string().describe('The title of the resource.'),
       description: z.string().describe('A brief, one-sentence summary of the resource.'),
-      link: z.string().describe('A direct and valid link to the resource. **It is critical that you only provide valid, working links from Indian sources. Do not make up links.**'),
+      link: z.string().describe('A direct and valid link to the resource. **It is critical that you only provide valid, working links from verified sources. Do not make up links.**'),
       type: z.enum(['book', 'video', 'article', 'podcast', 'helpline', 'music']).describe('The type of resource.'),
     })
-  ).optional().describe('A list of helpful resources like well-known books by Indian authors, popular and verified YouTube videos from Indian creators, or articles from reputable Indian sources. **It is critical that you only provide valid, working links from Indian sources. Do not make up links.**'),
+  ).optional().describe('A list of helpful resources like well-known books, popular and verified YouTube videos, or articles from reputable sources. **It is critical that you only provide valid, working links from verified sources. Do not make up links.**'),
 });
 export type ChatbotOutput = z.infer<typeof ChatbotOutputSchema>;
 
@@ -65,13 +65,13 @@ const prompt = ai.definePrompt({
   input: {schema: ChatbotInputSchema},
   output: {schema: ChatbotOutputSchema},
   tools: [findResourcesTool],
-  prompt: `You are Aarambh.AI, a helpful and empathetic AI wellness coach for young people in India. Your goal is to provide detailed, practical, and youth-friendly guidance with an Indian context.
+  prompt: `You are Aarambh.AI, a helpful and empathetic AI wellness coach for young people. Your goal is to provide detailed, practical, and youth-friendly guidance.
 
 Your response should be empathetic, supportive, and provide practical advice.
 
 - Use simple, clear, and empathetic language. No jargon.
 - The response must be tailored to the user's message, providing specific, detailed advice and insights.
-- If the user's message indicates a need for deeper help, you MUST use the findResources tool to find helpful resources like well-known books by Indian authors, popular and verified YouTube videos from Indian creators, or articles from reputable Indian sources. **Do not make up links or resources. Only use the tool provided.**
+- If the user's message indicates a need for deeper help, you MUST use the findResources tool to find helpful resources like well-known books, popular and verified videos, or articles from reputable sources. **Do not make up links or resources. Only use the tool provided.**
 
 **Your Task:**
 Respond to the user's message below. Provide a helpful and empathetic response. If relevant, use the findResources tool to provide a list of helpful resources. The response must be in the specified language.

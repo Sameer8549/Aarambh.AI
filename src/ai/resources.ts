@@ -1,10 +1,10 @@
 /**
- * @fileOverview A centralized list of curated, verified Indian mental health resources.
+ * @fileOverview A centralized list of curated, verified global mental health resources.
  */
 
 import type { Resource } from "@/types";
 
-export enum IndianResourceType {
+export enum ResourceTypeEnum {
     Helpline = 'helpline',
     Video = 'video',
     Podcast = 'podcast',
@@ -13,109 +13,113 @@ export enum IndianResourceType {
     Music = 'music',
 }
 
-export const indianResources: Resource[] = [
-    // Helplines (Verified and Stable)
+export const wellnessResources: Resource[] = [
+    // === Global Helplines ===
     {
-      title: 'Vandrevala Foundation Mental Health Helpline',
-      description: '24/7, free and confidential support for people in distress, available in multiple Indian languages.',
-      link: 'tel:9999666555',
-      type: 'helpline' as any, // Bypassing strict type for 'tel:' links
-      keywords: ['helpline', 'emergency', 'talk', 'suicide', 'distress', 'help'],
-    },
-    {
-      title: 'KIRAN - Mental Health Rehabilitation Helpline',
-      description: 'A national helpline by the Govt. of India for anxiety, stress, depression, and other mental health concerns.',
-      link: 'tel:1800-599-0019',
+      title: 'Crisis Text Line',
+      description: '24/7, free, confidential crisis support via text message. Text HOME to 741741 from anywhere in the US, UK, Canada & Ireland.',
+      link: 'https://www.crisistextline.org/',
       type: 'helpline' as any,
-      keywords: ['helpline', 'government', 'anxiety', 'stress', 'depression', 'help'],
-    },
-    // Guided Meditations & Breathing Exercises (Stable Web Sources)
-    {
-        title: 'Art of Living - Guided Meditation for Relaxation',
-        description: 'An online guided meditation from the Art of Living foundation to calm the mind and body.',
-        link: 'https://www.artofliving.org/in-en/guided-meditations-for-relaxation',
-        type: 'video',
-        keywords: ['meditation', 'english', 'art of living', 'relaxation', 'calm', 'video'],
+      keywords: ['helpline', 'emergency', 'crisis', 'text', 'global', 'support'],
     },
     {
-        title: 'Isha Foundation - Isha Kriya for Clarity',
-        description: 'A powerful 12-minute guided meditation for clarity and wellbeing from Sadhguru\'s Isha Foundation.',
-        link: 'https://www.isha.sadhguru.org/in/en/yoga-meditation/yoga-program-for-beginners/isha-kriya',
-        type: 'video',
-        keywords: ['meditation', 'english', 'sadhguru', 'clarity', 'well-being', 'isha', 'video'],
+      title: 'The Trevor Project',
+      description: 'Information & support to LGBTQ young people 24/7, all year round.',
+      link: 'https://www.thetrevorproject.org/get-help/',
+      type: 'helpline' as any,
+      keywords: ['helpline', 'lgbtq', 'youth', 'support', 'crisis'],
     },
      {
-        title: 'Mindful - 10-Minute Breathing Meditation',
-        description: 'A simple, effective breathing meditation practice to ground yourself in the present moment.',
-        link: 'https://www.mindful.org/a-10-minute-breathing-meditation-to-foster-mindfulness/',
-        type: 'video', // Categorized as video as it contains an audio/visual guide
-        keywords: ['meditation', 'english', 'breathing', 'mindfulness', 'quick', 'video'],
+      title: 'Befrienders Worldwide',
+      description: 'A global network of emotional support centers to prevent suicide. Find a helpline in your country.',
+      link: 'https://www.befrienders.org/',
+      type: 'helpline' as any,
+      keywords: ['helpline', 'global', 'suicide', 'support', 'emotional support'],
     },
-    // Podcasts (Stable Platforms)
+
+    // === Guided Meditations & Mindfulness (Stable Web Sources) ===
     {
-      title: 'The Ranveer Show (English)',
-      description: 'Conversations on health, career, and mindset for young Indians.',
-      link: 'https://open.spotify.com/show/6ZcvVBPQ2To2C2I4pB2HRm',
+        title: 'UCLA Mindful Awareness Research Center - Guided Meditations',
+        description: 'Free, streamable guided meditations for various needs (breathing, sleep, coping with pain) from UCLA.',
+        link: 'https://www.uclahealth.org/programs/marc/free-guided-meditations',
+        type: 'video', // Categorized as video as they are audio/visual guides
+        keywords: ['meditation', 'english', 'ucla', 'mindfulness', 'free', 'breathing', 'sleep'],
+    },
+    {
+        title: 'Tara Brach - Guided Meditations',
+        description: 'A large collection of free guided meditations and talks from a world-renowned meditation teacher.',
+        link: 'https://www.tarabrach.com/guided-meditations/',
+        type: 'video',
+        keywords: ['meditation', 'english', 'tara brach', 'mindfulness', 'self-compassion', 'calm'],
+    },
+    {
+        title: 'Headspace - Weathering the storm',
+        description: 'A free, curated collection of meditations, sleep, and movement exercises from Headspace.',
+        link: 'https://www.headspace.com/work/weathering-the-storm',
+        type: 'video',
+        keywords: ['meditation', 'english', 'headspace', 'mindfulness', 'anxiety', 'stress'],
+    },
+    
+    // === Podcasts (Stable Platforms) ===
+    {
+      title: 'The Happiness Lab with Dr. Laurie Santos',
+      description: 'Yale professor Dr. Laurie Santos shares surprising and inspiring stories about the science of happiness.',
+      link: 'https://open.spotify.com/show/3i5TCKhc6GY42pOWkpWveG',
       type: 'podcast',
-      keywords: ['podcast', 'english', 'ranveer', 'health', 'career', 'mindset', 'self improvement'],
+      keywords: ['podcast', 'english', 'happiness', 'science', 'psychology', 'well-being'],
     },
     {
-      title: 'The Habit Coach with Ashdin Doctor',
-      description: 'Actionable advice on building good habits for a better life.',
-      link: 'https://open.spotify.com/show/2Q2GUI0A4vA22dI3Sg2K34',
+      title: 'Ten Percent Happier with Dan Harris',
+      description: 'Interviews with meditation teachers, scientists, and celebrities about how to train your mind.',
+      link: 'https://www.tenpercent.com/podcast',
       type: 'podcast',
-      keywords: ['podcast', 'english', 'habits', 'life advice', 'motivation'],
+      keywords: ['podcast', 'english', 'meditation', 'mindfulness', 'dan harris', 'anxiety'],
     },
-    // Articles & Information (Reputable Organizations)
+
+    // === Articles & Information (Reputable Global Organizations) ===
     {
-      title: 'The Live Love Laugh Foundation - Helplines & Resources',
-      description: 'Articles and resources on stress, anxiety, depression, and more from an Indian perspective.',
-      link: 'https://www.thelivelovelaughfoundation.org/helpline',
+      title: 'World Health Organization (WHO) - Mental Health',
+      description: 'Fact sheets, publications, and information on mental health from the global public health agency.',
+      link: 'https://www.who.int/health-topics/mental-health',
       type: 'article',
-      keywords: ['article', 'information', 'stress', 'anxiety', 'depression', 'tllf'],
+      keywords: ['article', 'information', 'who', 'global health', 'mental health', 'depression'],
     },
     {
-      title: 'NIMHANS - Self Help Booklets',
-      description: 'Helpful booklets on various mental health issues from a premier Indian institute.',
-      link: 'https://nimhans.ac.in/well-being-centre-psychology-services/self-help-booklets/',
+      title: 'NIMH - Health Topics',
+      description: 'Detailed information on a wide range of mental health disorders from the U.S. National Institute of Mental Health.',
+      link: 'https://www.nimh.nih.gov/health/topics',
       type: 'article',
-      keywords: ['article', 'booklet', 'nimhans', 'self help', 'mental health'],
+      keywords: ['article', 'information', 'nimh', 'mental disorders', 'anxiety', 'depression', 'stress'],
     },
     {
-        title: 'Fortis Healthcare - Understanding Mental Health',
-        description: 'An information hub covering various mental health topics from a leading healthcare provider in India.',
-        link: 'https://www.fortishealthcare.com/india/speciality/mental-health-and-behavioural-sciences',
+        title: 'Mind (UK) - Information & Support',
+        description: 'A leading UK mental health charity providing clear, accessible information on A-Z of mental health.',
+        link: 'https://www.mind.org.uk/information-support/',
         type: 'article',
-        keywords: ['article', 'fortis', 'mental health', 'information', 'stress', 'anxiety'],
+        keywords: ['article', 'information', 'mind uk', 'mental health', 'support', 'well-being'],
     },
-    // Music & Calming Sounds (Curated from reliable platforms)
+
+    // === Music & Calming Sounds (Curated from reliable platforms) ===
     {
-      title: 'Indian Classical Music for Relaxation',
-      description: 'A curated Spotify playlist of calming Indian classical music.',
-      link: 'https://open.spotify.com/playlist/37i9dQZF1DWZNJBw0yX1in',
+      title: 'Lofi Girl - Relaxing Lofi Music',
+      description: 'Famous curated Spotify playlist of calming lofi hip hop music, perfect for studying, relaxing, or sleeping.',
+      link: 'https://open.spotify.com/playlist/37i9dQZF1DWWQRwui02Gu5',
       type: 'music',
-      keywords: ['music', 'indian classical', 'instrumental', 'relaxation', 'spotify'],
-    },
-    {
-      title: 'Bollywood Lofi & Slowed Reverb',
-      description: 'A popular playlist for relaxing with modern, calming Bollywood tracks.',
-      link: 'https://open.spotify.com/playlist/37i9dQZF1DX2L0iB23Enbq',
-      type: 'music',
-      keywords: ['music', 'lofi', 'bollywood', 'slowed', 'reverb', 'calm'],
+      keywords: ['music', 'lofi', 'instrumental', 'relaxation', 'study', 'spotify'],
     },
     {
-      title: 'Sufi & Spiritual Music',
-      description: 'A collection of soulful and contemplative Sufi music from across India.',
-      link: 'https://open.spotify.com/playlist/37i9dQZF1DX6E3d9d0go6I',
+      title: 'Peaceful Piano Playlist',
+      description: 'A popular playlist of soft, solo piano music to help you relax, focus, or find peace.',
+      link: 'https://open.spotify.com/playlist/37i9dQZF1DX4sWSpwq3LiO',
       type: 'music',
-      keywords: ['music', 'sufi', 'spiritual', 'contemplation', 'devotional'],
+      keywords: ['music', 'piano', 'instrumental', 'calm', 'focus', 'classical'],
     },
     {
-      title: 'Peaceful Nature Sounds of India',
-      description: 'Listen to the calming sounds of Indian forests and nature.',
-      link: 'https://www.youtube.com/watch?v=c6l2_ys-R4A',
+      title: 'Nature Sounds for Relaxation',
+      description: 'A collection of nature soundscapes like rain, forests, and oceans for sleep or meditation.',
+      link: 'https://open.spotify.com/playlist/37i9dQZF1DX4PP3DA4J0N8',
       type: 'music',
-      keywords: ['music', 'nature sounds', 'forest', 'calming', 'ambience'],
+      keywords: ['music', 'nature sounds', 'ambience', 'sleep', 'meditation', 'calming'],
     },
 ];
 
@@ -125,10 +129,10 @@ export const indianResources: Resource[] = [
  * @param resourceType Optional filter for the resource type.
  * @returns A list of matching resources.
  */
-export function getIndianResources(query: string, resourceType?: IndianResourceType): Resource[] {
+export function getWellnessResources(query: string, resourceType?: ResourceTypeEnum): Resource[] {
     const queryKeywords = query.toLowerCase().split(/\s+/);
     
-    const matchedResources = indianResources.filter(resource => {
+    const matchedResources = wellnessResources.filter(resource => {
         // Filter by resource type if provided
         if (resourceType && resource.type !== resourceType) {
             return false;
@@ -154,8 +158,8 @@ export function getIndianResources(query: string, resourceType?: IndianResourceT
  * @param types An array of resource types to filter by.
  * @returns A list of matching resources.
  */
-export function getResourcesByType(types: IndianResourceType[]): Resource[] {
-    return indianResources.filter(resource => types.includes(resource.type as IndianResourceType));
+export function getResourcesByType(types: ResourceTypeEnum[]): Resource[] {
+    return wellnessResources.filter(resource => types.includes(resource.type as ResourceTypeEnum));
 }
 
 /**

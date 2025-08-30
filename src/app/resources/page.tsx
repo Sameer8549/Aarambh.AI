@@ -10,7 +10,7 @@ import {
   Music,
 } from 'lucide-react';
 import {
-  indianResources,
+  wellnessResources,
   groupResourcesByType,
 } from '@/ai/resources';
 import type { Resource } from '@/types';
@@ -26,11 +26,11 @@ const iconMap: Record<string, React.ElementType> = {
 
 
 const categoryTitles: Record<string, string> = {
-    helpline: "Helplines",
-    video: "Guided Meditations",
-    podcast: "Podcasts",
+    helpline: "Global Helplines & Support",
+    video: "Guided Meditations & Mindfulness",
+    podcast: "Podcasts for Mental Well-being",
     article: "Articles & Information",
-    music: "Calming Music"
+    music: "Calming Music & Sounds"
 }
 
 
@@ -38,7 +38,7 @@ export default function ResourcesPage() {
     const [groupedResources, setGroupedResources] = useState<Record<string, Resource[]>>({});
 
     useEffect(() => {
-        setGroupedResources(groupResourcesByType(indianResources));
+        setGroupedResources(groupResourcesByType(wellnessResources));
     }, []);
 
     const orderedCategories = ['helpline', 'video', 'music', 'podcast', 'article'];
@@ -48,7 +48,7 @@ export default function ResourcesPage() {
       <header className="mb-8">
         <h1 className="text-4xl font-bold font-headline">Resource Hub</h1>
         <p className="text-lg text-muted-foreground mt-2">
-          Explore a curated list of verified resources for mental health and well-being.
+          Explore a curated list of verified global resources for mental health and well-being.
         </p>
       </header>
 
