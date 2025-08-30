@@ -29,7 +29,7 @@ const ChatbotOutputSchema = z.object({
       link: z.string().describe('A direct and valid link to the resource. **It is critical that you only provide valid, working links from Indian sources. Do not make up links.**'),
       type: z.enum(['book', 'video', 'article', 'podcast']).describe('The type of resource.'),
     })
-  ).optional().describe('A list of helpful resources like well-known books by Indian authors, popular and verified YouTube videos from Indian creators, or articles from reputable Indian sources. **It is critical that you only provide valid, working links. Do not make up links.**'),
+  ).optional().describe('A list of helpful resources like well-known books by Indian authors, popular and verified YouTube videos from Indian creators, or articles from reputable Indian sources. **It is critical that you only provide valid, working links from Indian sources. Do not make up links.**'),
 });
 export type ChatbotOutput = z.infer<typeof ChatbotOutputSchema>;
 
