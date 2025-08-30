@@ -24,6 +24,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from './ui/sheet';
+import ThemeToggle from './ThemeToggle';
 
 const navItems = [
   { href: '/', label: 'Home', icon: Home },
@@ -90,32 +91,39 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <h1 className="text-xl font-bold font-headline">Aarambh.AI</h1>
             </Link>
           </div>
-          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" aria-label="Open navigation menu">
-                <PanelLeft className="h-6 w-6" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="w-64 p-0">
-              <SheetHeader className="p-4 border-b">
-                <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-                <Link href="/" className="flex items-center gap-2">
-                  <AarambhIcon className="h-8 w-8" />
-                  <h1 className="text-xl font-bold font-headline">
-                    Aarambh.AI
-                  </h1>
-                </Link>
-              </SheetHeader>
-              <nav className="p-4 space-y-2">
-                {navItems.map((item) => (
-                  <NavLink key={item.href} {...item} />
-                ))}
-              </nav>
-              <div className="p-4 absolute bottom-0 w-full border-t">
-                <LanguageToggle />
-              </div>
-            </SheetContent>
-          </Sheet>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label="Open navigation menu"
+                >
+                  <PanelLeft className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-64 p-0">
+                <SheetHeader className="p-4 border-b">
+                  <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+                  <Link href="/" className="flex items-center gap-2">
+                    <AarambhIcon className="h-8 w-8" />
+                    <h1 className="text-xl font-bold font-headline">
+                      Aarambh.AI
+                    </h1>
+                  </Link>
+                </SheetHeader>
+                <nav className="p-4 space-y-2">
+                  {navItems.map((item) => (
+                    <NavLink key={item.href} {...item} />
+                  ))}
+                </nav>
+                <div className="p-4 absolute bottom-0 w-full border-t">
+                  <LanguageToggle />
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </header>
         <main className="flex-1 overflow-y-auto p-4 md:p-8">{children}</main>
       </div>
