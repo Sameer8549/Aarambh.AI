@@ -96,14 +96,14 @@ export const wellnessResources: Resource[] = [
     {
       title: 'Yoga With Adriene - Yoga for Anxiety and Stress',
       description: 'A 27-minute gentle yoga practice to help you feel calm and release tension.',
-      link: 'https://www.youtube.com/watch?v=hJbRpHq_I1k',
+      link: 'https://www.youtube.com/embed/hJbRpHq_I1k',
       type: ResourceTypeEnum.Exercise,
       keywords: ['exercise', 'yoga', 'anxiety', 'stress', 'video', 'gentle'],
     },
     {
       title: '7-Minute Workout',
       description: 'A quick, science-based high-intensity circuit workout that can boost mood and energy.',
-      link: 'https://www.youtube.com/watch?v=UItWltVZZmE',
+      link: 'https://www.youtube.com/embed/UItWltVZZmE',
       type: ResourceTypeEnum.Exercise,
       keywords: ['exercise', 'workout', 'fitness', 'quick', 'energy', 'hiit'],
     },
