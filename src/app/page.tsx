@@ -41,7 +41,7 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center min-h-full p-4 md:p-8">
       <header className="text-center mb-8 md:mb-12">
         <div className="inline-block p-4 bg-white/80 rounded-full shadow-md mb-4">
-          <AarambhIcon className="h-16 w-16" />
+          <AarambhIcon className="h-24 w-24" />
         </div>
         <h1 className="font-headline text-4xl md:text-6xl font-bold text-foreground tracking-tight">
           Welcome to Aarambh.AI
