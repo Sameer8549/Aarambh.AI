@@ -7,9 +7,9 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Music, Play, Pause, Wind, Loader2 } from 'lucide-react';
+import { Music, Play, Pause, Wind, Loader2, ExternalLink } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -22,25 +22,35 @@ import { cn } from '@/lib/utils';
 
 const musicTracks = [
   {
-    name: 'Flute',
-    url: 'https://cdn.pixabay.com/audio/2022/02/22/audio_2c9a8a6572.mp3',
-    dataAiHint: 'indian flute',
+    name: 'Indian Classical',
+    url: 'https://open.spotify.com/playlist/37i9dQZF1DWVcbz34n5evx',
+    dataAiHint: 'indian classical music',
   },
   {
-    name: 'Sitar',
-    url: 'https://cdn.pixabay.com/audio/2023/05/15/audio_787b893af9.mp3',
-    dataAiHint: 'sitar music',
+    name: 'Lo-fi Beats',
+    url: 'https://open.spotify.com/playlist/37i9dQZF1DWWQRwui02bsF',
+    dataAiHint: 'lofi beats playlist',
   },
   {
-    name: 'Veena',
-    url: 'https://cdn.pixabay.com/audio/2022/11/17/audio_88874149b5.mp3',
-    dataAiHint: 'veena music',
+    name: 'Ambient Music',
+    url: 'https://open.spotify.com/playlist/37i9dQZF1DX3Ogo9pFv56R',
+    dataAiHint: 'ambient music',
   },
   {
-    name: 'Lo-fi',
-    url: 'https://cdn.pixabay.com/audio/2024/05/02/audio_a16ea1f12e.mp3',
-    dataAiHint: 'lofi beat',
+    name: 'Nature Sounds',
+    url: 'https://open.spotify.com/playlist/37i9dQZF1DX4PP3DA4J0N8',
+    dataAiHint: 'nature sounds',
   },
+  {
+    name: 'Piano Music',
+    url: 'https://open.spotify.com/playlist/37i9dQZF1DX4sWSpwq3LiO',
+    dataAiHint: 'peaceful piano',
+  },
+  {
+    name: 'Acoustic Hits',
+    url: 'https://open.spotify.com/playlist/37i9dQZF1DX2yvmlOd2n1p',
+    dataAiHint: 'acoustic songs',
+  }
 ];
 
 const BreathingAnimation = ({ onComplete }: { onComplete: () => void }) => {
@@ -116,42 +126,25 @@ const BreathingAnimation = ({ onComplete }: { onComplete: () => void }) => {
 
 
 const MusicPlayer = ({ onComplete }: { onComplete: (activity: string) => void }) => {
-  const [playing, setPlaying] = useState<string | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  const toggleMusicTrack = (track: typeof musicTracks[0]) => {
-    if (playing === track.name) {
-      audioRef.current?.pause();
-      setPlaying(null);
-      onComplete(track.name);
-    } else {
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-      audioRef.current = new Audio(track.url);
-      audioRef.current.play();
-      setPlaying(track.name);
-    }
-  };
-  
-  useEffect(() => {
-    return () => {
-      audioRef.current?.pause();
-    }
-  }, []);
-
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
       {musicTracks.map((track) => (
-        <Card key={track.name} className="flex items-center justify-between p-4" data-ai-hint={track.dataAiHint}>
-          <div className="flex items-center gap-4">
-            <Music className="h-6 w-6 text-primary" />
-            <p className="font-semibold">{track.name}</p>
-          </div>
-          <Button size="icon" variant={playing === track.name ? "secondary" : "ghost"} onClick={() => toggleMusicTrack(track)} aria-label={playing === track.name ? `Pause ${track.name}` : `Play ${track.name}`}>
-            {playing === track.name ? <Pause /> : <Play />}
-          </Button>
-        </Card>
+        <a
+          href={track.url}
+          key={track.name}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => onComplete(track.name)}
+          className="block group"
+        >
+          <Card className="flex items-center justify-between p-4 group-hover:bg-secondary/50 transition-colors" data-ai-hint={track.dataAiHint}>
+            <div className="flex items-center gap-4">
+              <Music className="h-6 w-6 text-primary" />
+              <p className="font-semibold">{track.name}</p>
+            </div>
+            <ExternalLink className="h-5 w-5 text-muted-foreground group-hover:text-primary" />
+          </Card>
+        </a>
       ))}
     </div>
   );
@@ -179,10 +172,10 @@ export default function CalmClient() {
     <>
       <Tabs defaultValue="music" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="music">
+          <TabsTrigger value="music" aria-label="Music tab">
             <Music className="mr-2 h-4 w-4" /> Music
           </TabsTrigger>
-          <TabsTrigger value="breathing">
+          <TabsTrigger value="breathing" aria-label="Breathing tab">
             <Wind className="mr-2 h-4 w-4" /> Breathing
           </TabsTrigger>
         </TabsList>
@@ -196,7 +189,7 @@ export default function CalmClient() {
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Activity Complete!</DialogTitle>
+            <DialogTitle>Great Job!</DialogTitle>
             <DialogDescription className="pt-4 text-center text-lg">
               {isLoading ? (
                 <div className="flex justify-center items-center h-20">
