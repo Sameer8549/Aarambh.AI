@@ -15,6 +15,7 @@ import {
 import {
   wellnessResources,
   groupResourcesByType,
+  ResourceTypeEnum,
 } from '@/ai/resources';
 import type { Resource, ResourceType } from '@/types';
 
@@ -38,6 +39,20 @@ const categoryTitles: Record<string, string> = {
     music: "Calming Music & Sounds",
     exercise: "Exercises for Mental Health",
     app: "Helpful Apps",
+}
+
+function constructSearchUrl(item: Resource): string {
+    switch (item.type) {
+        case ResourceTypeEnum.Video:
+            return `https://www.youtube.com/results?search_query=${encodeURIComponent(item.link)}`;
+        case ResourceTypeEnum.Music:
+            return `https://open.spotify.com/search/${encodeURIComponent(item.link)}`;
+        case ResourceTypeEnum.Helpline:
+             if (item.link.startsWith('tel:')) return item.link;
+             return `https://www.google.com/search?q=${encodeURIComponent(item.link)}`;
+        default:
+            return `https://www.google.com/search?q=${encodeURIComponent(item.link)}`;
+    }
 }
 
 
@@ -77,7 +92,7 @@ export default function ResourcesPage() {
                         {resources.map((item) => (
                             <a
                             key={item.title}
-                            href={item.link}
+                            href={constructSearchUrl(item)}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="block group"
