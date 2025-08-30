@@ -28,8 +28,7 @@ import {
 
 import { useLanguage } from '@/contexts/LanguageContext';
 import { chatbotRespondMultilingually } from '@/ai/flows/multilingual-chatbot';
-import { provideBookRecommendations } from '@/ai/flows/chatbot-book-recommendations';
-import type { ChatMessage, BookRecommendation } from '@/types';
+import type { ChatMessage } from '@/types';
 import { cn } from '@/lib/utils';
 
 const crisisKeywords = [
@@ -73,19 +72,24 @@ export default function ChatClient() {
       role: 'user',
       content: input,
     };
-    setMessages((prev) => [...prev, userMessage]);
+    
+    const currentConversation = [...messages, userMessage];
+    setMessages(currentConversation);
     setInput('');
     setIsLoading(true);
 
     try {
+      const conversationHistory = currentConversation.map(m => `${m.role}: ${m.content}`).join('\n');
       const response = await chatbotRespondMultilingually({
         language,
         message: input,
+        conversationHistory: conversationHistory
       });
       const assistantMessage: ChatMessage = {
         id: uuidv4(),
         role: 'assistant',
         content: response.response,
+        recommendations: response.recommendations,
       };
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
@@ -93,39 +97,6 @@ export default function ChatClient() {
         id: uuidv4(),
         role: 'assistant',
         content: 'Sorry, I am having trouble connecting. Please try again later.',
-      };
-      setMessages((prev) => [...prev, errorMessage]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleGetBookRecommendations = async () => {
-    setIsLoading(true);
-    const conversationHistory = messages.map(m => `${m.role}: ${m.content}`).join('\n');
-    try {
-      const { recommendations } = await provideBookRecommendations({ conversationHistory });
-      if (recommendations && recommendations.length > 0) {
-        const recommendationMessage: ChatMessage = {
-          id: uuidv4(),
-          role: 'assistant',
-          content: 'Here are some books I think you might find helpful:',
-          recommendations,
-        };
-        setMessages((prev) => [...prev, recommendationMessage]);
-      } else {
-         const noRecommendationMessage: ChatMessage = {
-          id: uuidv4(),
-          role: 'assistant',
-          content: "I couldn't find any specific book recommendations based on our conversation right now, but let's keep talking!",
-        };
-        setMessages((prev) => [...prev, noRecommendationMessage]);
-      }
-    } catch (error) {
-       const errorMessage: ChatMessage = {
-        id: uuidv4(),
-        role: 'assistant',
-        content: 'Sorry, I was unable to get book recommendations at this time.',
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
@@ -161,8 +132,9 @@ export default function ChatClient() {
                 )}
               >
                 <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                {message.recommendations && (
-                  <div className="space-y-2 mt-3">
+                {message.recommendations && message.recommendations.length > 0 && (
+                  <div className="space-y-2 mt-4">
+                     <h4 className='font-bold text-sm flex items-center gap-2'><Book className='h-4 w-4'/> Helpful Books</h4>
                     {message.recommendations.map((rec, index) => (
                       <Card key={index} className="bg-background/70">
                         <CardHeader className="p-4">
@@ -207,10 +179,6 @@ export default function ChatClient() {
       </ScrollArea>
       <div className="p-4 border-t bg-card rounded-b-lg">
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="icon" onClick={handleGetBookRecommendations} disabled={isLoading} aria-label="Get book recommendations">
-            <Book className="h-5 w-5" />
-            <span className="sr-only">Get Book Recommendations</span>
-          </Button>
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
