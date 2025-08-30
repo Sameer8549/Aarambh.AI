@@ -28,10 +28,10 @@ import ThemeToggle from './ThemeToggle';
 
 const navItems = [
   { href: '/', label: 'Home', icon: Home },
-  { href: '/chat', label: 'Chat', icon: MessageCircle },
-  { href: '/calm', label: 'Calm', icon: Wind },
-  { href: '/journal', label: 'Journal', icon: BookText },
-  { href: '/resources', label: 'Resources', icon: Library },
+  { href: '/chat', label: 'AI Chat', icon: MessageCircle },
+  { href: '/calm', label: 'Calming Activities', icon: Wind },
+  { href: '/journal', label: 'Gratitude Journal', icon: BookText },
+  { href: '/resources', label: 'Resource Hub', icon: Library },
 ];
 
 const NavLink = ({
@@ -105,13 +105,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               </SheetTrigger>
               <SheetContent side="left" className="w-64 p-0">
                 <SheetHeader className="p-4 border-b">
-                  <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-                  <Link href="/" className="flex items-center gap-2">
-                    <AarambhIcon className="h-8 w-8" />
-                    <h1 className="text-xl font-bold font-headline">
-                      Aarambh.AI
-                    </h1>
-                  </Link>
+                  <SheetTitle>App Navigation</SheetTitle>
                 </SheetHeader>
                 <nav className="p-4 space-y-2">
                   {navItems.map((item) => (
