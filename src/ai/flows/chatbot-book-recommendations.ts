@@ -24,7 +24,7 @@ const BookRecommendationOutputSchema = z.object({
       title: z.string().describe('The title of the book.'),
       author: z.string().describe('The author of the book.'),
       summary: z.string().describe('A brief summary of the book.'),
-      link: z.string().describe('A direct link to purchase the book. **It is critical that you only provide valid, working links. Do not make up links.**'),
+      link: z.string().describe('A Google search link to find the book for purchase or information. The link should be a valid URL.'),
     })
   ).describe('A list of book recommendations by Indian authors based on the conversation history.'),
 });
@@ -38,11 +38,13 @@ const prompt = ai.definePrompt({
   name: 'bookRecommendationPrompt',
   input: {schema: BookRecommendationInputSchema},
   output: {schema: BookRecommendationOutputSchema},
-  prompt: `Based on the following conversation history, recommend books by Indian authors that might be helpful to the user. Provide a summary of each book and a direct link to purchase it.
+  prompt: `Based on the following conversation history, recommend books by Indian authors that might be helpful to the user. Provide a summary of each book and a Google search link to find it.
 
 Conversation History: {{{conversationHistory}}}
 
-Ensure the recommendations are relevant to the topics discussed and can provide further assistance or insights. **It is critical that you only provide valid, working links. Do not make up links.**
+For the 'link' field, you must generate a Google search URL in the format: 'https://www.google.com/search?q=TITLE+AUTHOR'
+
+Ensure the recommendations are relevant to the topics discussed and can provide further assistance or insights.
 `,
 });
 

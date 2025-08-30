@@ -230,8 +230,8 @@ function CrisisAlertDialog({open, onOpenChange}: {open: boolean, onOpenChange: (
         </AlertDialogHeader>
         <AlertDialogFooter className='w-full flex-col sm:flex-col gap-2'>
            <AlertDialogAction asChild className='w-full'>
-            <a href="tel:988" className="flex items-center justify-center gap-2">
-              <Phone className="h-4 w-4"/> Call Helpline Now
+            <a href="tel:1800-599-0019" className="flex items-center justify-center gap-2">
+              <Phone className="h-4 w-4"/> Call KIRAN Helpline (India)
             </a>
           </AlertDialogAction>
           <AlertDialogAction asChild variant="outline" className='w-full mt-0' onClick={() => onOpenChange(false)}>

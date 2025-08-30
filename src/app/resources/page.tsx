@@ -10,6 +10,7 @@ import {
   Music,
   Dumbbell,
   AppWindow,
+  ExternalLink
 } from 'lucide-react';
 import {
   wellnessResources,
@@ -79,11 +80,12 @@ export default function ResourcesPage() {
                             href={item.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block"
+                            className="block group"
                             >
                             <Card className="h-full hover:bg-secondary/50 transition-colors">
-                                <CardHeader>
+                                <CardHeader className='flex flex-row items-start justify-between'>
                                 <CardTitle className="text-lg">{item.title}</CardTitle>
+                                 <ExternalLink className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
                                 </CardHeader>
                                 <CardContent>
                                 <p className="text-muted-foreground text-sm">
