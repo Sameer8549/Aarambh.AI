@@ -91,6 +91,20 @@ export const wellnessResources: Resource[] = [
         type: ResourceTypeEnum.Video,
         keywords: ['meditation', 'english', 'headspace', 'mindfulness', 'anxiety', 'stress', 'exercise'],
     },
+     {
+        title: 'The Honest Guys - Guided Imagery',
+        description: 'Immersive guided imagery meditations to transport you to peaceful, calming places.',
+        link: 'https://www.youtube.com/results?search_query=The+Honest+Guys+guided+imagery+meditation',
+        type: ResourceTypeEnum.Video,
+        keywords: ['meditation', 'english', 'guided imagery', 'visualization', 'relaxation', 'story', 'exercise'],
+    },
+    {
+        title: 'Goodful - Mindful Living',
+        description: 'A variety of videos on mindfulness, self-care, and simple tips for a healthier mind.',
+        link: 'https://www.youtube.com/results?search_query=Goodful+mindfulness',
+        type: ResourceTypeEnum.Video,
+        keywords: ['mindfulness', 'english', 'self-care', 'well-being', 'tips'],
+    },
     
     // === Exercises for Mental Health ===
     {
@@ -130,6 +144,13 @@ export const wellnessResources: Resource[] = [
       type: ResourceTypeEnum.App,
       keywords: ['app', 'meditation', 'mindfulness', 'stress', 'anxiety', 'headspace'],
     },
+    {
+      title: 'Wysa: AI Chatbot for Mental Health',
+      description: 'An AI chatbot that helps you reframe thoughts through CBT and offers mindfulness exercises.',
+      link: 'https://www.google.com/search?q=Wysa+app',
+      type: ResourceTypeEnum.App,
+      keywords: ['app', 'chatbot', 'cbt', 'anxiety', 'stress', 'wysa'],
+    },
 
     // === Podcasts (Stable Platforms) ===
     {
@@ -145,6 +166,13 @@ export const wellnessResources: Resource[] = [
       link: 'https://www.google.com/search?q=Ten+Percent+Happier+podcast',
       type: ResourceTypeEnum.Podcast,
       keywords: ['podcast', 'english', 'meditation', 'mindfulness', 'dan harris', 'anxiety'],
+    },
+     {
+      title: 'On Purpose with Jay Shetty',
+      description: 'Fascinating conversations with wise people, offering insights on purpose, mindset, and well-being.',
+      link: 'https://open.spotify.com/search/On%20Purpose%20with%20Jay%20Shetty',
+      type: ResourceTypeEnum.Podcast,
+      keywords: ['podcast', 'english', 'purpose', 'mindset', 'interviews', 'well-being'],
     },
 
     // === Articles & Information (Reputable Global Organizations) ===
@@ -191,6 +219,20 @@ export const wellnessResources: Resource[] = [
       link: 'https://open.spotify.com/search/nature%20sounds',
       type: ResourceTypeEnum.Music,
       keywords: ['music', 'nature sounds', 'ambience', 'sleep', 'meditation', 'calming'],
+    },
+    {
+      title: 'Ambient Chill Music',
+      description: 'Relaxing electronic music with soft pads and atmospheric textures to reduce stress and improve focus.',
+      link: 'https://open.spotify.com/search/ambient%20chill',
+      type: ResourceTypeEnum.Music,
+      keywords: ['music', 'ambient', 'electronic', 'focus', 'relaxation', 'chill'],
+    },
+    {
+      title: 'Indian Classical for Relaxation',
+      description: 'Soothing instrumental Indian classical music featuring instruments like sitar and flute.',
+      link: 'https://open.spotify.com/search/indian%20classical%20for%20relaxation',
+      type: ResourceTypeEnum.Music,
+      keywords: ['music', 'indian classical', 'instrumental', 'sitar', 'flute', 'meditation', 'calming'],
     },
 ];
 
