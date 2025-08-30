@@ -14,6 +14,36 @@ export enum ResourceTypeEnum {
 }
 
 export const wellnessResources: Resource[] = [
+    // === Indian Helplines ===
+    {
+      title: 'KIRAN - Mental Health Helpline (India)',
+      description: 'A 24/7 national helpline by the Government of India offering first-aid, advice, and referral for mental health support. Call 1800-599-0019.',
+      link: 'tel:1800-599-0019',
+      type: 'helpline' as any,
+      keywords: ['helpline', 'india', 'government', 'support', 'crisis', 'kiran'],
+    },
+    {
+      title: 'Vandrevala Foundation (India)',
+      description: 'A 24/7 free and confidential helpline providing emotional support for depression, anxiety, and stress.',
+      link: 'https://www.vandrevalafoundation.com/mental-health-helpline',
+      type: 'helpline' as any,
+      keywords: ['helpline', 'india', 'vandrevala', 'depression', 'anxiety', 'support'],
+    },
+    {
+      title: 'AASRA (India)',
+      description: 'A 24/7 helpline for those who are distressed, depressed, or feeling suicidal. Provides confidential support. Call +91-9820466726.',
+      link: 'tel:+91-9820466726',
+      type: 'helpline' as any,
+      keywords: ['helpline', 'india', 'suicide', 'depression', 'support', 'aasra'],
+    },
+    {
+      title: 'iCALL (India)',
+      description: 'A psychosocial helpline run by TISS providing free telephone and email-based counseling services by trained professionals.',
+      link: 'http://icallhelpline.org/',
+      type: 'helpline' as any,
+      keywords: ['helpline', 'india', 'icall', 'counseling', 'tiss', 'support'],
+    },
+
     // === Global Helplines ===
     {
       title: 'Crisis Text Line',
