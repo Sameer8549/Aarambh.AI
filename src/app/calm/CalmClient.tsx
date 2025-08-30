@@ -23,22 +23,22 @@ import { cn } from '@/lib/utils';
 const musicTracks = [
   {
     name: 'Flute',
-    url: 'https://storage.googleapis.com/studiogpt-pro-1d623.appspot.com/6c2b184a-7140-4917-a006-213906421455.mp3',
+    url: 'https://storage.googleapis.com/maker-suite-media/o/audio%2Fflute.mp3',
     dataAiHint: 'indian flute',
   },
   {
     name: 'Sitar',
-    url: 'https://storage.googleapis.com/studiogpt-pro-1d623.appspot.com/83c16283-176f-4e55-829d-64903332a677.mp3',
+    url: 'https://storage.googleapis.com/maker-suite-media/o/audio%2Fsitar.mp3',
     dataAiHint: 'sitar music',
   },
   {
     name: 'Veena',
-    url: 'https://storage.googleapis.com/studiogpt-pro-1d623.appspot.com/a9c1c4f1-1e9a-4c22-8356-8292c3a50275.mp3',
+    url: 'https://storage.googleapis.com/maker-suite-media/o/audio%2Fveena.mp3',
     dataAiHint: 'veena music',
   },
   {
     name: 'Lo-fi',
-    url: 'https://storage.googleapis.com/studiogpt-pro-1d623.appspot.com/495d9ac8-0955-4089-9b97-1566373b885e.mp3',
+    url: 'https://storage.googleapis.com/maker-suite-media/o/audio%2Flofi.mp3',
     dataAiHint: 'lofi beat',
   },
 ];
