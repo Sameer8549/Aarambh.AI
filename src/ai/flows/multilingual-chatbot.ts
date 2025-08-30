@@ -26,10 +26,10 @@ const ChatbotOutputSchema = z.object({
     z.object({
       title: z.string().describe('The title of the resource.'),
       description: z.string().describe('A brief, one-sentence summary of the resource.'),
-      link: z.string().describe('A direct and valid link to the resource.'),
+      link: z.string().describe('A direct and valid link to the resource. **It is critical that you only provide valid, working links. Do not make up links.**'),
       type: z.enum(['book', 'video', 'article', 'podcast']).describe('The type of resource.'),
     })
-  ).optional().describe('A list of helpful resources based on the conversation history.'),
+  ).optional().describe('A list of helpful resources like well-known books, popular and verified YouTube videos, or articles from reputable sources. **It is critical that you only provide valid, working links. Do not make up links.**'),
 });
 export type ChatbotOutput = z.infer<typeof ChatbotOutputSchema>;
 

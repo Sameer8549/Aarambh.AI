@@ -24,7 +24,7 @@ const BookRecommendationOutputSchema = z.object({
       title: z.string().describe('The title of the book.'),
       author: z.string().describe('The author of the book.'),
       summary: z.string().describe('A brief summary of the book.'),
-      link: z.string().url().describe('A direct link to purchase the book.'),
+      link: z.string().describe('A direct link to purchase the book. Do not make up links.'),
     })
   ).describe('A list of book recommendations based on the conversation history.'),
 });
@@ -42,7 +42,7 @@ const prompt = ai.definePrompt({
 
 Conversation History: {{{conversationHistory}}}
 
-Ensure the recommendations are relevant to the topics discussed and can provide further assistance or insights.
+Ensure the recommendations are relevant to the topics discussed and can provide further assistance or insights. **It is critical that you only provide valid, working links. Do not make up links.**
 `,
 });
 
