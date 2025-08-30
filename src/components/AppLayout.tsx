@@ -25,6 +25,7 @@ import {
   SheetTrigger,
 } from './ui/sheet';
 import ThemeToggle from './ThemeToggle';
+import { Separator } from './ui/separator';
 
 const navItems = [
   { href: '/', label: 'Home', icon: Home },
@@ -76,18 +77,17 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <div className="flex-1 flex flex-col overflow-hidden">
         <header className="flex items-center justify-between p-4 border-b bg-card">
           <div className="flex items-center gap-2">
-            {showBackButton && (
+            {showBackButton ? (
               <Button
                 variant="ghost"
                 onClick={() => router.back()}
                 aria-label="Go back"
-                className="pl-2 pr-3"
+                className="pl-0 pr-2"
               >
                 <ArrowLeft className="h-6 w-6" />
                 <span className="ml-2 font-medium">Back</span>
               </Button>
-            )}
-             {!showBackButton && (
+            ) : (
                 <Link href="/" className="flex items-center gap-2">
                     <AarambhIcon />
                     <h1 className="text-xl font-bold font-headline">Aarambh.AI</h1>
@@ -95,29 +95,35 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
              )}
           </div>
           <div className="flex items-center gap-2">
-            <ThemeToggle />
             <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
               <SheetTrigger asChild>
                 <Button
                   variant="ghost"
                   aria-label="Open navigation menu"
-                  className="px-3"
+                  className="px-2"
                 >
                   <PanelLeft className="h-6 w-6" />
                    <span className="ml-2 font-medium">Menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-64 p-0">
+              <SheetContent side="left" className="w-72 p-0 flex flex-col">
                 <SheetHeader className="p-4 border-b">
                    <SheetTitle>App Navigation</SheetTitle>
                 </SheetHeader>
-                <nav className="p-4 space-y-2">
+                <nav className="p-4 space-y-2 flex-1">
                   {navItems.map((item) => (
                     <NavLink key={item.href} {...item} />
                   ))}
                 </nav>
-                <div className="p-4 absolute bottom-0 w-full border-t">
-                  <LanguageToggle />
+                <div className="p-4 border-t space-y-4">
+                  <div>
+                    <p className='text-sm text-muted-foreground mb-2'>Language</p>
+                    <LanguageToggle />
+                  </div>
+                  <div>
+                    <p className='text-sm text-muted-foreground mb-2'>Theme</p>
+                    <ThemeToggle />
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>

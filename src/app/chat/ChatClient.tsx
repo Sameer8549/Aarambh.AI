@@ -205,9 +205,9 @@ export default function ChatClient() {
             disabled={isLoading}
             aria-label="Chat input"
           />
-          <Button onClick={handleSendMessage} disabled={isLoading} aria-label="Send message">
+          <Button onClick={handleSendMessage} disabled={isLoading} aria-label="Send message" className="px-3 sm:px-4">
             <Send className="h-5 w-5" />
-            <span className="font-medium">Send</span>
+            <span className="font-medium ml-2 hidden sm:inline">Send</span>
           </Button>
         </div>
       </div>
