@@ -8,24 +8,27 @@ export default function AarambhIcon({ className }: { className?: string }) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="50" cy="50" r="48" fill="hsl(var(--primary) / 0.1)" />
       <path
-        d="M25 75 A 40 40 0 0 1 75 75"
-        stroke="hsl(var(--primary) / 0.3)"
-        strokeWidth="8"
-        strokeLinecap="round"
-      />
-      <path
-        d="M35 65 A 30 30 0 0 1 65 65"
-        stroke="hsl(var(--primary) / 0.6)"
-        strokeWidth="8"
-        strokeLinecap="round"
-      />
-      <path
-        d="M45 55 A 20 20 0 0 1 55 55"
+        d="M50 30 C 40 40, 40 55, 50 65 C 60 55, 60 40, 50 30 Z"
         stroke="hsl(var(--primary))"
-        strokeWidth="8"
+        strokeWidth="6"
         strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="hsl(var(--primary) / 0.1)"
+      />
+      <path
+        d="M50 70 C 30 70, 25 50, 40 40"
+        stroke="hsl(var(--primary) / 0.7)"
+        strokeWidth="6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M50 70 C 70 70, 75 50, 60 40"
+        stroke="hsl(var(--primary) / 0.7)"
+        strokeWidth="6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
