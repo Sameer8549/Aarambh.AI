@@ -23,22 +23,22 @@ import { cn } from '@/lib/utils';
 const musicTracks = [
   {
     name: 'Flute',
-    url: 'https://storage.googleapis.com/maker-suite-media/o/audio%2Fflute.mp3',
+    url: 'https://cdn.pixabay.com/audio/2022/02/22/audio_2c9a8a6572.mp3',
     dataAiHint: 'indian flute',
   },
   {
     name: 'Sitar',
-    url: 'https://storage.googleapis.com/maker-suite-media/o/audio%2Fsitar.mp3',
+    url: 'https://cdn.pixabay.com/audio/2023/05/15/audio_787b893af9.mp3',
     dataAiHint: 'sitar music',
   },
   {
     name: 'Veena',
-    url: 'https://storage.googleapis.com/maker-suite-media/o/audio%2Fveena.mp3',
+    url: 'https://cdn.pixabay.com/audio/2022/11/17/audio_88874149b5.mp3',
     dataAiHint: 'veena music',
   },
   {
     name: 'Lo-fi',
-    url: 'https://storage.googleapis.com/maker-suite-media/o/audio%2Flofi.mp3',
+    url: 'https://cdn.pixabay.com/audio/2024/05/02/audio_a16ea1f12e.mp3',
     dataAiHint: 'lofi beat',
   },
 ];
