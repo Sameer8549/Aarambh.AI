@@ -140,10 +140,10 @@ export default function ChatClient() {
                 )}
               >
                 <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                 {(message.resources || message.recommendations) && (
+                 {message.resources && message.resources.length > 0 && (
                   <div className="space-y-2 mt-4">
                      <h4 className='font-bold text-sm flex items-center gap-2'><Book className='h-4 w-4'/> Helpful Resources</h4>
-                    {message.resources?.map((res, index) => {
+                    {message.resources.map((res, index) => {
                       const Icon = resourceIcons[res.type] || Book;
                       return (
                         <Card key={index} className="bg-background/70">
@@ -164,25 +164,6 @@ export default function ChatClient() {
                         </Card>
                       )
                     })}
-                     {message.recommendations?.map((rec, index) => (
-                        <Card key={index} className="bg-background/70">
-                          <CardHeader className="p-4">
-                            <CardTitle className="text-base flex items-center gap-2">
-                              <Book className="h-4 w-4 text-primary" />
-                              {rec.title}
-                            </CardTitle>
-                             <CardDescription>{rec.author}</CardDescription>
-                          </CardHeader>
-                          <CardContent className="p-4 pt-0 text-sm">
-                            <p>{rec.summary}</p>
-                          </CardContent>
-                          <CardFooter className="p-4 pt-0">
-                            <a href={rec.link} target="_blank" rel="noopener noreferrer">
-                              <Button size="sm">View Book</Button>
-                            </a>
-                          </CardFooter>
-                        </Card>
-                      ))}
                   </div>
                 )}
               </div>
