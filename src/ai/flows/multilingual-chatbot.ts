@@ -26,7 +26,7 @@ const findResourcesTool = ai.defineTool(
         title: z.string(),
         description: z.string(),
         link: z.string(),
-        type: z.enum(['book', 'video', 'article', 'podcast', 'helpline', 'music']),
+        type: z.nativeEnum(ResourceTypeEnum),
       })
     ),
   },
