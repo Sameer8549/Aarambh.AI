@@ -12,7 +12,7 @@ export default function JournalClient() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = async () => {
+  const handleJournalSubmit = async () => {
     if (!entry.trim()) {
       toast({
         title: 'Empty Entry',
@@ -56,8 +56,9 @@ export default function JournalClient() {
             placeholder="Write about three things that went well today, or anything that brings you joy."
             className="min-h-[250px] text-base"
             disabled={isLoading}
+            aria-label="Journal entry textarea"
           />
-          <Button onClick={handleSubmit} disabled={isLoading} className="w-full sm:w-auto">
+          <Button onClick={handleJournalSubmit} disabled={isLoading} className="w-full sm:w-auto" aria-label="Reflect on journal entry">
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Reflect
           </Button>

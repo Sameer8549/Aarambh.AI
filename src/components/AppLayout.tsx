@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   MessageCircle,
   Wind,
@@ -10,6 +10,7 @@ import {
   Library,
   Home,
   PanelLeft,
+  ArrowLeft,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -52,9 +53,7 @@ const NavLink = ({
         aria-current={isActive ? 'page' : undefined}
       >
         <Icon className="h-5 w-5 mr-3" />
-        <span className={'font-medium'}>
-          {label}
-        </span>
+        <span className={'font-medium'}>{label}</span>
       </Button>
     </Link>
   );
@@ -63,47 +62,62 @@ const NavLink = ({
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   React.useEffect(() => {
     setIsSheetOpen(false);
   }, [pathname]);
 
+  const showBackButton = pathname !== '/';
+
   return (
     <div className="flex h-screen bg-background">
       <div className="flex-1 flex flex-col overflow-hidden">
         <header className="flex items-center justify-between p-4 border-b bg-card">
-          <Link href="/" className="flex items-center gap-2">
-            <AarambhIcon className="h-8 w-8" />
-            <h1 className="text-xl font-bold font-headline">Aarambh.AI</h1>
-          </Link>
+          <div className="flex items-center gap-2">
+            {showBackButton && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => router.back()}
+                aria-label="Go back"
+              >
+                <ArrowLeft className="h-6 w-6" />
+              </Button>
+            )}
+            <Link href="/" className="flex items-center gap-2">
+              <AarambhIcon className="h-8 w-8" />
+              <h1 className="text-xl font-bold font-headline">Aarambh.AI</h1>
+            </Link>
+          </div>
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" aria-label="Open navigation menu">
                 <PanelLeft className="h-6 w-6" />
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-64 p-0">
               <SheetHeader className="p-4 border-b">
-                 <Link href="/" className="flex items-center gap-2">
-                    <AarambhIcon className="h-8 w-8" />
-                    <h1 className="text-xl font-bold font-headline">Aarambh.AI</h1>
-                </Link>
                 <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+                <Link href="/" className="flex items-center gap-2">
+                  <AarambhIcon className="h-8 w-8" />
+                  <h1 className="text-xl font-bold font-headline">
+                    Aarambh.AI
+                  </h1>
+                </Link>
               </SheetHeader>
               <nav className="p-4 space-y-2">
                 {navItems.map((item) => (
                   <NavLink key={item.href} {...item} />
                 ))}
               </nav>
-               <div className="p-4 absolute bottom-0 w-full border-t">
+              <div className="p-4 absolute bottom-0 w-full border-t">
                 <LanguageToggle />
               </div>
             </SheetContent>
           </Sheet>
         </header>
-        <main className="flex-1 overflow-y-auto p-4 md:p-8">
-          {children}
-        </main>
+        <main className="flex-1 overflow-y-auto p-4 md:p-8">{children}</main>
       </div>
     </div>
   );

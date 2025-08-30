@@ -60,7 +60,7 @@ export default function ChatClient() {
     ])
   }, []);
 
-  const handleSend = async () => {
+  const handleSendMessage = async () => {
     if (!input.trim()) return;
 
     if (crisisKeywords.some(keyword => input.toLowerCase().includes(keyword))) {
@@ -100,7 +100,7 @@ export default function ChatClient() {
     }
   };
 
-  const handleGetRecommendations = async () => {
+  const handleGetBookRecommendations = async () => {
     setIsLoading(true);
     const conversationHistory = messages.map(m => `${m.role}: ${m.content}`).join('\n');
     try {
@@ -207,19 +207,20 @@ export default function ChatClient() {
       </ScrollArea>
       <div className="p-4 border-t bg-card rounded-b-lg">
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="icon" onClick={handleGetRecommendations} disabled={isLoading}>
+          <Button variant="outline" size="icon" onClick={handleGetBookRecommendations} disabled={isLoading} aria-label="Get book recommendations">
             <Book className="h-5 w-5" />
             <span className="sr-only">Get Book Recommendations</span>
           </Button>
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && !isLoading && handleSend()}
+            onKeyDown={(e) => e.key === 'Enter' && !isLoading && handleSendMessage()}
             placeholder="Type your message..."
             className="flex-1"
             disabled={isLoading}
+            aria-label="Chat input"
           />
-          <Button onClick={handleSend} disabled={isLoading}>
+          <Button onClick={handleSendMessage} disabled={isLoading} aria-label="Send message">
             <Send className="h-5 w-5" />
             <span className="sr-only">Send</span>
           </Button>

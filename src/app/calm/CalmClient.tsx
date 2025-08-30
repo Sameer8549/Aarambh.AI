@@ -54,7 +54,7 @@ const BreathingAnimation = ({ onComplete }: { onComplete: () => void }) => {
   ];
   const timerRef = useRef<NodeJS.Timeout>();
   
-  const startBreathing = () => {
+  const startBreathingCycle = () => {
     setIsBreathing(true);
     let i = 0;
     const runCycle = () => {
@@ -67,7 +67,7 @@ const BreathingAnimation = ({ onComplete }: { onComplete: () => void }) => {
     runCycle();
   };
 
-  const stopBreathing = () => {
+  const stopBreathingCycle = () => {
     setIsBreathing(false);
     clearTimeout(timerRef.current);
     setText('Great job! You can stop when you are ready.');
@@ -95,11 +95,11 @@ const BreathingAnimation = ({ onComplete }: { onComplete: () => void }) => {
         </p>
       </div>
       {!isBreathing ? (
-        <Button onClick={startBreathing}>
+        <Button onClick={startBreathingCycle} aria-label="Start breathing exercise">
           <Play className="mr-2 h-4 w-4" /> Start Breathing
         </Button>
       ) : (
-        <Button onClick={stopBreathing} variant="secondary">
+        <Button onClick={stopBreathingCycle} variant="secondary" aria-label="Stop breathing exercise">
           <Pause className="mr-2 h-4 w-4" /> Stop
         </Button>
       )}
@@ -119,7 +119,7 @@ const MusicPlayer = ({ onComplete }: { onComplete: (activity: string) => void })
   const [playing, setPlaying] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const togglePlay = (track: typeof musicTracks[0]) => {
+  const toggleMusicTrack = (track: typeof musicTracks[0]) => {
     if (playing === track.name) {
       audioRef.current?.pause();
       setPlaying(null);
@@ -148,7 +148,7 @@ const MusicPlayer = ({ onComplete }: { onComplete: (activity: string) => void })
             <Music className="h-6 w-6 text-primary" />
             <p className="font-semibold">{track.name}</p>
           </div>
-          <Button size="icon" variant={playing === track.name ? "secondary" : "ghost"} onClick={() => togglePlay(track)}>
+          <Button size="icon" variant={playing === track.name ? "secondary" : "ghost"} onClick={() => toggleMusicTrack(track)} aria-label={playing === track.name ? `Pause ${track.name}` : `Play ${track.name}`}>
             {playing === track.name ? <Pause /> : <Play />}
           </Button>
         </Card>
@@ -162,7 +162,7 @@ export default function CalmClient() {
   const [encouragement, setEncouragement] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleActivityComplete = async (activityType: string) => {
+  const handleActivityCompletion = async (activityType: string) => {
     setIsLoading(true);
     setShowDialog(true);
     try {
@@ -187,10 +187,10 @@ export default function CalmClient() {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="music">
-          <MusicPlayer onComplete={(activity) => handleActivityComplete(activity)} />
+          <MusicPlayer onComplete={(activity) => handleActivityCompletion(activity)} />
         </TabsContent>
         <TabsContent value="breathing">
-          <BreathingAnimation onComplete={() => handleActivityComplete('breathing')} />
+          <BreathingAnimation onComplete={() => handleActivityCompletion('breathing')} />
         </TabsContent>
       </Tabs>
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
