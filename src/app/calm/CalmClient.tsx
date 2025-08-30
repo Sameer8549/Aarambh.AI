@@ -21,41 +21,41 @@ import { calmingActivityEncouragement } from '@/ai/flows/calming-activity-encour
 import { cn } from '@/lib/utils';
 
 const musicTracks = [
-    {
-    name: 'Weightless',
-    artist: 'Marconi Union',
-    url: 'https://open.spotify.com/track/6kGTP2Y01D8h24b2lTbu1z',
-    dataAiHint: 'ambient music',
-  },
-  {
-    name: 'Clair de Lune',
-    artist: 'Claude Debussy',
-    url: 'https://open.spotify.com/track/4u7EnebtmKWzANvK6piFSL',
-    dataAiHint: 'classical piano',
-  },
-  {
-    name: 'Canzonetta Sull\'aria',
-    artist: 'Wolfgang Amadeus Mozart',
-    url: 'https://open.spotify.com/track/560t2t3n2Q81N33cWl9V63',
-    dataAiHint: 'opera classical',
-  },
-  {
-    name: 'Spiegel im Spiegel',
-    artist: 'Arvo Pärt',
-    url: 'https://open.spotify.com/track/7zHd9soLwecr36pc3tizf6',
-    dataAiHint: 'minimalist classical',
-  },
-  {
-    name: 'Gymnopédie No. 1',
-    artist: 'Erik Satie',
-    url: 'https://open.spotify.com/track/5NGtFXVpXSvwunEIGeviY3',
-    dataAiHint: 'solo piano',
-  },
   {
     name: 'Raga Yaman',
     artist: 'Hariprasad Chaurasia',
     url: 'https://open.spotify.com/track/2hMsY33v136N632x23p42v',
     dataAiHint: 'indian classical flute',
+  },
+  {
+    name: 'Maeri',
+    artist: 'Euphoria',
+    url: 'https://open.spotify.com/track/2bV32sod3z2g262oA5A7tF',
+    dataAiHint: 'indian folk rock',
+  },
+  {
+    name: 'Kun Faya Kun',
+    artist: 'A.R. Rahman, Javed Ali, Mohit Chauhan',
+    url: 'https://open.spotify.com/track/7iAqv2nI2nEa3XvIkhs5B8',
+    dataAiHint: 'sufi music',
+  },
+  {
+    name: 'Kabira',
+    artist: 'Tochi Raina, Rekha Bhardwaj',
+    url: 'https://open.spotify.com/track/4bD9z9qa4qg9BhryvYwb3T',
+    dataAiHint: 'indian folk pop',
+  },
+  {
+    name: 'Ik Onkar',
+    artist: 'Harshdeep Kaur',
+    url: 'https://open.spotify.com/track/2_VKO1L1pB8iWnL0d8naYF',
+    dataAiHint: 'punjabi devotional',
+  },
+  {
+    name: 'Namo Namo',
+    artist: 'Amit Trivedi',
+    url: 'https://open.spotify.com/track/5nK5A2m2V44y4E2s2v929s',
+    dataAiHint: 'devotional pop',
   }
 ];
 
