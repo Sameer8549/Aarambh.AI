@@ -29,35 +29,27 @@ export const indianResources: Resource[] = [
       type: 'helpline' as any,
       keywords: ['helpline', 'government', 'anxiety', 'stress', 'depression', 'help'],
     },
-    // Guided Meditations (Hindi)
+    // Guided Meditations from Web Sources
     {
-      title: '10 Minute Guided Meditation for Stress Relief (Hindi)',
-      description: 'A popular, calming guided meditation in Hindi to find peace and relieve stress.',
-      link: 'https://www.youtube.com/watch?v=zP2-Fp_o5cQ',
-      type: 'video',
-      keywords: ['meditation', 'hindi', 'stress', 'anxiety', 'calm', 'peace'],
+        title: 'Art of Living - Guided Meditation for Relaxation',
+        description: 'An online guided meditation from the Art of Living foundation to calm the mind and body.',
+        link: 'https://www.artofliving.org/in-en/guided-meditations-for-relaxation',
+        type: 'video',
+        keywords: ['meditation', 'english', 'art of living', 'relaxation', 'calm'],
     },
     {
-      title: '5-Minute Meditation for Positive Energy (Hindi)',
-      description: 'A short practice to refresh your mind and boost positivity.',
-      link: 'https://www.youtube.com/watch?v=s75_N6s59as',
-      type: 'video',
-      keywords: ['meditation', 'hindi', 'positive energy', 'quick', 'refresh'],
+        title: 'Isha Foundation - Isha Kriya',
+        description: 'A powerful 12-minute guided meditation for clarity and wellbeing from Sadhguru\'s Isha Foundation.',
+        link: 'https://www.isha.sadhguru.org/in/en/yoga-meditation/yoga-program-for-beginners/isha-kriya',
+        type: 'video',
+        keywords: ['meditation', 'english', 'sadhguru', 'clarity', 'well-being', 'isha'],
     },
-    // Guided Meditations (English)
-    {
-      title: 'Sadhguru - Isha Kriya',
-      description: 'A simple yet powerful 12-minute guided meditation for clarity and well-being.',
-      link: 'https://www.youtube.com/watch?v=yzM94_a7de0',
-      type: 'video',
-      keywords: ['meditation', 'english', 'sadhguru', 'clarity', 'well-being', 'isha'],
-    },
-    {
-      title: 'Sri Sri Ravi Shankar - Meditation for Hope',
-      description: 'A guided meditation for anxiety and to instill hope, from the Art of Living foundation.',
-      link: 'https://www.youtube.com/watch?v=3m_i0_yD8so',
-      type: 'video',
-      keywords: ['meditation', 'english', 'art of living', 'hope', 'anxiety'],
+     {
+        title: 'Mindful - A 10-Minute Breathing Meditation',
+        description: 'A simple, effective breathing meditation practice to ground yourself in the present moment.',
+        link: 'https://www.mindful.org/a-10-minute-breathing-meditation-to-foster-mindfulness/',
+        type: 'video', // Categorized as video for simplicity, though it's an audio player on a webpage
+        keywords: ['meditation', 'english', 'breathing', 'mindfulness', 'quick'],
     },
     // Podcasts
     {
@@ -89,48 +81,34 @@ export const indianResources: Resource[] = [
       type: 'article',
       keywords: ['article', 'booklet', 'nimhans', 'self help', 'mental health'],
     },
-    // Music
-     {
+    // Music from Web Sources
+    {
       title: 'Raga Yaman by Hariprasad Chaurasia',
-      description: 'Classiccal Indian flute music for relaxation.',
+      description: 'Classical Indian flute music for relaxation. (YouTube)',
       link: 'https://www.youtube.com/watch?v=O8keFY32-iU',
       type: 'music',
       keywords: ['music', 'indian classical', 'flute', 'yaman', 'hariprasad chaurasia'],
     },
     {
       title: 'Maeri by Euphoria',
-      description: 'Iconic Indian folk rock song.',
+      description: 'Iconic Indian folk rock song. (YouTube)',
       link: 'https://www.youtube.com/watch?v=d2G9A8t1k2s',
       type: 'music',
       keywords: ['music', 'indian folk rock', 'euphoria', 'maeri'],
     },
     {
       title: 'Kun Faya Kun by A.R. Rahman',
-      description: 'A soulful Sufi track from the movie Rockstar.',
+      description: 'A soulful Sufi track from the movie Rockstar. (YouTube)',
       link: 'https://www.youtube.com/watch?v=T94PHkuydcw',
       type: 'music',
       keywords: ['music', 'sufi', 'ar rahman', 'kun faya kun', 'bollywood'],
     },
     {
       title: 'Kabira by Tochi Raina, Rekha Bhardwaj',
-      description: 'A beautiful folk-pop song from Yeh Jawaani Hai Deewani.',
+      description: 'A beautiful folk-pop song from Yeh Jawaani Hai Deewani. (YouTube)',
       link: 'https://www.youtube.com/watch?v=jHNNMj5bNQw',
       type: 'music',
       keywords: ['music', 'indian folk pop', 'kabira', 'bollywood'],
-    },
-    {
-      title: 'Ik Onkar by Harshdeep Kaur',
-      description: 'A powerful devotional chant from Rang De Basanti.',
-      link: 'https://www.youtube.com/watch?v=s_w8tncf2-M',
-      type: 'music',
-      keywords: ['music', 'punjabi devotional', 'ik onkar', 'sikh'],
-    },
-    {
-      title: 'Namo Namo by Amit Trivedi',
-      description: 'A devotional pop song from the movie Kedarnath.',
-      link: 'https://www.youtube.com/watch?v=1_4c2N3_vLg',
-      type: 'music',
-      keywords: ['music', 'devotional pop', 'namo namo', 'amit trivedi'],
     },
 ];
 
