@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -76,8 +77,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <div className="flex h-screen bg-background">
       <div className="flex-1 flex flex-col overflow-hidden">
         <header className="flex items-center justify-between p-4 border-b bg-card">
-          <div className="flex items-center gap-2">
-            {showBackButton ? (
+          <div className="flex items-center gap-4">
+            {showBackButton && (
               <Button
                 variant="ghost"
                 onClick={() => router.back()}
@@ -85,14 +86,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 className="pl-0 pr-2"
               >
                 <ArrowLeft className="h-6 w-6" />
-                <span className="ml-2 font-medium">Back</span>
               </Button>
-            ) : (
-                <Link href="/" className="flex items-center gap-2">
-                    <AarambhIcon />
-                    <h1 className="text-xl font-bold font-headline">Aarambh.AI</h1>
-                </Link>
-             )}
+            )}
+            <Link href="/" className="flex items-center gap-2">
+                <AarambhIcon />
+                <h1 className="text-xl font-bold font-headline">Aarambh.AI</h1>
+            </Link>
           </div>
           <div className="flex items-center gap-2">
             <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
@@ -103,7 +102,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                   className="px-2"
                 >
                   <PanelLeft className="h-6 w-6" />
-                   <span className="ml-2 font-medium">Menu</span>
+                   <span className="ml-2 font-medium sr-only sm:not-sr-only">Menu</span>
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-72 p-0 flex flex-col">
