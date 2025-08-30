@@ -48,15 +48,15 @@ const resourceCategories = [
     icon: <Youtube className="h-6 w-6 text-primary" />,
     items: [
       {
-        name: '10-Minute Meditation for Beginners',
-        description: 'A simple and effective meditation to start your practice.',
-        link: 'https://www.youtube.com/watch?v=O-6f5wQXSu8',
+        name: 'Sadhguru - Isha Kriya',
+        description: 'A simple yet powerful 12-minute guided meditation for clarity and well-being.',
+        link: 'https://www.youtube.com/watch?v=yzM94_a7de0',
       },
       {
-        name: 'Meditation for Anxiety',
+        name: 'Sri Sri Ravi Shankar - Meditation for Hope',
         description:
-          'A guided practice specifically designed to help ease anxiety and find calm.',
-        link: 'https://www.youtube.com/watch?v=4pLUleLdwYI',
+          'A guided meditation for anxiety and to instill hope, from the Art of Living foundation.',
+        link: 'https://www.youtube.com/watch?v=3m_i0_yD8so',
       },
     ],
   },
@@ -83,10 +83,10 @@ const resourceCategories = [
     icon: <FileText className="h-6 w-6 text-primary" />,
     items: [
       {
-        name: 'Healthline: Mental Health Resources',
+        name: 'The Live Love Laugh Foundation',
         description:
-          'Reliable, expert-reviewed articles on various mental health topics.',
-        link: 'https://www.healthline.com/health/mental-health-resources',
+          'Articles and resources on stress, anxiety, depression, and more from an Indian perspective.',
+        link: 'https://www.thelivelovelaughfoundation.org/helpline',
       },
       {
         name: 'NIMHANS - Self Help Booklets',

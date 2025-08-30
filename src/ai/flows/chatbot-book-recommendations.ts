@@ -24,9 +24,9 @@ const BookRecommendationOutputSchema = z.object({
       title: z.string().describe('The title of the book.'),
       author: z.string().describe('The author of the book.'),
       summary: z.string().describe('A brief summary of the book.'),
-      link: z.string().describe('A direct link to purchase the book. Do not make up links.'),
+      link: z.string().describe('A direct link to purchase the book. **It is critical that you only provide valid, working links. Do not make up links.**'),
     })
-  ).describe('A list of book recommendations based on the conversation history.'),
+  ).describe('A list of book recommendations by Indian authors based on the conversation history.'),
 });
 export type BookRecommendationOutput = z.infer<typeof BookRecommendationOutputSchema>;
 
@@ -38,7 +38,7 @@ const prompt = ai.definePrompt({
   name: 'bookRecommendationPrompt',
   input: {schema: BookRecommendationInputSchema},
   output: {schema: BookRecommendationOutputSchema},
-  prompt: `Based on the following conversation history, recommend books that might be helpful to the user. Provide a summary of each book and a direct link to purchase it.
+  prompt: `Based on the following conversation history, recommend books by Indian authors that might be helpful to the user. Provide a summary of each book and a direct link to purchase it.
 
 Conversation History: {{{conversationHistory}}}
 
