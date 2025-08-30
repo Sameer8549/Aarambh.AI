@@ -7,7 +7,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Music, Play, Pause, Wind, Loader2, ExternalLink } from 'lucide-react';
 import {
@@ -15,23 +15,53 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
 } from '@/components/ui/dialog';
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Label } from "@/components/ui/label"
 import { calmingActivityEncouragement } from '@/ai/flows/calming-activity-encouragement';
 import { cn } from '@/lib/utils';
 import { getResourcesByType, ResourceTypeEnum } from '@/ai/resources';
 import type { Resource } from '@/types';
 
+type BreathingTechnique = 'default' | 'box' | '4-7-8';
 
-const BreathingAnimation = ({ onComplete }: { onComplete: () => void }) => {
+const breathingTechniques = {
+  default: {
+    name: 'Standard Calm Breathing',
+    description: 'A simple technique to start: 4s in, 7s hold, 8s out. Helps to calm your nervous system.',
+    cycle: [
+      { text: 'Breathe In', duration: 4000 },
+      { text: 'Hold', duration: 7000 },
+      { text: 'Breathe Out', duration: 8000 },
+    ],
+  },
+  box: {
+    name: 'Box Breathing',
+    description: 'Also known as four-square breathing. Inhale for 4s, hold for 4s, exhale for 4s, hold for 4s. Excellent for focus.',
+    cycle: [
+      { text: 'Breathe In', duration: 4000 },
+      { text: 'Hold', duration: 4000 },
+      { text: 'Breathe Out', duration: 4000 },
+      { text: 'Hold', duration: 4000 },
+    ],
+  },
+  '4-7-8': {
+    name: '4-7-8 Breathing',
+    description: 'Inhale for 4s, hold for 7s, then a long exhale for 8s. A powerful technique for relaxation and sleep.',
+    cycle: [
+      { text: 'Breathe In', duration: 4000 },
+      { text: 'Hold', duration: 7000 },
+      { text: 'Breathe Out', duration: 8000 },
+    ],
+  },
+};
+
+
+const BreathingAnimation = ({ onComplete, technique }: { onComplete: () => void, technique: BreathingTechnique }) => {
   const [isBreathing, setIsBreathing] = useState(false);
   const [text, setText] = useState('Get Ready...');
 
-  const cycle = [
-    { text: 'Breathe In', duration: 4000 },
-    { text: 'Hold', duration: 7000 },
-    { text: 'Breathe Out', duration: 8000 },
-  ];
+  const { cycle } = breathingTechniques[technique];
   const timerRef = useRef<NodeJS.Timeout>();
   
   const startBreathingCycle = () => {
@@ -55,6 +85,12 @@ const BreathingAnimation = ({ onComplete }: { onComplete: () => void }) => {
   };
 
   useEffect(() => {
+    setIsBreathing(false);
+    clearTimeout(timerRef.current);
+    setText('Get Ready...');
+  }, [technique]);
+
+  useEffect(() => {
     return () => clearTimeout(timerRef.current);
   }, []);
 
@@ -67,7 +103,7 @@ const BreathingAnimation = ({ onComplete }: { onComplete: () => void }) => {
             isBreathing && text === 'Breathe In' && 'animate-[pulse_4s_ease-in-out_infinite]',
             isBreathing && text === 'Breathe Out' && 'animate-[pulse_8s_ease-in-out_infinite_reverse]'
           )}
-          style={{ animationName: isBreathing ? 'pulse' : 'none' }}
+          style={{ animationDuration: isBreathing && text === 'Breathe In' ? `${cycle[0].duration}ms` : `${cycle.find(c => c.text === 'Breathe Out')?.duration || 8000}ms`}}
         ></div>
          <div className="absolute w-24 h-24 bg-primary/20 rounded-full"></div>
         <p className="z-10 text-2xl font-bold font-headline text-primary-foreground bg-primary p-4 rounded-full">
@@ -103,11 +139,15 @@ const MusicPlayer = ({ onComplete }: { onComplete: (activity: string) => void })
     setMusicTracks(tracks);
   }, []);
 
+  function constructSearchUrl(item: Resource): string {
+    return `https://open.spotify.com/search/${encodeURIComponent(item.link)}`;
+  }
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
       {musicTracks.map((track) => (
         <a
-          href={track.link}
+          href={constructSearchUrl(track)}
           key={track.title}
           target="_blank"
           rel="noopener noreferrer"
@@ -129,6 +169,43 @@ const MusicPlayer = ({ onComplete }: { onComplete: (activity: string) => void })
     </div>
   );
 };
+
+const BreathingPage = ({onComplete}: {onComplete: (activity: string) => void}) => {
+  const [technique, setTechnique] = useState<BreathingTechnique>('default');
+  const selectedTechnique = breathingTechniques[technique];
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-1">
+          <Card>
+            <CardHeader>
+              <CardTitle>Choose a Technique</CardTitle>
+              <CardDescription>Select a breathing exercise that feels right for you.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <RadioGroup value={technique} onValueChange={(val) => setTechnique(val as BreathingTechnique)}>
+                {Object.entries(breathingTechniques).map(([key, value]) => (
+                    <div key={key} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-muted has-[[data-state=checked]]:bg-secondary">
+                        <RadioGroupItem value={key} id={key} />
+                        <Label htmlFor={key} className="font-medium cursor-pointer">
+                            <span className='block'>{value.name}</span>
+                            <span className="font-normal text-sm text-muted-foreground">{value.description}</span>
+                        </Label>
+                    </div>
+                ))}
+              </RadioGroup>
+            </CardContent>
+          </Card>
+        </div>
+        <div className="lg:col-span-2">
+           <BreathingAnimation onComplete={() => onComplete(selectedTechnique.name)} technique={technique} />
+        </div>
+
+    </div>
+  )
+
+}
+
 
 export default function CalmClient() {
   const [showDialog, setShowDialog] = useState(false);
@@ -163,7 +240,7 @@ export default function CalmClient() {
           <MusicPlayer onComplete={(activity) => handleActivityCompletion(activity)} />
         </TabsContent>
         <TabsContent value="breathing">
-          <BreathingAnimation onComplete={() => handleActivityCompletion('breathing')} />
+           <BreathingPage onComplete={(activity) => handleActivityCompletion(activity)} />
         </TabsContent>
       </Tabs>
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
