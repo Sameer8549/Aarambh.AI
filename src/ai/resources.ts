@@ -30,9 +30,9 @@ const indianResources: Resource[] = [
     },
     // Guided Meditations (Hindi)
     {
-      title: '10-Minute Meditation for Stress & Anxiety (Hindi)',
-      description: 'A popular, calming guided meditation in Hindi to find peace.',
-      link: 'https://www.youtube.com/watch?v=sJ02s1-2vto',
+      title: '10 Minute Guided Meditation for Stress Relief (Hindi)',
+      description: 'A popular, calming guided meditation in Hindi to find peace and relieve stress.',
+      link: 'https://www.youtube.com/watch?v=zP2-Fp_o5cQ',
       type: 'video',
       keywords: ['meditation', 'hindi', 'stress', 'anxiety', 'calm', 'peace'],
     },
