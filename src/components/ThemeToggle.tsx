@@ -26,12 +26,13 @@ export default function ThemeToggle() {
         <Button variant="ghost" aria-label="Toggle color theme" className="px-3">
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          {mounted && (
+          {mounted ? (
             <span className="ml-2 font-medium capitalize">
               {theme === 'system' ? 'System' : theme === 'dark' ? 'Dark' : 'Light'}
             </span>
+          ) : (
+            <span className="ml-2 font-medium">Theme</span>
           )}
-           {!mounted && <span className="ml-2 font-medium">Theme</span>}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
