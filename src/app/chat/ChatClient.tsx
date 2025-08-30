@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Book, Loader2, Phone, Youtube, FileText, Headphones } from 'lucide-react';
+import { Send, Bot, User, Book, Loader2, Phone, Youtube, FileText, Headphones, Dumbbell, AppWindow } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { Button } from '@/components/ui/button';
@@ -41,6 +41,9 @@ const resourceIcons: Record<ResourceType, React.ElementType> = {
   article: FileText,
   podcast: Headphones,
   helpline: Phone,
+  music: Headphones,
+  exercise: Dumbbell,
+  app: AppWindow,
 };
 
 

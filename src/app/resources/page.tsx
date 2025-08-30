@@ -8,12 +8,14 @@ import {
   Headphones,
   FileText,
   Music,
+  Dumbbell,
+  AppWindow,
 } from 'lucide-react';
 import {
   wellnessResources,
   groupResourcesByType,
 } from '@/ai/resources';
-import type { Resource } from '@/types';
+import type { Resource, ResourceType } from '@/types';
 
 
 const iconMap: Record<string, React.ElementType> = {
@@ -22,6 +24,8 @@ const iconMap: Record<string, React.ElementType> = {
   podcast: Headphones,
   article: FileText,
   music: Music,
+  exercise: Dumbbell,
+  app: AppWindow,
 };
 
 
@@ -30,7 +34,9 @@ const categoryTitles: Record<string, string> = {
     video: "Guided Meditations & Mindfulness",
     podcast: "Podcasts for Mental Well-being",
     article: "Articles & Information",
-    music: "Calming Music & Sounds"
+    music: "Calming Music & Sounds",
+    exercise: "Exercises for Mental Health",
+    app: "Helpful Apps",
 }
 
 
@@ -41,7 +47,7 @@ export default function ResourcesPage() {
         setGroupedResources(groupResourcesByType(wellnessResources));
     }, []);
 
-    const orderedCategories = ['helpline', 'video', 'music', 'podcast', 'article'];
+    const orderedCategories: ResourceType[] = ['helpline', 'exercise', 'app', 'video', 'music', 'podcast', 'article'];
 
   return (
     <div>
