@@ -1,0 +1,28 @@
+# Dependencies
+node_modules
+
+# Build artifacts
+.next/
+build/
+dist/
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Development
+.env.local
+.env.development.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+
+# Project files
+README.md
+docs/
+.idx/
