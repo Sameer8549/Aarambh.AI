@@ -38,7 +38,7 @@ const features = [
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-full p-4 md:p-8 from-background to-slate-900/50 bg-gradient-to-b">
+    <div className="flex flex-col items-center justify-center min-h-full p-4 md:p-8 from-background to-secondary/50 bg-gradient-to-b">
       <header className="text-center mb-8 md:mb-12">
         <AarambhIcon className="h-40 w-40 mx-auto" />
         <h1 className="font-headline text-4xl md:text-5xl font-bold text-foreground tracking-tight mt-4">
