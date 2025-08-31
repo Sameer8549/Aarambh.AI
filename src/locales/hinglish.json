@@ -91,7 +91,19 @@
         "inputPlaceholder": "Apna sandesh type karein...",
         "inputAriaLabel": "Chat input",
         "send": "Bhejein",
-        "sendAriaLabel": "Sandesh bhejein"
+        "sendAriaLabel": "Sandesh bhejein",
+        "bookRecommendations": {
+            "title": "Hamari baatcheet ke aadhar par, yahan kuch kitabein hain jo aapko madadgar lag sakti hain:",
+            "button": "Kitab Sujhav Prapt Karein",
+            "notFound": {
+                "title": "Koi Sujhav Nahi Mila",
+                "description": "Mujhe hamari ab tak ki baatcheet ke aadhar par koi vishesh kitab sujhav nahi mila. Thoda aur baat karne ki koshish karein!"
+            },
+            "error": {
+                "title": "Kitabein Prapt Karne Mein Galti",
+                "description": "Maaf kijiye, main is samay kitab sujhav prapt nahi kar saka. Kripya baad mein phir se prayas karen."
+            }
+        }
     },
     "crisis": {
         "title": "Lagta hai aap bahut kuch seh rahe hain.",
@@ -109,9 +121,6 @@
         "reflect": "Vichar Karein",
         "ariaLabel": "Journal entry textarea",
         "reflectAriaLabel": "Journal entry par vichar karein",
-        "pastEntries": "Pichli Entries",
-        "noEntries": "Aapke paas abhi tak koi journal entry nahi hai. Shuru karne ke liye upar ek likhein!",
-        "authPrompt": "Apni entries save karne aur unhe devices par dekhne ke liye sign in karein.",
         "toast": {
             "empty": {
                 "title": "Khali Entry",
@@ -122,12 +131,7 @@
             },
             "error": {
                 "title": "Galti",
-                "description": "Vichar save nahi ho saka. Kripya phir se prayas karen.",
-                "fetch": "Aapki journal entries load nahi ho sakeen."
-            },
-            "auth": {
-                "title": "Sign In Nahi Hai",
-                "description": "Kripya apni journal entry save karne ke liye sign in karein."
+                "description": "Vichar save nahi ho saka. Kripya phir se prayas karen."
             }
         }
     },
@@ -157,12 +161,5 @@
         "errorDescription": "Maaf kijiye, hum aapki kahani nahi bana sake. Kripya ek alag prompt try karein.",
         "errorQuota": "Humein afsos hai, lekin kahani banane ki roz ki seema poori ho gayi hai. Kripya kal phir koshish karein.",
         "intro": "Hello, main Aarambh.AI hoon. 'Aarambh' ka matlab hai 'ek nayi shuruaat'. Maine aapki baat suni hai. Ab main aapko ek kahani sunaunga jo aapko confident feel karne aur aapki challenges ko paar karne mein madad karegi."
-    },
-    "login": {
-        "title": "Apne account mein sign in karein ya ek banayein",
-        "description": "Apni journal entries aur preferences save karne ke liye continue karein.",
-        "button": "Google ke saath continue karein",
-        "login": "Login",
-        "logout": "Logout"
     }
 }

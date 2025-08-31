@@ -11,7 +11,6 @@
         "chat": "AI Chat",
         "calm": "Calming Activities",
         "journal": "Gratitude Journal",
-        "community": "Community",
         "resources": "Resource Hub",
         "story": "AI Storyteller",
         "openMenu": "Open navigation menu",
@@ -41,10 +40,6 @@
         "journal": {
             "title": "Gratitude Journal",
             "description": "Reflect on the good things in your life."
-        },
-        "community": {
-            "title": "Community Journal",
-            "description": "Share and read anonymous positive thoughts."
         },
         "resources": {
             "title": "Resource Hub",
@@ -96,7 +91,19 @@
         "inputPlaceholder": "Type your message...",
         "inputAriaLabel": "Chat input",
         "send": "Send",
-        "sendAriaLabel": "Send message"
+        "sendAriaLabel": "Send message",
+        "bookRecommendations": {
+            "title": "Based on our conversation, here are some books you might find helpful:",
+            "button": "Get Book Recommendations",
+            "notFound": {
+                "title": "No Recommendations Found",
+                "description": "I couldn't find any specific book recommendations based on our conversation so far. Try chatting a bit more!"
+            },
+            "error": {
+                "title": "Error Fetching Books",
+                "description": "Sorry, I was unable to fetch book recommendations at this time. Please try again later."
+            }
+        }
     },
     "crisis": {
         "title": "It sounds like you're going through a lot.",
@@ -127,31 +134,6 @@
                 "description": "Could not save reflection. Please try again."
             }
         }
-    },
-    "community": {
-        "title": "Community Journal",
-        "subtitle": "Share a positive thought anonymously and read messages from the community.",
-        "placeholder": "Share something positive, a moment of gratitude, or a word of encouragement...",
-        "button": "Share Anonymously",
-        "toast": {
-            "moderating": {
-                "title": "Submitting Entry",
-                "description": "Your entry is being reviewed by our AI moderator to ensure it's safe for the community. This may take a moment."
-            },
-            "success": {
-                "title": "Entry Shared!",
-                "description": "Thank you for contributing to the community."
-            },
-            "rejected": {
-                "title": "Entry Rejected",
-                "description": "Your entry could not be shared because it was flagged by our moderator. Please try again with a different message."
-            },
-            "error": {
-                "title": "Submission Error",
-                "description": "Could not submit your entry. Please try again later."
-            }
-        },
-        "feedTitle": "Live from the Community"
     },
     "resources": {
         "title": "Resource Hub",

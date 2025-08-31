@@ -2,13 +2,13 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Book, Loader2, Phone, Youtube, FileText, Headphones, Dumbbell, AppWindow } from 'lucide-react';
+import { Send, Bot, User, Book, Loader2, Phone, Youtube, FileText, Headphones, Dumbbell, AppWindow, Sparkles } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
   Card,
   CardContent,
@@ -29,8 +29,10 @@ import {
 
 import { useLanguage } from '@/contexts/LanguageContext';
 import { chatbotRespondMultilingually } from '@/ai/flows/multilingual-chatbot';
-import type { ChatMessage, ResourceType } from '@/types';
+import { provideBookRecommendations } from '@/ai/flows/chatbot-book-recommendations';
+import type { ChatMessage, ResourceType, BookRecommendation } from '@/types';
 import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 
 const crisisKeywords = [
   'kill myself', 'suicide', 'want to die', 'end my life', 'hopeless', 'can\'t go on'
@@ -53,8 +55,10 @@ export default function ChatClient() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isShowingBooks, setIsShowingBooks] = useState(false);
   const [showCrisisModal, setShowCrisisModal] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -90,6 +94,7 @@ export default function ChatClient() {
     setMessages(currentConversation);
     setInput('');
     setIsLoading(true);
+    setIsShowingBooks(false);
 
     try {
       const conversationHistory = currentConversation.map(m => `${m.role}: ${m.content}`).join('\n');
@@ -116,6 +121,39 @@ export default function ChatClient() {
       setIsLoading(false);
     }
   };
+
+  const handleBookRecommendations = async () => {
+    setIsLoading(true);
+    setIsShowingBooks(true);
+    try {
+      const conversationHistory = messages.map(m => `${m.role}: ${m.content}`).join('\n');
+      const response = await provideBookRecommendations({ conversationHistory });
+      if (response.recommendations && response.recommendations.length > 0) {
+        const bookMessage: ChatMessage = {
+          id: uuidv4(),
+          role: 'assistant',
+          content: t('chat.bookRecommendations.title'),
+          recommendations: response.recommendations,
+        };
+        setMessages((prev) => [...prev, bookMessage]);
+      } else {
+        toast({
+            title: t('chat.bookRecommendations.notFound.title'),
+            description: t('chat.bookRecommendations.notFound.description'),
+        })
+      }
+    } catch (error) {
+      toast({
+        title: t('chat.bookRecommendations.error.title'),
+        description: t('chat.bookRecommendations.error.description'),
+        variant: 'destructive',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  const lastMessageIsFromAssistant = messages.length > 0 && messages[messages.length - 1].role === 'assistant';
 
   return (
     <div className="flex flex-col h-[calc(100vh-10rem)] md:h-[calc(100vh-6rem)] bg-card rounded-lg shadow-lg">
@@ -171,6 +209,27 @@ export default function ChatClient() {
                     })}
                   </div>
                 )}
+                 {message.recommendations && message.recommendations.length > 0 && (
+                  <div className="space-y-2 mt-4">
+                    {message.recommendations.map((rec, index) => (
+                        <Card key={index} className="bg-background/70">
+                          <CardHeader className="p-4">
+                            <CardTitle className="text-base">{rec.title}</CardTitle>
+                            <CardDescription>{rec.author}</CardDescription>
+                          </CardHeader>
+                          <CardContent className="p-4 pt-0 text-sm">
+                            <p>{rec.summary}</p>
+                          </CardContent>
+                          <CardFooter className="p-4 pt-0">
+                            <a href={rec.link} target="_blank" rel="noopener noreferrer">
+                              <Button size="sm">{t('chat.viewResource')}</Button>
+                            </a>
+                          </CardFooter>
+                        </Card>
+                      )
+                    )}
+                  </div>
+                )}
               </div>
               {message.role === 'user' && (
                 <Avatar className="h-8 w-8">
@@ -194,6 +253,14 @@ export default function ChatClient() {
             </div>
           )}
         </div>
+        {lastMessageIsFromAssistant && !isLoading && !isShowingBooks && (
+            <div className='flex justify-center mt-4'>
+                <Button variant="outline" size="sm" onClick={handleBookRecommendations}>
+                    <Sparkles className="mr-2 h-4 w-4" />
+                    {t('chat.bookRecommendations.button')}
+                </Button>
+            </div>
+        )}
       </ScrollArea>
       <div className="p-4 border-t bg-card rounded-b-lg">
         <div className="flex items-center gap-2">
