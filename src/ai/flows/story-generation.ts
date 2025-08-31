@@ -142,5 +142,5 @@ const storyGenerationFlow = ai.defineFlow(
 
 // Main exported function that runs the flow
 export async function generateStory(input: StoryGenerationInput): Promise<StoryGenerationOutput> {
-  return await storyGenerationFlow(input);
+  return storyGenerationFlow(input);
 }
