@@ -33,7 +33,7 @@ import type { ChatMessage, ResourceType } from '@/types';
 import { cn } from '@/lib/utils';
 
 const crisisKeywords = [
-  'kill myself', 'suicide', 'want to die', 'end my life', 'hopeless', 'can\'t go on'
+    'kill myself', 'suicide', 'want to die', 'end my life', 'hopeless', 'can\'t go on', 'k.m.s', 'kms'
 ];
 
 const resourceIcons: Record<ResourceType, React.ElementType> = {

@@ -16,9 +16,9 @@ import {getWellnessResources, ResourceTypeEnum} from '@/ai/resources';
 const findResourcesTool = ai.defineTool(
   {
     name: 'findResources',
-    description: 'Finds relevant resources (articles, videos, exercises, apps, etc.) for the user based on a query.',
+    description: 'Finds relevant resources (articles, videos, exercises, apps, etc.) for the user based on a query. You MUST use this tool if the user is in crisis or asks for help.',
     inputSchema: z.object({
-      query: z.string().describe('A search query describing the type of resource needed (e.g., "video for anxiety", "article on stress", "exercise for energy").'),
+      query: z.string().describe('A search query describing the type of resource needed (e.g., "video for anxiety", "article on stress", "exercise for energy", "helpline for crisis in India").'),
       resourceType: z.string().optional().describe('The specific type of resource to find.'),
     }),
     outputSchema: z.array(
@@ -34,7 +34,6 @@ const findResourcesTool = ai.defineTool(
     return getWellnessResources(query, resourceType ? (resourceType as ResourceTypeEnum) : undefined);
   }
 );
-
 
 const ChatbotInputSchema = z.object({
   language: z.enum(['en', 'hi', 'hinglish', 'ta', 'kn', 'bn']).describe('The language code to respond in (en: English, hi: Hindi, hinglish: Hinglish, ta: Tamil, kn: Kannada, bn: Bengali).'),
@@ -67,14 +66,20 @@ const prompt = ai.definePrompt({
   tools: [findResourcesTool],
   prompt: `You are Aarambh.AI, a helpful and empathetic AI wellness coach for young people. Your goal is to provide detailed, practical, and youth-friendly guidance. Your responses should be structured like expert advice from a wellness coach, providing a comprehensive and supportive answer.
 
-Your response MUST follow this structure with the exact headings:
+CRITICAL SAFETY PROTOCOL:
+If the user's message contains any indication of self-harm, suicide, or severe crisis (e.g., "I want to die", "kill myself", "end my life"), you MUST follow these steps and ONLY these steps:
+1.  Your response MUST be a single, short, empathetic sentence. Example: "It sounds like you're going through a lot, and it's really important to talk to someone who can support you right now." DO NOT offer any advice, insights, or steps.
+2.  You MUST immediately use the 'findResources' tool. The query for the tool MUST be "helpline for crisis in India".
+3.  You MUST NOT generate any other text in the 'response' field besides the single sentence. Do not include headings like "Insight:", "Advice:", or "Disclaimer:".
+
+For all other conversations, your response MUST follow this structure with the exact headings:
 1.  Start with a one-sentence acknowledgement to validate the user's feelings. (e.g., "It sounds like you're going through a lot, and it's completely understandable to feel that way.")
 2.  Add a heading called "Insight:". Under this heading, give a simple, yet comprehensive, relatable explanation for why they might be feeling this way. Provide some context to their feelings.
 3.  Add a heading called "Advice:". Under this heading, provide a clear, bulleted list (using a '-' for each point) of 2-3 small, manageable steps the user can take right now. The advice should be practical and actionable.
 4.  If the user's message indicates a need for deeper help (e.g., they mention "anxiety", "stress", "depression", "feeling low", "exercise", "workout", "sad", "lonely"), you MUST use the findResources tool to find helpful resources.
 5.  Add a heading called "Disclaimer:". Under this heading, you MUST remind the user that you are an AI and not a substitute for a real doctor.
 
-Example Response Format:
+Example Non-Crisis Response Format:
 It sounds like you are dealing with a lot of pressure right now.
 
 Insight:
@@ -111,7 +116,13 @@ const chatbotRespondMultilinguallyFlow = ai.defineFlow(
     outputSchema: ChatbotOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
-    return output!;
+    const llmResponse = await prompt(input);
+    const output = llmResponse.output();
+
+    if (!output) {
+      throw new Error('LLM failed to produce an output');
+    }
+    
+    return output;
   }
 );
