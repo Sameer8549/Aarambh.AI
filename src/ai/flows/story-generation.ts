@@ -86,12 +86,7 @@ async function toWav(
   });
 }
 
-
-// Main exported function that runs the flow
-export async function generateStory(input: StoryGenerationInput): Promise<StoryGenerationOutput> {
-
-  // Define the main flow
-  const storyFlow = ai.defineFlow(
+const storyGenerationFlow = ai.defineFlow(
     {
       name: 'storyGenerationFlow',
       inputSchema: StoryGenerationInputSchema,
@@ -144,5 +139,8 @@ export async function generateStory(input: StoryGenerationInput): Promise<StoryG
     }
   );
 
-  return await storyFlow(input);
+
+// Main exported function that runs the flow
+export async function generateStory(input: StoryGenerationInput): Promise<StoryGenerationOutput> {
+  return await storyGenerationFlow(input);
 }
