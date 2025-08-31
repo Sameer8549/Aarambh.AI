@@ -86,6 +86,18 @@ async function toWav(
   });
 }
 
+const getIntroduction = (language: z.infer<typeof StoryGenerationInputSchema>['language']): string => {
+  const intros: Record<typeof language, string> = {
+    en: "Narrator: Hello, I am Aarambh.AI. 'Aarambh' means 'a new beginning'. I have listened to you. I will now tell you a story to help you feel more confident and overcome your challenges.",
+    hi: "Narrator: नमस्ते, मैं आरंभ.AI हूँ। 'आरंभ' का मतलब है 'एक नई शुरुआत'। मैंने आपकी बात सुनी है। अब मैं आपको अधिक आत्मविश्वासी महसूस कराने और आपकी चुनौतियों से उबरने में मदद करने के लिए एक कहानी सुनाऊंगा।",
+    hinglish: "Narrator: Hello, main Aarambh.AI hoon. 'Aarambh' ka matlab hai 'ek nayi shuruaat'. Maine aapki baat suni hai. Ab main aapko ek kahani sunaunga jo aapko confident feel karne aur aapki challenges ko paar karne mein madad karegi.",
+    ta: "Narrator: வணக்கம், நான் ஆரம்ப்.AI. 'ஆரம்ப்' என்றால் 'ஒரு புதிய ஆரம்பம்'. நான் உங்கள் பேச்சைக் கேட்டேன். இப்போது நீங்கள் அதிக நம்பிக்கையுடனும் உங்கள் சவால்களை சமாளிக்கவும் உதவும் ஒரு கதையைச் சொல்லப் போகிறேன்.",
+    kn: "Narrator: ನಮಸ್ಕಾರ, ನಾನು ಆರಂಭ್.AI. 'ಆರಂಭ್' ಎಂದರೆ 'ಒಂದು ಹೊಸ ಆರಂಭ'. ನಾನು ನಿಮ್ಮ ಮಾತನ್ನು ಕೇಳಿದ್ದೇನೆ. ಈಗ ನಾನು ನಿಮಗೆ ಹೆಚ್ಚು ಆತ್ಮವಿಶ್ವಾಸವನ್ನು ನೀಡಲು ಮತ್ತು ನಿಮ್ಮ ಸವಾಲುಗಳನ್ನು ನಿವಾರಿಸಲು ಸಹಾಯ ಮಾಡಲು ಒಂದು ಕಥೆಯನ್ನು ಹೇಳುತ್ತೇನೆ.",
+    bn: "Narrator: নমস্কার, আমি আরম্ভ.AI। 'আরম্ভ' মানে 'একটি নতুন শুরু'। আমি আপনার কথা শুনেছি। এখন আমি আপনাকে আরও আত্মবিশ্বাসী বোধ করতে এবং আপনার চ্যালেঞ্জগুলি কাটিয়ে উঠতে সাহায্য করার জন্য একটি গল্প বলব।",
+  };
+  return intros[language] || intros['en'];
+}
+
 const storyGenerationFlow = ai.defineFlow(
     {
       name: 'storyGenerationFlow',
@@ -93,7 +105,6 @@ const storyGenerationFlow = ai.defineFlow(
       outputSchema: StoryGenerationOutputSchema,
     },
     async (input) => {
-
       // 1. Generate the story script
       const scriptResponse = await storyPrompt(input);
       const storyScript = scriptResponse.output?.storyScript;
@@ -102,6 +113,9 @@ const storyGenerationFlow = ai.defineFlow(
         throw new Error('Failed to generate a story script.');
       }
       
+      const introduction = getIntroduction(input.language);
+      const fullScript = `${introduction}\n${storyScript}`;
+
       // 2. Convert the script to speech using the TTS model
       const { media } = await ai.generate({
         model: googleAI.model('gemini-2.5-flash-preview-tts'),
@@ -122,7 +136,7 @@ const storyGenerationFlow = ai.defineFlow(
             },
           },
         },
-        prompt: storyScript,
+        prompt: fullScript,
       });
 
       if (!media?.url) {

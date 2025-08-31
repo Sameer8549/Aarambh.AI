@@ -139,13 +139,14 @@
     },
     "story": {
         "title": "AI Storyteller",
-        "subtitle": "Create a short, personalized audio story using generative AI.",
+        "subtitle": "Create a short, personalized audio story with generative AI.",
         "cardTitle": "What kind of story would you like to hear?",
         "promptPlaceholder": "e.g., Tell me a story to feel more confident for my exam tomorrow.",
-        "buttonText": "Generate My Story",
+        "buttonText": "Create My Story",
         "generatingTitle": "Generating Your Audio Story...",
         "generatingDescription": "This might take a moment. The AI is writing the script and preparing its voice.",
         "errorTitle": "Story Generation Failed",
-        "errorDescription": "Sorry, we couldn't generate your story. Please try a different prompt."
+        "errorDescription": "Sorry, we couldn't generate your story. Please try a different prompt.",
+        "intro": "Hello, I am Aarambh.AI. 'Aarambh' means 'a new beginning'. I have listened to you. I will now tell you a story to help you feel more confident and overcome your challenges."
     }
 }

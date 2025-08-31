@@ -146,6 +146,7 @@
         "generatingTitle": "Aapki audio kahani banayi ja rahi hai...",
         "generatingDescription": "Ismein thoda samay lag sakta hai. AI script likh raha hai aur apni awaaz tayyar kar raha hai.",
         "errorTitle": "Kahani banane mein vifal",
-        "errorDescription": "Maaf kijiye, hum aapki kahani nahi bana sake. Kripya ek alag prompt try karein."
+        "errorDescription": "Maaf kijiye, hum aapki kahani nahi bana sake. Kripya ek alag prompt try karein.",
+        "intro": "Hello, main Aarambh.AI hoon. 'Aarambh' ka matlab hai 'ek nayi shuruaat'. Maine aapki baat suni hai. Ab main aapko ek kahani sunaunga jo aapko confident feel karne aur aapki challenges ko paar karne mein madad karegi."
     }
 }
