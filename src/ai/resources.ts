@@ -173,6 +173,13 @@ export const wellnessResources: Resource[] = [
       type: ResourceTypeEnum.App,
       keywords: ['app', 'chatbot', 'cbt', 'anxiety', 'stress', 'wysa', 'feeling low', 'sad'],
     },
+     {
+      title: 'Intellect: Create a better you',
+      description: 'A mental health app with guided journaling, rescue sessions, and learning paths based on CBT.',
+      link: 'Intellect app',
+      type: ResourceTypeEnum.App,
+      keywords: ['app', 'cbt', 'journaling', 'anxiety', 'stress', 'intellect', 'therapy'],
+    },
 
     // === Podcasts (Stable Platforms) ===
     {
@@ -299,6 +306,36 @@ export const wellnessResources: Resource[] = [
       type: ResourceTypeEnum.Music,
       keywords: ['music', 'indian', 'bollywood', 'hindi', 'calming', 'soothing', 'sad', 'relax'],
     },
+
+    // === Books ===
+    {
+      title: 'The Gifts of Imperfection by Brené Brown',
+      description: 'Learn to embrace your imperfections and live a wholehearted life. A guide to courage, compassion, and connection.',
+      link: 'The Gifts of Imperfection by Brené Brown',
+      type: ResourceTypeEnum.Book,
+      keywords: ['book', 'self-compassion', 'courage', 'shame', 'vulnerability', 'brené brown'],
+    },
+    {
+      title: 'Atomic Habits by James Clear',
+      description: 'An easy and proven way to build good habits and break bad ones. Learn how small changes can lead to remarkable results.',
+      link: 'Atomic Habits by James Clear',
+      type: ResourceTypeEnum.Book,
+      keywords: ['book', 'habits', 'self-improvement', 'productivity', 'motivation', 'james clear'],
+    },
+    {
+      title: 'Man\'s Search for Meaning by Viktor Frankl',
+      description: 'A classic book on finding meaning in suffering, based on the author\'s experience in Nazi concentration camps.',
+      link: 'Man\'s Search for Meaning by Viktor Frankl',
+      type: ResourceTypeEnum.Book,
+      keywords: ['book', 'meaning', 'purpose', 'psychology', 'logotherapy', 'viktor frankl', 'suffering', 'resilience'],
+    },
+    {
+      title: 'Mindset: The New Psychology of Success by Carol S. Dweck',
+      description: 'Learn about the power of a growth mindset versus a fixed mindset and how it can impact all areas of your life.',
+      link: 'Mindset: The New Psychology of Success by Carol S. Dweck',
+      type: ResourceTypeEnum.Book,
+      keywords: ['book', 'mindset', 'growth', 'psychology', 'success', 'carol dweck', 'learning'],
+    }
 ];
 
 /**
