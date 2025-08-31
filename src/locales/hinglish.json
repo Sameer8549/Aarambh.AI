@@ -138,8 +138,8 @@
         }
     },
     "story": {
-        "title": "AI Kahani Sunane Wala",
-        "subtitle": "Generative AI ke saath ek chhoti, personal audio kahani banayein.",
+        "title": "AI Storyteller",
+        "subtitle": "Generative AI ka upyog karke ek chhoti, personal audio kahani banayein.",
         "cardTitle": "Aap kis tarah ki kahani sunna chahenge?",
         "promptPlaceholder": "Jaise, mujhe kal ki exam ke liye confident feel karne ke liye ek kahani sunao.",
         "buttonText": "Meri Kahani Banayein",
