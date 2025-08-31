@@ -11,6 +11,7 @@
         "chat": "AI Chat",
         "calm": "Calming Activities",
         "journal": "Gratitude Journal",
+        "community": "Community",
         "resources": "Resource Hub",
         "story": "AI Storyteller",
         "openMenu": "Open navigation menu",
@@ -40,6 +41,10 @@
         "journal": {
             "title": "Gratitude Journal",
             "description": "Reflect on the good things in your life."
+        },
+        "community": {
+            "title": "Community Journal",
+            "description": "Share and read anonymous positive thoughts."
         },
         "resources": {
             "title": "Resource Hub",
@@ -109,9 +114,6 @@
         "reflect": "Reflect",
         "ariaLabel": "Journal entry textarea",
         "reflectAriaLabel": "Reflect on journal entry",
-        "pastEntries": "Past Entries",
-        "noEntries": "You have no journal entries yet. Write one above to get started!",
-        "authPrompt": "Sign in to save your entries and view them across devices.",
         "toast": {
             "empty": {
                 "title": "Empty Entry",
@@ -122,14 +124,34 @@
             },
             "error": {
                 "title": "Error",
-                "description": "Could not save reflection. Please try again.",
-                "fetch": "Could not load your journal entries."
-            },
-            "auth": {
-                "title": "Not Signed In",
-                "description": "Please sign in to save your journal entry."
+                "description": "Could not save reflection. Please try again."
             }
         }
+    },
+    "community": {
+        "title": "Community Journal",
+        "subtitle": "Share a positive thought anonymously and read messages from the community.",
+        "placeholder": "Share something positive, a moment of gratitude, or a word of encouragement...",
+        "button": "Share Anonymously",
+        "toast": {
+            "moderating": {
+                "title": "Submitting Entry",
+                "description": "Your entry is being reviewed by our AI moderator to ensure it's safe for the community. This may take a moment."
+            },
+            "success": {
+                "title": "Entry Shared!",
+                "description": "Thank you for contributing to the community."
+            },
+            "rejected": {
+                "title": "Entry Rejected",
+                "description": "Your entry could not be shared because it was flagged by our moderator. Please try again with a different message."
+            },
+            "error": {
+                "title": "Submission Error",
+                "description": "Could not submit your entry. Please try again later."
+            }
+        },
+        "feedTitle": "Live from the Community"
     },
     "resources": {
         "title": "Resource Hub",
@@ -157,12 +179,5 @@
         "errorDescription": "Sorry, we couldn't generate your story. Please try a different prompt.",
         "errorQuota": "We're sorry, but the daily limit for story generation has been reached. Please try again tomorrow.",
         "intro": "Hello, I am Aarambh.AI. 'Aarambh' means 'a new beginning'. I have listened to you. I will now tell you a story to help you feel more confident and overcome your challenges."
-    },
-    "login": {
-        "title": "Sign in or create an account",
-        "description": "Continue to save your journal entries and preferences.",
-        "button": "Continue with Google",
-        "login": "Login",
-        "logout": "Logout"
     }
 }

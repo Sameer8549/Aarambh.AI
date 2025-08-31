@@ -24,3 +24,9 @@ export type Resource = {
     type: ResourceType;
     keywords?: string[];
 };
+
+export type CommunityEntry = {
+    id: string;
+    entry: string;
+    timestamp: number;
+}
