@@ -95,10 +95,7 @@ const storyGenerationFlow = ai.defineFlow(
     async (input) => {
 
       // 1. Generate the story script
-      const scriptResponse = await storyPrompt({
-        prompt: input.prompt,
-        language: input.language
-      });
+      const scriptResponse = await storyPrompt(input);
       const storyScript = scriptResponse.output?.storyScript;
 
       if (!storyScript) {
@@ -145,5 +142,5 @@ const storyGenerationFlow = ai.defineFlow(
 
 // Main exported function that runs the flow
 export async function generateStory(input: StoryGenerationInput): Promise<StoryGenerationOutput> {
-  return await storyGenerationFlow(input);
+  return storyGenerationFlow(input);
 }
