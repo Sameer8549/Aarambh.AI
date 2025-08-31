@@ -12,7 +12,7 @@
         "calm": "Calming Activities",
         "journal": "Gratitude Journal",
         "resources": "Resource Hub",
-        "generate": "AI Video Generation",
+        "story": "AI Storyteller",
         "openMenu": "Open navigation menu",
         "title": "App Navigation"
     },
@@ -133,14 +133,15 @@
             "book": "Book Recommendations"
         }
     },
-    "generate": {
-        "title": "AI Video Generation",
-        "subtitle": "Create a short video from a text description using generative AI.",
-        "promptPlaceholder": "e.g., A majestic dragon soaring over a mystical forest at dawn.",
-        "buttonText": "Generate Video",
-        "generatingTitle": "Generating Your Video...",
-        "generatingDescription": "This can take a minute or two. Please don't close this page.",
-        "errorTitle": "Generation Failed",
-        "errorDescription": "Sorry, we couldn't create your video. Please try a different prompt."
+    "story": {
+        "title": "AI Storyteller",
+        "subtitle": "Create a short, personalized audio story with generative AI.",
+        "cardTitle": "Describe Your Story",
+        "promptPlaceholder": "e.g., Tell me a story about a little boat that learns to be brave on the big ocean.",
+        "buttonText": "Create My Story",
+        "generatingTitle": "Crafting Your Audio Story...",
+        "generatingDescription": "This can take a moment. The AI is writing the script and warming up its voice.",
+        "errorTitle": "Story Generation Failed",
+        "errorDescription": "Sorry, we couldn't create your story. Please try a different prompt."
     }
 }

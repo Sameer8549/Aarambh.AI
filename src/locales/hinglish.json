@@ -12,7 +12,7 @@
         "calm": "Calming Activities",
         "journal": "Gratitude Journal",
         "resources": "Resource Hub",
-        "generate": "AI Video Generation",
+        "story": "AI Storyteller",
         "openMenu": "Navigation menu kholen",
         "title": "App Navigation"
     },
@@ -133,14 +133,15 @@
             "book": "Book Recommendations"
         }
     },
-    "generate": {
-        "title": "AI Video Generation",
-        "subtitle": "Generative AI ka upyog karke text description se ek chhota video banayein.",
-        "promptPlaceholder": "Jaise, bhor mein ek rahasyamayi jangal ke upar udta hua ek shandaar dragon.",
-        "buttonText": "Video Banayein",
-        "generatingTitle": "Aapka video banaya ja raha hai...",
-        "generatingDescription": "Ismein ek ya do minute lag sakte hain. Kripya is page ko band na karein.",
-        "errorTitle": "Generation Fail Ho Gaya",
-        "errorDescription": "Maaf kijiye, hum aapka video nahi bana sake. Kripya ek alag prompt try karein."
+    "story": {
+        "title": "AI Kahani Sunane Wala",
+        "subtitle": "Generative AI ke saath ek chhoti, personal audio kahani banayein.",
+        "cardTitle": "Apni Kahani Batayein",
+        "promptPlaceholder": "Jaise, mujhe ek chhoti si nav ke baare mein kahani sunao jo bade samundar mein bahadur banna seekhti hai.",
+        "buttonText": "Meri Kahani Banayein",
+        "generatingTitle": "Aapki audio kahani banayi ja rahi hai...",
+        "generatingDescription": "Ismein thoda samay lag sakta hai. AI script likh raha hai aur apni awaaz tayyar kar raha hai.",
+        "errorTitle": "Kahani banane mein vifal",
+        "errorDescription": "Maaf kijiye, hum aapki kahani nahi bana sake. Kripya ek alag prompt try karein."
     }
 }

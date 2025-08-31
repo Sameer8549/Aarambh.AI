@@ -12,7 +12,7 @@ import {
   Home,
   PanelLeft,
   ArrowLeft,
-  Sparkles,
+  Wand,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -67,7 +67,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     { href: '/calm', label: t('nav.calm'), icon: Wind },
     { href: '/journal', label: t('nav.journal'), icon: BookText },
     { href: '/resources', label: t('nav.resources'), icon: Library },
-    { href: '/generate', label: t('nav.generate'), icon: Sparkles },
+    { href: '/story', label: t('nav.story'), icon: Wand },
   ];
 
   React.useEffect(() => {
