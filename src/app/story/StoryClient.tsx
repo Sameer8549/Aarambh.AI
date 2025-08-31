@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,6 +9,8 @@ import { Loader2, Sparkles, Wand } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { generateStory } from '@/ai/flows/story-generation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
 
 export default function StoryClient() {
   const { t, language } = useLanguage();
@@ -16,6 +18,15 @@ export default function StoryClient() {
   const [isLoading, setIsLoading] = useState(false);
   const [generatedAudioUrl, setGeneratedAudioUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [user, loading, router]);
+
 
   const handleGeneration = async () => {
     if (!prompt.trim()) return;
@@ -39,6 +50,14 @@ export default function StoryClient() {
       setIsLoading(false);
     }
   };
+
+  if (loading || !user) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <Loader2 className="h-16 w-16 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div>

@@ -24,6 +24,8 @@ import { cn } from '@/lib/utils';
 import { getResourcesByType, ResourceTypeEnum } from '@/ai/resources';
 import type { Resource } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
 
 type BreathingTechnique = 'default' | 'box' | '4-7-8';
 
@@ -230,6 +232,15 @@ export default function CalmClient() {
   const [encouragement, setEncouragement] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useLanguage();
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [user, loading, router]);
+
 
   const handleActivityCompletion = async (activityType: string) => {
     setIsLoading(true);
@@ -243,6 +254,14 @@ export default function CalmClient() {
       setIsLoading(false);
     }
   };
+
+  if (loading || !user) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <Loader2 className="h-16 w-16 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <>

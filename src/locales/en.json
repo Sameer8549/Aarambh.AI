@@ -159,9 +159,9 @@
         "intro": "Hello, I am Aarambh.AI. 'Aarambh' means 'a new beginning'. I have listened to you. I will now tell you a story to help you feel more confident and overcome your challenges."
     },
     "login": {
-        "title": "Sign in to your account",
-        "description": "Save your journal entries and preferences by signing in.",
-        "button": "Sign in with Google",
+        "title": "Sign in or create an account",
+        "description": "Continue to save your journal entries and preferences.",
+        "button": "Continue with Google",
         "login": "Login",
         "logout": "Logout"
     }

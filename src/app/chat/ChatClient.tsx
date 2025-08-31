@@ -31,6 +31,9 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { chatbotRespondMultilingually } from '@/ai/flows/multilingual-chatbot';
 import type { ChatMessage, ResourceType } from '@/types';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
+
 
 const crisisKeywords = [
   'kill myself', 'suicide', 'want to die', 'end my life', 'hopeless', 'can\'t go on'
@@ -55,6 +58,16 @@ export default function ChatClient() {
   const [isLoading, setIsLoading] = useState(false);
   const [showCrisisModal, setShowCrisisModal] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [user, loading, router]);
+
 
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -63,14 +76,16 @@ export default function ChatClient() {
   }, [messages]);
   
   useEffect(() => {
-    setMessages([
-        {
-          id: uuidv4(),
-          role: 'assistant',
-          content: t('chat.initialMessage'),
-        }
-    ])
-  }, [t]);
+    if(user) {
+        setMessages([
+            {
+              id: uuidv4(),
+              role: 'assistant',
+              content: t('chat.initialMessage'),
+            }
+        ])
+    }
+  }, [t, user]);
 
   const handleSendMessage = async () => {
     if (!input.trim()) return;
@@ -116,6 +131,14 @@ export default function ChatClient() {
       setIsLoading(false);
     }
   };
+
+  if (loading || !user) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <Loader2 className="h-16 w-16 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col h-[calc(100vh-10rem)] md:h-[calc(100vh-6rem)] bg-card rounded-lg shadow-lg">

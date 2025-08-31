@@ -159,9 +159,9 @@
         "intro": "Hello, main Aarambh.AI hoon. 'Aarambh' ka matlab hai 'ek nayi shuruaat'. Maine aapki baat suni hai. Ab main aapko ek kahani sunaunga jo aapko confident feel karne aur aapki challenges ko paar karne mein madad karegi."
     },
     "login": {
-        "title": "Apne account mein sign in karein",
-        "description": "Sign in karke apni journal entries aur preferences save karein.",
-        "button": "Google ke saath sign in karein",
+        "title": "Apne account mein sign in karein ya ek banayein",
+        "description": "Apni journal entries aur preferences save karne ke liye continue karein.",
+        "button": "Google ke saath continue karein",
         "login": "Login",
         "logout": "Logout"
     }

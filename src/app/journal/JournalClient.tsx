@@ -17,6 +17,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { db } from '@/lib/firebase';
 import { collection, addDoc, query, where, onSnapshot, orderBy, serverTimestamp, Timestamp } from 'firebase/firestore';
+import { useRouter } from 'next/navigation';
 
 type JournalEntry = {
   id: string;
@@ -31,7 +32,16 @@ export default function JournalClient() {
   const [isLoadingEntries, setIsLoadingEntries] = useState(true);
   const { toast } = useToast();
   const { t } = useLanguage();
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [user, loading, router]);
+
 
   useEffect(() => {
     if (user) {
@@ -128,6 +138,13 @@ export default function JournalClient() {
     return timestamp.toDate().toLocaleTimeString()
   }
 
+  if (loading || !user) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <Loader2 className="h-16 w-16 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

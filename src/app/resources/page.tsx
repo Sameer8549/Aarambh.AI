@@ -12,7 +12,8 @@ import {
   Dumbbell,
   AppWindow,
   ExternalLink,
-  Book
+  Book,
+  Loader2
 } from 'lucide-react';
 import {
   wellnessResources,
@@ -21,6 +22,8 @@ import {
 } from '@/ai/resources';
 import type { Resource, ResourceType } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
 
 
 const iconMap: Record<string, React.ElementType> = {
@@ -57,6 +60,16 @@ function constructSearchUrl(item: Resource): string {
 export default function ResourcesPage() {
     const [groupedResources, setGroupedResources] = useState<Record<string, Resource[]>>({});
     const { t } = useLanguage();
+    const { user, loading } = useAuth();
+    const router = useRouter();
+
+
+    useEffect(() => {
+        if (!loading && !user) {
+        router.push('/login');
+        }
+    }, [user, loading, router]);
+
 
     const categoryTitles: Record<string, string> = {
         helpline: t('resources.categories.helpline'),
@@ -74,6 +87,14 @@ export default function ResourcesPage() {
     }, []);
 
     const orderedCategories: ResourceType[] = ['helpline', 'exercise', 'app', 'video', 'music', 'podcast', 'article', 'book'];
+
+    if (loading || !user) {
+        return (
+          <div className="flex h-full items-center justify-center">
+            <Loader2 className="h-16 w-16 animate-spin text-primary" />
+          </div>
+        );
+    }
 
   return (
     <div>
