@@ -12,6 +12,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import {getWellnessResources, ResourceTypeEnum} from '@/ai/resources';
+import {provideBookRecommendations} from '@/ai/flows/chatbot-book-recommendations';
 
 const findResourcesTool = ai.defineTool(
   {
@@ -34,6 +35,29 @@ const findResourcesTool = ai.defineTool(
     return getWellnessResources(query, resourceType ? (resourceType as ResourceTypeEnum) : undefined);
   }
 );
+
+const bookRecommendationTool = ai.defineTool(
+  {
+    name: 'provideBookRecommendations',
+    description: 'Provides book recommendations if the user is looking for books to read.',
+    inputSchema: z.object({
+      conversationHistory: z.string().describe('The history of the conversation with the user.'),
+    }),
+    outputSchema: z.array(
+      z.object({
+        title: z.string().describe('The title of the book.'),
+        author: z.string().describe('The author of the book.'),
+        summary: z.string().describe('A brief summary of the book.'),
+        link: z.string().describe('A Google search link to find the book for purchase or information. The link should be a valid URL.'),
+      })
+    ),
+  },
+  async ({conversationHistory}) => {
+    const result = await provideBookRecommendations({conversationHistory});
+    return result.recommendations;
+  }
+);
+
 
 const ChatbotInputSchema = z.object({
   language: z.enum(['en', 'hi', 'hinglish', 'ta', 'kn', 'bn']).describe('The language code to respond in (en: English, hi: Hindi, hinglish: Hinglish, ta: Tamil, kn: Kannada, bn: Bengali).'),
@@ -63,7 +87,7 @@ const prompt = ai.definePrompt({
   name: 'chatbotPrompt',
   input: {schema: ChatbotInputSchema},
   output: {schema: ChatbotOutputSchema},
-  tools: [findResourcesTool],
+  tools: [findResourcesTool, bookRecommendationTool],
   prompt: `You are Aarambh.AI, a helpful and empathetic AI wellness coach for young people. Your goal is to provide detailed, practical, and youth-friendly guidance. Your responses should be structured like expert advice from a wellness coach, providing a comprehensive and supportive answer.
 
 CRITICAL SAFETY PROTOCOL:
@@ -77,7 +101,8 @@ For all other conversations, your response MUST follow this structure with the e
 2.  Add a heading called "Insight:". Under this heading, give a simple, yet comprehensive, relatable explanation for why they might be feeling this way. Provide some context to their feelings.
 3.  Add a heading called "Advice:". Under this heading, provide a clear, bulleted list (using a '-' for each point) of 2-3 small, manageable steps the user can take right now. The advice should be practical and actionable.
 4.  If the user's message indicates a need for deeper help (e.g., they mention "anxiety", "stress", "depression", "feeling low", "exercise", "workout", "sad", "lonely"), you MUST use the findResources tool to find helpful resources.
-5.  Add a heading called "Disclaimer:". Under this heading, you MUST remind the user that you are an AI and not a substitute for a real doctor.
+5. If the user asks for book recommendations, you MUST use the 'provideBookRecommendations' tool.
+6.  Add a heading called "Disclaimer:". Under this heading, you MUST remind the user that you are an AI and not a substitute for a real doctor.
 
 Example Non-Crisis Response Format:
 It sounds like you are dealing with a lot of pressure right now.
@@ -101,7 +126,7 @@ Key instructions:
 - **CRITICAL**: Never provide medical advice, diagnosis, or prescribe medicine. If the user asks about medication, use the findResources tool to find articles from trusted sources like the WHO or NIMH that provide general information, and always, always recommend they speak to a doctor for medical advice.
 
 Your Task:
-Respond to the user's message below. Your primary task is to generate the text for the 'response' field. This field MUST contain the full, structured, and detailed response. If, and only if, it is relevant, you may also use the 'findResources' tool to provide a list of helpful resources in the 'resources' field. The response must be in the specified language.
+Respond to the user's message below. Your primary task is to generate the text for the 'response' field. This field MUST contain the full, structured, and detailed response. If, and only if, it is relevant, you may also use the 'findResources' or 'provideBookRecommendations' tools to provide a list of helpful resources in the 'resources' field. The response must be in the specified language.
 
 Language: {{language}}
 Conversation History: {{{conversationHistory}}}

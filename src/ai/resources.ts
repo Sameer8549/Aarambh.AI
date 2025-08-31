@@ -247,6 +247,20 @@ export const wellnessResources: Resource[] = [
       type: ResourceTypeEnum.Article,
       keywords: ['article', 'mindfulness', 'beginners', 'verywell mind', 'stress', 'anxiety'],
     },
+    {
+      title: 'WHO - Adolescent Mental Health',
+      description: 'Information from the World Health Organization on mental health specific to adolescents.',
+      link: 'WHO adolescent mental health',
+      type: ResourceTypeEnum.Article,
+      keywords: ['article', 'teen', 'youth', 'adolescent', 'who', 'information'],
+    },
+    {
+      title: 'NIMH - I\'m So Stressed Out!',
+      description: 'A factsheet for teens from the National Institute of Mental Health on understanding and coping with stress.',
+      link: 'NIMH I\'m So Stressed Out! Fact-Sheet',
+      type: ResourceTypeEnum.Article,
+      keywords: ['article', 'stress', 'teen', 'nimh', 'coping', 'factsheet'],
+    },
 
 
     // === Music & Calming Sounds (Curated from reliable platforms) ===
@@ -335,6 +349,20 @@ export const wellnessResources: Resource[] = [
       link: 'Mindset: The New Psychology of Success by Carol S. Dweck',
       type: ResourceTypeEnum.Book,
       keywords: ['book', 'mindset', 'growth', 'psychology', 'success', 'carol dweck', 'learning'],
+    },
+    {
+      title: 'The Subtle Art of Not Giving a F*ck by Mark Manson',
+      description: 'A counterintuitive approach to living a good life, focusing on what truly matters.',
+      link: 'The Subtle Art of Not Giving a F*ck by Mark Manson',
+      type: ResourceTypeEnum.Book,
+      keywords: ['book', 'happiness', 'values', 'self-help', 'mark manson'],
+    },
+    {
+      title: 'Daring Greatly by Brené Brown',
+      description: 'How the courage to be vulnerable transforms the way we live, love, parent, and lead.',
+      link: 'Daring Greatly by Brené Brown',
+      type: ResourceTypeEnum.Book,
+      keywords: ['book', 'vulnerability', 'courage', 'shame', 'brené brown'],
     }
 ];
 
