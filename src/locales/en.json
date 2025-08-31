@@ -140,8 +140,8 @@
     "story": {
         "title": "AI Storyteller",
         "subtitle": "Create a short, personalized audio story with generative AI.",
-        "cardTitle": "Describe Your Story",
-        "promptPlaceholder": "e.g., Tell me a story about a little boat that learns to be brave on the big ocean.",
+        "cardTitle": "What kind of story would you like to hear?",
+        "promptPlaceholder": "e.g., Tell me a story to feel more confident for my exam tomorrow.",
         "buttonText": "Create My Story",
         "generatingTitle": "Crafting Your Audio Story...",
         "generatingDescription": "This can take a moment. The AI is writing the script and warming up its voice.",

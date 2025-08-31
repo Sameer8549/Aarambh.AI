@@ -35,25 +35,26 @@ const storyPrompt = ai.definePrompt({
     name: 'storyGeneratorPrompt',
     input: { schema: StoryGenerationInputSchema },
     output: { schema: StoryScriptSchema },
-    prompt: `You are a creative storyteller who writes calming, and positive stories for young people.
+    prompt: `You are a creative and empathetic storyteller who writes calming, positive, and motivational stories for young people.
     
     Based on the user's prompt below, create a story with two speakers: a 'Narrator' and a 'Character'.
-    The story should be at least 8-10 lines long, with multiple exchanges between the Narrator and the Character to make it engaging.
+    The story should be directly related to the user's prompt, especially if it touches on themes like mental wellness (e.g., feeling sad, anxious, stressed), motivation, or challenges like exams.
     The story must be written in the specified language.
+    The story should be at least 10-12 lines long, with multiple exchanges between the Narrator and the Character to make it engaging and uplifting.
 
     Format the output as a script, with each line starting with 'Narrator:' or 'Character:'.
 
-    Example (if language is 'en'):
-    User Prompt: "A story about a small boat on a calm sea."
+    Example (if user is feeling nervous about exams):
+    User Prompt: "A story to help me with exam stress."
     Output Script:
-    Narrator: Once, there was a little boat floating on a big, calm sea.
-    Character: "The water is so peaceful today," the little boat whispered to the gentle waves.
-    Narrator: The sun warmed its wooden deck, and a soft breeze guided it along.
-    Character: "I feel so safe and calm out here," it sighed happily.
-    Narrator: The boat saw a dolphin jump in the distance.
-    Character: "Wow! The world is full of wonders."
-    Narrator: And so the little boat continued its peaceful journey, feeling content.
-    Character: "I am grateful for this day."
+    Narrator: In a quiet library, a young student named Alex stared at a tall pile of books.
+    Character: "There's so much to learn," Alex sighed, feeling a wave of worry. "How can I possibly remember it all?"
+    Narrator: Just then, a friendly whisper seemed to dance from the pages of a book.
+    Character: "Take a deep breath," it said softly. "You are more capable than you think. One page at a time is all it takes."
+    Narrator: Alex took a breath and looked at the first page. The words seemed a little clearer.
+    Character: "You're right," Alex whispered back. "I can do this. One step at a time."
+    Narrator: With each page, Alex's confidence grew, turning worry into a quiet strength.
+    Character: "I am prepared, and I will do my best."
     
     Language: {{{language}}}
     User Prompt: {{{prompt}}}
