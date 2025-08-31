@@ -140,12 +140,12 @@ const chatbotRespondMultilinguallyFlow = ai.defineFlow(
     inputSchema: ChatbotInputSchema,
     outputSchema: ChatbotOutputSchema,
   },
-  async input => {
+  async (input) => {
     const llmResponse = await prompt(input);
     const output = llmResponse.output;
 
     if (!output) {
-      throw new Error('LLM failed to produce an output');
+      throw new Error('The AI model failed to produce a valid response.');
     }
     
     return output;
