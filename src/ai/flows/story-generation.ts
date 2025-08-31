@@ -33,7 +33,10 @@ const StoryScriptSchema = z.object({
 // Define the text generation prompt
 const storyPrompt = ai.definePrompt({
     name: 'storyGeneratorPrompt',
-    input: { schema: StoryGenerationInputSchema },
+    input: { schema: z.object({
+        prompt: StoryGenerationInputSchema.shape.prompt,
+        language: StoryGenerationInputSchema.shape.language,
+    }) },
     output: { schema: StoryScriptSchema },
     prompt: `You are a creative and empathetic storyteller who writes calming, positive, and motivational stories for young people.
     
@@ -106,7 +109,10 @@ const storyGenerationFlow = ai.defineFlow(
     },
     async (input) => {
       // 1. Generate the story script
-      const scriptResponse = await storyPrompt(input);
+      const scriptResponse = await storyPrompt({
+        prompt: input.prompt,
+        language: input.language,
+      });
       const storyScript = scriptResponse.output?.storyScript;
 
       if (!storyScript) {
@@ -116,40 +122,49 @@ const storyGenerationFlow = ai.defineFlow(
       const introduction = getIntroduction(input.language);
       const fullScript = `${introduction}\n${storyScript}`;
 
-      // 2. Convert the script to speech using the TTS model
-      const { media } = await ai.generate({
-        model: googleAI.model('gemini-2.5-flash-preview-tts'),
-        config: {
-          responseModalities: ['AUDIO'],
-          speechConfig: {
-            multiSpeakerVoiceConfig: {
-              speakerVoiceConfigs: [
-                {
-                  speaker: 'Narrator',
-                  voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Algenib' } },
-                },
-                {
-                  speaker: 'Character',
-                  voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Achernar' } },
-                },
-              ],
+      try {
+        // 2. Convert the script to speech using the TTS model
+        const { media } = await ai.generate({
+          model: googleAI.model('gemini-2.5-flash-preview-tts'),
+          config: {
+            responseModalities: ['AUDIO'],
+            speechConfig: {
+              multiSpeakerVoiceConfig: {
+                speakerVoiceConfigs: [
+                  {
+                    speaker: 'Narrator',
+                    voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Algenib' } },
+                  },
+                  {
+                    speaker: 'Character',
+                    voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Achernar' } },
+                  },
+                ],
+              },
             },
           },
-        },
-        prompt: fullScript,
-      });
+          prompt: fullScript,
+        });
 
-      if (!media?.url) {
-        throw new Error('TTS model did not return any audio media.');
+        if (!media?.url) {
+          throw new Error('TTS model did not return any audio media.');
+        }
+
+        // 3. Convert the raw PCM audio to a WAV data URI
+        const audioBuffer = Buffer.from(media.url.substring(media.url.indexOf(',') + 1), 'base64');
+        const wavBase64 = await toWav(audioBuffer);
+
+        return {
+          audioUrl: `data:audio/wav;base64,${wavBase64}`,
+        };
+      } catch (e: any) {
+        // Check for a specific quota error from the API
+        if (e.message && (e.message.includes('429') || /quota/i.test(e.message))) {
+            throw new Error('quotaExceeded');
+        }
+        // Rethrow other errors
+        throw e;
       }
-
-      // 3. Convert the raw PCM audio to a WAV data URI
-      const audioBuffer = Buffer.from(media.url.substring(media.url.indexOf(',') + 1), 'base64');
-      const wavBase64 = await toWav(audioBuffer);
-
-      return {
-        audioUrl: `data:audio/wav;base64,${wavBase64}`,
-      };
     }
   );
 

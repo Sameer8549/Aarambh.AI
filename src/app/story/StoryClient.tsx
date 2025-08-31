@@ -29,7 +29,12 @@ export default function StoryClient() {
       setGeneratedAudioUrl(result.audioUrl);
     } catch (e: any) {
       console.error(e);
-      setError(e.message || t('story.errorDescription'));
+      // Handle the specific quota error message from the flow
+      if (e.message === 'quotaExceeded') {
+        setError(t('story.errorQuota'));
+      } else {
+        setError(e.message || t('story.errorDescription'));
+      }
     } finally {
       setIsLoading(false);
     }
@@ -105,4 +110,3 @@ export default function StoryClient() {
     </div>
   );
 }
-
