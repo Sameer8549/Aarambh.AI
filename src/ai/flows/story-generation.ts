@@ -38,7 +38,6 @@ const storyPrompt = ai.definePrompt({
         language: StoryGenerationInputSchema.shape.language,
     }) },
     output: { schema: StoryScriptSchema },
-    model: 'gemini-1.5-flash',
     prompt: `You are a creative and empathetic storyteller who writes calming, positive, and motivational stories for young people.
     
     Based on the user's prompt below, create a story with two speakers: a 'Narrator' and a 'Character'.
