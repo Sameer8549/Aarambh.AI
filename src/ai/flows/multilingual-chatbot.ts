@@ -117,7 +117,7 @@ const chatbotRespondMultilinguallyFlow = ai.defineFlow(
   },
   async input => {
     const llmResponse = await prompt(input);
-    const output = llmResponse.output();
+    const output = llmResponse.output;
 
     if (!output) {
       throw new Error('LLM failed to produce an output');
