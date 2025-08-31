@@ -44,6 +44,10 @@
         "resources": {
             "title": "Resource Hub",
             "description": "Upyogi lekh, video, aur helplines dhundhen."
+        },
+        "story": {
+            "title": "AI Storyteller",
+            "description": "AI ke saath ek personal audio kahani banayein."
         }
     },
     "calm": {

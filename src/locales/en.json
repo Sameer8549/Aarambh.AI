@@ -44,6 +44,10 @@
         "resources": {
             "title": "Resource Hub",
             "description": "Find helpful articles, videos, and helplines."
+        },
+        "story": {
+            "title": "AI Storyteller",
+            "description": "Create a personalized audio story with AI."
         }
     },
     "calm": {

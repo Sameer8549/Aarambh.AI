@@ -8,6 +8,7 @@ import {
   BookText,
   Library,
   HeartPulse,
+  Wand,
 } from 'lucide-react';
 import AarambhIcon from '@/components/AarambhIcon';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -39,6 +40,12 @@ export default function Home() {
       description: t('features.resources.description'),
       href: '/resources',
       icon: <Library className="h-8 w-8 text-primary" />,
+    },
+    {
+      title: t('features.story.title'),
+      description: t('features.story.description'),
+      href: '/story',
+      icon: <Wand className="h-8 w-8 text-primary" />,
     },
   ];
 
