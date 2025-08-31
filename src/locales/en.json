@@ -91,19 +91,7 @@
         "inputPlaceholder": "Type your message...",
         "inputAriaLabel": "Chat input",
         "send": "Send",
-        "sendAriaLabel": "Send message",
-        "bookRecommendations": {
-            "title": "Based on our conversation, here are some books you might find helpful:",
-            "button": "Get Book Recommendations",
-            "notFound": {
-                "title": "No Recommendations Found",
-                "description": "I couldn't find any specific book recommendations based on our conversation so far. Try chatting a bit more!"
-            },
-            "error": {
-                "title": "Error Fetching Books",
-                "description": "Sorry, I was unable to fetch book recommendations at this time. Please try again later."
-            }
-        }
+        "sendAriaLabel": "Send message"
     },
     "crisis": {
         "title": "It sounds like you're going through a lot.",
@@ -117,7 +105,6 @@
         "newEntry": "New Entry",
         "prompt": "Today, I am grateful for...",
         "placeholder": "Write about three things that went well today, or anything that brings you joy.",
-        "placeholderAuth": "Please sign in to start your journal.",
         "reflect": "Reflect",
         "ariaLabel": "Journal entry textarea",
         "reflectAriaLabel": "Reflect on journal entry",

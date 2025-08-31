@@ -171,27 +171,6 @@ export default function ChatClient() {
                     })}
                   </div>
                 )}
-                 {message.recommendations && message.recommendations.length > 0 && (
-                  <div className="space-y-2 mt-4">
-                    {message.recommendations.map((rec, index) => (
-                        <Card key={index} className="bg-background/70">
-                          <CardHeader className="p-4">
-                            <CardTitle className="text-base">{rec.title}</CardTitle>
-                            <CardDescription>{rec.author}</CardDescription>
-                          </CardHeader>
-                          <CardContent className="p-4 pt-0 text-sm">
-                            <p>{rec.summary}</p>
-                          </CardContent>
-                          <CardFooter className="p-4 pt-0">
-                            <a href={rec.link} target="_blank" rel="noopener noreferrer">
-                              <Button size="sm">{t('chat.viewResource')}</Button>
-                            </a>
-                          </CardFooter>
-                        </Card>
-                      )
-                    )}
-                  </div>
-                )}
               </div>
               {message.role === 'user' && (
                 <Avatar className="h-8 w-8">
