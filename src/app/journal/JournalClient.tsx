@@ -1,6 +1,6 @@
 
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
@@ -13,21 +13,58 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Loader2 } from 'lucide-react';
-import { v4 as uuidv4 } from 'uuid';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { db } from '@/lib/firebase';
+import { collection, addDoc, query, where, onSnapshot, orderBy, serverTimestamp, Timestamp } from 'firebase/firestore';
 
 type JournalEntry = {
   id: string;
   text: string;
-  date: Date;
+  createdAt: Timestamp;
 };
 
 export default function JournalClient() {
   const [entry, setEntry] = useState('');
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingEntries, setIsLoadingEntries] = useState(true);
   const { toast } = useToast();
   const { t } = useLanguage();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      setIsLoadingEntries(true);
+      const q = query(
+        collection(db, 'users', user.uid, 'entries'),
+        orderBy('createdAt', 'desc')
+      );
+
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const userEntries: JournalEntry[] = [];
+        querySnapshot.forEach((doc) => {
+          userEntries.push({ id: doc.id, ...doc.data() } as JournalEntry);
+        });
+        setEntries(userEntries);
+        setIsLoadingEntries(false);
+      }, (error) => {
+          console.error("Error fetching journal entries: ", error);
+          toast({
+            title: t('journal.toast.error.title'),
+            description: t('journal.toast.error.fetch'),
+            variant: 'destructive',
+          });
+          setIsLoadingEntries(false);
+      });
+
+      return () => unsubscribe();
+    } else {
+      setEntries([]);
+      setIsLoadingEntries(false);
+    }
+  }, [user, t, toast]);
+
 
   const handleJournalSubmit = async () => {
     if (!entry.trim()) {
@@ -38,22 +75,32 @@ export default function JournalClient() {
       });
       return;
     }
+    if (!user) {
+        toast({
+            title: t('journal.toast.auth.title'),
+            description: t('journal.toast.auth.description'),
+            variant: 'destructive',
+        });
+        return;
+    }
+
+
     setIsLoading(true);
     try {
+        await addDoc(collection(db, 'users', user.uid, 'entries'), {
+            text: entry,
+            createdAt: serverTimestamp(),
+        });
+        
       const result = await calmingActivityEncouragement({
         activityType: 'gratitude journaling',
       });
+
       toast({
         title: t('journal.toast.saved.title'),
         description: result.encouragementMessage,
       });
       
-      const newEntry: JournalEntry = {
-        id: uuidv4(),
-        text: entry,
-        date: new Date(),
-      };
-      setEntries([newEntry, ...entries]);
       setEntry('');
 
     } catch (error) {
@@ -66,6 +113,21 @@ export default function JournalClient() {
         setIsLoading(false);
     }
   };
+  
+  const formatDate = (timestamp: Timestamp | null) => {
+    if (!timestamp) return 'Just now';
+    return timestamp.toDate().toLocaleDateString(undefined, {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  }
+   const formatTime = (timestamp: Timestamp | null) => {
+    if (!timestamp) return '';
+    return timestamp.toDate().toLocaleTimeString()
+  }
+
 
   return (
     <div className="space-y-6">
@@ -82,40 +144,44 @@ export default function JournalClient() {
               id="journal-entry"
               value={entry}
               onChange={(e) => setEntry(e.target.value)}
-              placeholder={t('journal.placeholder')}
+              placeholder={user ? t('journal.placeholder') : t('journal.placeholderAuth')}
               className="min-h-[200px] text-base"
-              disabled={isLoading}
+              disabled={isLoading || !user}
               aria-label={t('journal.ariaLabel')}
             />
             <Button
               onClick={handleJournalSubmit}
-              disabled={isLoading}
+              disabled={isLoading || !user}
               className="w-full sm:w-auto"
               aria-label={t('journal.reflectAriaLabel')}
             >
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {t('journal.reflect')}
             </Button>
+             {!user && (
+                <p className="text-sm text-muted-foreground">{t('journal.authPrompt')}</p>
+            )}
           </div>
         </CardContent>
       </Card>
 
-      {entries.length > 0 && (
+      {user && isLoadingEntries && (
+        <div className="flex justify-center items-center h-40">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      )}
+
+      {user && !isLoadingEntries && entries.length > 0 && (
         <div className="space-y-4">
             <h2 className="text-2xl font-bold font-headline">{t('journal.pastEntries')}</h2>
             {entries.map((pastEntry) => (
                 <Card key={pastEntry.id}>
                     <CardHeader>
                         <CardTitle className='text-lg'>
-                            {pastEntry.date.toLocaleDateString('en-US', {
-                                weekday: 'long',
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                            })}
+                           {formatDate(pastEntry.createdAt)}
                         </CardTitle>
                         <CardDescription>
-                             {pastEntry.date.toLocaleTimeString()}
+                           {formatTime(pastEntry.createdAt)}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -124,6 +190,13 @@ export default function JournalClient() {
                 </Card>
             ))}
         </div>
+      )}
+       {user && !isLoadingEntries && entries.length === 0 && (
+         <Card>
+            <CardContent className="p-6 text-center text-muted-foreground">
+                {t('journal.noEntries')}
+            </CardContent>
+        </Card>
       )}
     </div>
   );

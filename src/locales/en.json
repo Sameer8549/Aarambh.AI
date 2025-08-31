@@ -105,10 +105,13 @@
         "newEntry": "New Entry",
         "prompt": "Today, I am grateful for...",
         "placeholder": "Write about three things that went well today, or anything that brings you joy.",
+        "placeholderAuth": "Please sign in to start your journal.",
         "reflect": "Reflect",
         "ariaLabel": "Journal entry textarea",
         "reflectAriaLabel": "Reflect on journal entry",
         "pastEntries": "Past Entries",
+        "noEntries": "You have no journal entries yet. Write one above to get started!",
+        "authPrompt": "Sign in to save your entries and view them across devices.",
         "toast": {
             "empty": {
                 "title": "Empty Entry",
@@ -119,7 +122,12 @@
             },
             "error": {
                 "title": "Error",
-                "description": "Could not save reflection. Please try again."
+                "description": "Could not save reflection. Please try again.",
+                "fetch": "Could not load your journal entries."
+            },
+            "auth": {
+                "title": "Not Signed In",
+                "description": "Please sign in to save your journal entry."
             }
         }
     },
@@ -149,5 +157,12 @@
         "errorDescription": "Sorry, we couldn't generate your story. Please try a different prompt.",
         "errorQuota": "We're sorry, but the daily limit for story generation has been reached. Please try again tomorrow.",
         "intro": "Hello, I am Aarambh.AI. 'Aarambh' means 'a new beginning'. I have listened to you. I will now tell you a story to help you feel more confident and overcome your challenges."
+    },
+    "login": {
+        "title": "Sign in to your account",
+        "description": "Save your journal entries and preferences by signing in.",
+        "button": "Sign in with Google",
+        "login": "Login",
+        "logout": "Logout"
     }
 }

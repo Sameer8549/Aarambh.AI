@@ -1,9 +1,11 @@
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import AppLayout from '@/components/AppLayout';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 export const metadata: Metadata = {
   title: 'Aarambh.AI: Youth Wellness',
@@ -33,7 +35,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <LanguageProvider>
-            <AppLayout>{children}</AppLayout>
+            <AuthProvider>
+              <AppLayout>{children}</AppLayout>
+            </AuthProvider>
             <Toaster />
           </LanguageProvider>
         </ThemeProvider>
