@@ -30,7 +30,7 @@ const findResourcesTool = ai.defineTool(
     ),
   },
   async ({query, resourceType}) => {
-    return getWellnessResources(query, resourceType as ResourceTypeEnum);
+    return getWellnessResources(query, resourceType ? (resourceType as ResourceTypeEnum) : undefined);
   }
 );
 
