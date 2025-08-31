@@ -1,32 +1,19 @@
-# Use the official Node.js 20 image as the base image
-FROM node:20-slim AS base
+# ... (previous build stages)
 
-# Set the working directory
-WORKDIR /app
-
-# Install dependencies
-FROM base AS deps
-COPY package.json package-lock.json ./
-RUN npm install --frozen-lockfile
-
-# Build the application
-FROM base AS build
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
-RUN npm run build
-
-# Production image
 FROM base AS runner
 WORKDIR /app
 
-# Copy the built application from the build stage
-COPY --from=build /app/public ./public
+ENV NODE_ENV production
+
+# Copy necessary parts from the 'build' stage
 COPY --from=build /app/.next ./.next
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/package.json ./package.json
 
-# Expose the port the app runs on
-EXPOSE 3000
+# Copy the original public directory if it contains static assets
+COPY --from=build /app/public ./public
 
-# Start the application
+# Copy other necessary files like next.config.js, etc. if applicable
+# COPY --from=build /app/next.config.js ./next.config.js
+
 CMD ["npm", "start"]

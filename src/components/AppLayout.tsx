@@ -12,6 +12,7 @@ import {
   Home,
   PanelLeft,
   ArrowLeft,
+  Sparkles,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -66,6 +67,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     { href: '/calm', label: t('nav.calm'), icon: Wind },
     { href: '/journal', label: t('nav.journal'), icon: BookText },
     { href: '/resources', label: t('nav.resources'), icon: Library },
+    { href: '/generate', label: t('nav.generate'), icon: Sparkles },
   ];
 
   React.useEffect(() => {
@@ -89,7 +91,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <ArrowLeft className="h-6 w-6" />
               </Button>
             )}
-            <Link href="/" className="flex items-center gap-2">
+             <Link href="/" className="flex items-center gap-2">
               <AarambhIcon />
               <h1 className="text-xl font-bold font-headline">Aarambh.AI</h1>
             </Link>
@@ -103,7 +105,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                   className="px-2"
                 >
                   <PanelLeft className="h-6 w-6" />
-                  <span className="ml-2 font-medium hidden sm:inline">{t('common.menu')}</span>
+                   <span className="ml-2 font-medium hidden sm:inline">{t('common.menu')}</span>
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-72 p-0 flex flex-col">

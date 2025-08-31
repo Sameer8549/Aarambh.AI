@@ -12,6 +12,7 @@
         "calm": "Calming Activities",
         "journal": "Gratitude Journal",
         "resources": "Resource Hub",
+        "generate": "AI Video Generation",
         "openMenu": "Navigation menu kholen",
         "title": "App Navigation"
     },
@@ -131,5 +132,15 @@
             "app": "Helpful Apps",
             "book": "Book Recommendations"
         }
+    },
+    "generate": {
+        "title": "AI Video Generation",
+        "subtitle": "Generative AI ka upyog karke text description se ek chhota video banayein.",
+        "promptPlaceholder": "Jaise, bhor mein ek rahasyamayi jangal ke upar udta hua ek shandaar dragon.",
+        "buttonText": "Video Banayein",
+        "generatingTitle": "Aapka video banaya ja raha hai...",
+        "generatingDescription": "Ismein ek ya do minute lag sakte hain. Kripya is page ko band na karein.",
+        "errorTitle": "Generation Fail Ho Gaya",
+        "errorDescription": "Maaf kijiye, hum aapka video nahi bana sake. Kripya ek alag prompt try karein."
     }
 }
