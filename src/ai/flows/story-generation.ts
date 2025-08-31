@@ -34,6 +34,7 @@ const storyPrompt = ai.definePrompt({
     name: 'storyGeneratorPrompt',
     input: { schema: StoryGenerationInputSchema },
     output: { schema: StoryScriptSchema },
+    model: 'googleai/gemini-1.5-flash',
     prompt: `You are a creative storyteller who writes short, calming, and positive stories for young people.
     
     Based on the user's prompt below, create a simple story with two speakers: a 'Narrator' and a 'Character'.
@@ -51,9 +52,6 @@ const storyPrompt = ai.definePrompt({
 
     User Prompt: {{{prompt}}}
     `,
-    config: {
-        model: 'googleai/gemini-1.5-flash',
-    }
 });
 
 
