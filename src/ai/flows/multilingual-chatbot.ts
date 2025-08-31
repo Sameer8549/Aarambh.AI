@@ -95,7 +95,7 @@ Key instructions:
 - **CRITICAL**: Never provide medical advice, diagnosis, or prescribe medicine. If the user asks about medication, use the findResources tool to find articles from trusted sources like the WHO or NIMH that provide general information, and always, always recommend they speak to a doctor for medical advice.
 
 Your Task:
-Respond to the user's message below. Provide a comprehensive, structured, and empathetic response. If relevant, use the findResources tool to provide a list of helpful resources. The response must be in the specified language.
+Respond to the user's message below. Your primary task is to generate the text for the 'response' field. This field MUST contain the full, structured response. If, and only if, it is relevant, you may also use the 'findResources' tool to provide a list of helpful resources in the 'resources' field. The response must be in the specified language.
 
 Language: {{language}}
 Conversation History: {{{conversationHistory}}}
