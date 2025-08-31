@@ -11,7 +11,7 @@ import { generateStory } from '@/ai/flows/story-generation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export default function StoryPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [generatedAudioUrl, setGeneratedAudioUrl] = useState<string | null>(null);
@@ -25,7 +25,7 @@ export default function StoryPage() {
     setGeneratedAudioUrl(null);
 
     try {
-      const result = await generateStory({ prompt });
+      const result = await generateStory({ prompt, language });
       setGeneratedAudioUrl(result.audioUrl);
     } catch (e: any) {
       console.error(e);

@@ -16,6 +16,7 @@ import wav from 'wav';
 // Define Zod schemas for input and output
 const StoryGenerationInputSchema = z.object({
   prompt: z.string().describe('A user-provided prompt describing the desired story (e.g., feelings, characters, setting).'),
+  language: z.enum(['en', 'hi', 'hinglish', 'ta', 'kn', 'bn']).describe('The language for the story.'),
 });
 export type StoryGenerationInput = z.infer<typeof StoryGenerationInputSchema>;
 
@@ -34,22 +35,27 @@ const storyPrompt = ai.definePrompt({
     name: 'storyGeneratorPrompt',
     input: { schema: StoryGenerationInputSchema },
     output: { schema: StoryScriptSchema },
-    model: 'googleai/gemini-1.5-flash',
-    prompt: `You are a creative storyteller who writes short, calming, and positive stories for young people.
+    prompt: `You are a creative storyteller who writes calming, and positive stories for young people.
     
-    Based on the user's prompt below, create a simple story with two speakers: a 'Narrator' and a 'Character'.
-    Keep the story brief, with only a few lines for each speaker.
-    
+    Based on the user's prompt below, create a story with two speakers: a 'Narrator' and a 'Character'.
+    The story should be at least 8-10 lines long, with multiple exchanges between the Narrator and the Character to make it engaging.
+    The story must be written in the specified language.
+
     Format the output as a script, with each line starting with 'Narrator:' or 'Character:'.
 
-    Example:
+    Example (if language is 'en'):
     User Prompt: "A story about a small boat on a calm sea."
     Output Script:
     Narrator: Once, there was a little boat floating on a big, calm sea.
     Character: "The water is so peaceful today," the little boat whispered to the gentle waves.
     Narrator: The sun warmed its wooden deck, and a soft breeze guided it along.
     Character: "I feel so safe and calm out here," it sighed happily.
-
+    Narrator: The boat saw a dolphin jump in the distance.
+    Character: "Wow! The world is full of wonders."
+    Narrator: And so the little boat continued its peaceful journey, feeling content.
+    Character: "I am grateful for this day."
+    
+    Language: {{{language}}}
     User Prompt: {{{prompt}}}
     `,
 });
@@ -90,10 +96,10 @@ export async function generateStory(input: StoryGenerationInput): Promise<StoryG
       inputSchema: StoryGenerationInputSchema,
       outputSchema: StoryGenerationOutputSchema,
     },
-    async ({ prompt }) => {
+    async (input) => {
 
       // 1. Generate the story script
-      const scriptResponse = await storyPrompt({ prompt });
+      const scriptResponse = await storyPrompt(input);
       const storyScript = scriptResponse.output?.storyScript;
 
       if (!storyScript) {
