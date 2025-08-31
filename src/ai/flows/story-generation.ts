@@ -101,6 +101,10 @@ const getIntroduction = (language: z.infer<typeof StoryGenerationInputSchema>['l
   return `Narrator: ${intros[language] || intros['en']}`;
 }
 
+const narratorVoices = ['Algenib', 'Antares', 'Arcturus', 'Canopus', 'Capella', 'Deneb', 'Procyon', 'Rigel', 'Sirius', 'Spica', 'Vega'];
+const characterVoices = ['Achernar', 'Adhara', 'Aldebaran', 'Altair', 'Pollux', 'Regulus'];
+
+
 const storyGenerationFlow = ai.defineFlow(
     {
       name: 'storyGenerationFlow',
@@ -123,6 +127,9 @@ const storyGenerationFlow = ai.defineFlow(
       const fullScript = `${introduction}\n${storyScript}`;
 
       try {
+        const narratorVoice = narratorVoices[Math.floor(Math.random() * narratorVoices.length)];
+        const characterVoice = characterVoices[Math.floor(Math.random() * characterVoices.length)];
+        
         // 2. Convert the script to speech using the TTS model
         const { media } = await ai.generate({
           model: googleAI.model('gemini-2.5-flash-preview-tts'),
@@ -133,11 +140,11 @@ const storyGenerationFlow = ai.defineFlow(
                 speakerVoiceConfigs: [
                   {
                     speaker: 'Narrator',
-                    voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Algenib' } },
+                    voiceConfig: { prebuiltVoiceConfig: { voiceName: narratorVoice } },
                   },
                   {
                     speaker: 'Character',
-                    voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Achernar' } },
+                    voiceConfig: { prebuiltVoiceConfig: { voiceName: characterVoice } },
                   },
                 ],
               },
