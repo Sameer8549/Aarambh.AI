@@ -48,7 +48,7 @@ const ChatbotOutputSchema = z.object({
     z.object({
       title: z.string().describe('The title of the resource.'),
       description: z.string().describe('A brief, one-sentence summary of the resource.'),
-      link: z.string().describe('A direct and valid link to the resource. **It is critical that you only provide valid, working links from verified sources. Do not make up links.**'),
+      link: z.string().describe('A direct and valid link to the resource. For YouTube videos, create a precise search query based on the user\'s feelings (e.g., "guided meditation for anxiety and overthinking"). **It is critical that you only provide valid, working links from verified sources. Do not make up links.**'),
       type: z.enum(['book', 'video', 'article', 'podcast', 'helpline', 'music', 'exercise', 'app']).describe('The type of resource.'),
     })
   ).optional().describe('A list of helpful resources like well-known books, popular and verified YouTube videos, or articles from reputable sources. **It is critical that you only provide valid, working links from verified sources. Do not make up links.**'),
@@ -72,7 +72,8 @@ Your response should be empathetic, supportive, and provide practical advice, re
 - Do not use markdown formatting like asterisks for bolding. Use plain text.
 - The response must be tailored to the user's message, providing specific, detailed advice and insights.
 - Provide a list of recommended actions or small, manageable steps the user can take to address their feelings or situation. This can include mindfulness techniques, simple exercises, or journaling prompts.
-- If the user's message indicates a need for deeper help (e.g., they mention "anxiety", "stress", "depression", "feeling low", "exercise", "workout"), you MUST use the findResources tool to find helpful resources. Create a search query for the tool based on the user's message to find the most relevant resources.
+- If the user's message indicates a need for deeper help (e.g., they mention "anxiety", "stress", "depression", "feeling low", "exercise", "workout", "sad", "lonely"), you MUST use the findResources tool to find helpful resources. Create a search query for the tool based on the user's message to find the most relevant resources.
+- For video resources, create a highly specific and accurate YouTube search query in the 'link' field based on the user's feelings. For example, if the user feels "sad and lonely," a good search query would be "comforting music for when you feel lonely". If they are "stressed about exams," a good query would be "guided meditation for exam stress".
 - IMPORTANT: Never provide medical advice, diagnosis, or prescribe medicine. If the user asks about medication, use the findResources tool to find articles from trusted sources like the WHO or NIMH that provide general information, and always recommend they speak to a doctor.
 
 Your Task:
