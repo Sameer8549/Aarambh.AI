@@ -138,7 +138,7 @@ const chatbotRespondMultilinguallyFlow = ai.defineFlow(
     const history = conversationHistory || [];
     
     const tools = [findResourcesTool, bookRecommendationTool];
-    const model = ai.getmodel('gemini-1.5-flash');
+    const model = ai.getModel('gemini-1.5-flash');
 
     const fullPrompt = `${prompt}\n\nYour Task:\nRespond to the user's message below. Your primary task is to generate the text for the 'response' field. This field MUST contain the full, structured, and detailed response. If, and only if, it is relevant, you may also use the 'findResources' or 'provideBookRecommendations' tools to provide a list of helpful resources in the 'resources' field. The response must be in the specified language.\n\nLanguage: ${language}\nMessage: ${message}`;
     
