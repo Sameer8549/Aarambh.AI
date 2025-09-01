@@ -100,7 +100,7 @@ const getIntroduction = (language: z.infer<typeof StoryGenerationInputSchema>['l
     kn: "ನಮಸ್ಕಾರ, ನಾನು ಆರಂಭ್.AI. 'ಆರಂಭ್' ಎಂದರೆ 'ಒಂದು ಹೊಸ ಆರಂಭ'. ನಾನು ನಿಮ್ಮ ಮಾತನ್ನು ಕೇಳಿದ್ದೇನೆ. ಈಗ ನಾನು ನಿಮಗೆ ಹೆಚ್ಚು ಆತ್ಮವಿಶ್ವಾಸವನ್ನು ನೀಡಲು ಮತ್ತು ನಿಮ್ಮ ಸವಾಲುಗಳನ್ನು ನಿವಾರಿಸಲು ಸಹಾಯ ಮಾಡಲು ಒಂದು ಕಥೆಯನ್ನು ಹೇಳುತ್ತೇನೆ.",
     bn: "নমস্কার, আমি আরম্ভ.AI। 'আরম্ভ' মানে 'একটি নতুন শুরু'। আমি আপনার কথা শুনেছি। এখন আমি আপনাকে আরও আত্মবিশ্বাসী বোধ করতে এবং আপনার চ্যালেঞ্জগুলি কাটিয়ে উঠতে সাহায্য করার জন্য একটি গল্প বলব।",
   };
-  return `Narrator: ${intros[language] || intros['en']}`;
+  return intros[language] || intros['en'];
 }
 
 const narratorVoices = ['algenib', 'algieba', 'alnilam', 'callirrhoe', 'erinome', 'fenrir', 'gacrux', 'laomedeia', 'leda', 'puck', 'rasalgethi', 'sadachbia', 'sadaltager', 'schedar', 'sulafat', 'umbriel', 'vindemiatrix', 'zephyr'];
@@ -126,7 +126,7 @@ const storyGenerationFlow = ai.defineFlow(
       }
       
       const introduction = getIntroduction(input.language);
-      const fullScript = `${introduction}\n${storyScript}`;
+      const fullScript = `Narrator: ${introduction}\n${storyScript}`;
 
       try {
         const narratorVoice = narratorVoices[Math.floor(Math.random() * narratorVoices.length)];
