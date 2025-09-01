@@ -111,16 +111,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <div className="flex flex-col h-screen">
           <header className="flex items-center justify-between p-2 border-b bg-card">
               <div className="flex items-center gap-2">
-                {!isHomePage && (
-                     <Button
-                        variant="ghost"
-                        onClick={() => router.back()}
-                        aria-label={t('common.back')}
-                        className="px-2"
-                    >
-                        <ArrowLeft className="h-6 w-6" />
-                    </Button>
-                )}
                  <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
                     <SheetTrigger asChild>
                     <Button
@@ -136,6 +126,16 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                       <SidebarContent />
                     </SheetContent>
                 </Sheet>
+                {!isHomePage && (
+                     <Button
+                        variant="ghost"
+                        onClick={() => router.back()}
+                        aria-label={t('common.back')}
+                        className="px-2"
+                    >
+                        <ArrowLeft className="h-6 w-6" />
+                    </Button>
+                )}
               </div>
 
               <Link href="/" className="flex items-center gap-2" aria-label="Aarambh.AI Home">
