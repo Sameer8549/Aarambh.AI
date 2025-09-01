@@ -113,6 +113,21 @@ export default function JournalClient() {
   const { toast } = useToast();
   const { t } = useLanguage();
 
+  const getAIEncouragement = async () => {
+    try {
+        const result = await calmingActivityEncouragement({
+            activityType: 'gratitude journaling',
+        });
+        toast({
+            title: t('journal.toast.encouragement.title'),
+            description: result.encouragementMessage,
+        });
+    } catch (e) {
+        // Silently fail or show a less intrusive notification if needed
+        console.error("Failed to get AI encouragement:", e);
+    }
+  }
+
   const handleJournalSubmit = async () => {
     if (!entry.trim()) {
       toast({
@@ -138,6 +153,9 @@ export default function JournalClient() {
       
       setEntry('');
 
+      // Get AI encouragement asynchronously after saving is complete
+      getAIEncouragement();
+
     } catch (error) {
       toast({
         title: t('journal.toast.error.title'),
@@ -146,20 +164,6 @@ export default function JournalClient() {
       });
     } finally {
         setIsLoading(false);
-    }
-
-    // Get AI encouragement asynchronously without blocking the UI
-    try {
-        const result = await calmingActivityEncouragement({
-            activityType: 'gratitude journaling',
-        });
-        toast({
-            title: t('journal.toast.encouragement.title'),
-            description: result.encouragementMessage,
-        });
-    } catch (e) {
-        // Silently fail or show a less intrusive notification if needed
-        console.error("Failed to get AI encouragement:", e);
     }
   };
 
