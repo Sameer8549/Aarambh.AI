@@ -143,7 +143,7 @@ const chatbotRespondMultilinguallyFlow = ai.defineFlow(
 
     const fullPrompt = `${prompt}\n\nYour Task:\nRespond to the user's message below. Your primary task is to generate the text for the 'response' field. This field MUST contain the full, structured, and detailed response. If, and only if, it is relevant, you may also use the 'findResources' or 'provideBookRecommendations' tools to provide a list of helpful resources in the 'resources' field. The response must be in the specified language.\n\nLanguage: ${language}\nMessage: ${message}`;
     
-    const { response } = await ai.generate({
+    const llmResponse = await ai.generate({
         model,
         tools,
         prompt: fullPrompt,
@@ -173,7 +173,7 @@ const chatbotRespondMultilinguallyFlow = ai.defineFlow(
         }
     });
 
-    const output = response.output();
+    const output = llmResponse.output();
     if (!output) {
       throw new Error('The AI model failed to produce a valid response.');
     }
