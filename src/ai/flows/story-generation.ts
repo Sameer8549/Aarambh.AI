@@ -101,8 +101,8 @@ const getIntroduction = (language: z.infer<typeof StoryGenerationInputSchema>['l
   return `Narrator: ${intros[language] || intros['en']}`;
 }
 
-const narratorVoices = ['Algenib', 'Antares', 'Arcturus', 'Canopus', 'Capella', 'Deneb', 'Procyon', 'Rigel', 'Sirius', 'Spica', 'Vega'];
-const characterVoices = ['Achernar', 'Adhara', 'Aldebaran', 'Altair', 'Pollux', 'Regulus'];
+const narratorVoices = ['algenib', 'algieba', 'alnilam', 'callirrhoe', 'erinome', 'fenrir', 'gacrux', 'laomedeia', 'leda', 'puck', 'rasalgethi', 'sadachbia', 'sadaltager', 'schedar', 'sulafat', 'umbriel', 'vindemiatrix', 'zephyr'];
+const characterVoices = ['achernar', 'achird', 'aoede', 'autonoe', 'charon', 'despina', 'enceladus', 'iapetus', 'kore', 'orus', 'pulcherrima', 'zubenelgenubi'];
 
 
 const storyGenerationFlow = ai.defineFlow(
