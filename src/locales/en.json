@@ -90,7 +90,8 @@
     },
     "chat": {
         "initialMessage": "Hello! I'm Aarambh, your AI wellness companion. How are you feeling today? You can talk to me about anything on your mind.",
-        "errorMessage": "Sorry, I am having trouble connecting. Please try again later.",
+        "errorMessage": "I'm having a little trouble at the moment. Please try sending your message again in a few moments.",
+        "errorTitle": "Something went wrong",
         "helpfulResources": "Helpful Resources",
         "viewResource": "View Resource",
         "inputPlaceholder": "Type your message...",
@@ -186,3 +187,5 @@
         "intro": "Hello, I am Aarambh.AI. 'Aarambh' means 'a new beginning'. I have listened to you. I will now tell you a story to help you feel more confident and overcome your challenges."
     }
 }
+
+    

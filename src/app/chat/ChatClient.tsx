@@ -12,7 +12,6 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -36,8 +35,9 @@ import {
 
 import { useLanguage } from '@/contexts/LanguageContext';
 import { chatbotRespondMultilingually } from '@/ai/flows/multilingual-chatbot';
-import type { ChatMessage, ResourceType } from '@/types';
+import type { ChatMessage, ResourceType, GenkitChatMessage } from '@/types';
 import { cn } from '@/lib/utils';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const crisisKeywords = [
     'kill myself', 'suicide', 'want to die', 'end my life', 'hopeless', 'can\'t go on', 'k.m.s', 'kms'
@@ -55,11 +55,37 @@ const resourceIcons: Record<ResourceType, React.ElementType> = {
 };
 
 
+const ChatMessageContent = ({ content }: { content: string }) => {
+    const parts = content.split(/(Insight:|Advice:|Disclaimer:)/).filter(part => part);
+
+    return (
+        <div className="text-sm whitespace-pre-wrap">
+            {parts.map((part, index) => {
+                if (part.match(/Insight:|Advice:|Disclaimer:/)) {
+                    return <strong key={index} className="block font-bold text-sm mt-3 mb-1">{part}</strong>;
+                }
+                if(part.startsWith('-')) {
+                    return (
+                        <ul key={index} className="list-none pl-0">
+                            {part.split('\n-').map((item, i) => (
+                                item.trim() && <li key={i} className="flex items-start gap-2 mb-2 before:content-['•'] before:inline-block before:mr-2 before:mt-1">{item.trim().replace(/^-/, '').trim()}</li>
+                            ))}
+                        </ul>
+                    )
+                }
+                return <p key={index}>{part}</p>;
+            })}
+        </div>
+    );
+};
+
+
 export default function ChatClient() {
   const { language, t } = useLanguage();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [showCrisisModal, setShowCrisisModal] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
@@ -81,6 +107,7 @@ export default function ChatClient() {
 
   const handleSendMessage = async () => {
     if (!input.trim()) return;
+    setError(null);
 
     if (crisisKeywords.some(keyword => input.toLowerCase().includes(keyword))) {
       setShowCrisisModal(true);
@@ -98,12 +125,18 @@ export default function ChatClient() {
     setInput('');
     setIsLoading(true);
 
+    const genkitHistory: GenkitChatMessage[] = currentConversation
+      .filter(m => m.role === 'user' || m.role === 'assistant')
+      .map(m => ({
+        role: m.role === 'user' ? 'user' : 'model',
+        content: [{ text: m.content }]
+      }));
+    
     try {
-      const conversationHistory = currentConversation.map(m => `${m.role}: ${m.content}`).join('\n');
       const response = await chatbotRespondMultilingually({
         language,
         message: input,
-        conversationHistory: conversationHistory
+        conversationHistory: genkitHistory.slice(0, -1) // Exclude the current user message from history
       });
       const assistantMessage: ChatMessage = {
         id: uuidv4(),
@@ -113,12 +146,8 @@ export default function ChatClient() {
       };
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
-      const errorMessage: ChatMessage = {
-        id: uuidv4(),
-        role: 'assistant',
-        content: t('chat.errorMessage'),
-      };
-      setMessages((prev) => [...prev, errorMessage]);
+       console.error("Chatbot Error:", error);
+       setError(t('chat.errorMessage'));
     } finally {
       setIsLoading(false);
     }
@@ -151,7 +180,7 @@ export default function ChatClient() {
                     : 'bg-secondary text-secondary-foreground rounded-bl-none'
                 )}
               >
-                <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                <ChatMessageContent content={message.content} />
                  {message.resources && message.resources.length > 0 && (
                   <div className="mt-4">
                      <h4 className='font-bold text-sm flex items-center gap-2 mb-2'><Book className='h-4 w-4'/> {t('chat.helpfulResources')}</h4>
@@ -168,18 +197,18 @@ export default function ChatClient() {
                             return (
                               <CarouselItem key={index} className="basis-4/5">
                                  <a href={res.link} target="_blank" rel="noopener noreferrer" className="h-full block">
-                                  <Card className="bg-background/70 hover:bg-background h-full flex flex-col">
+                                  <Card className="bg-background/70 hover:bg-background h-full flex flex-col transition-all duration-300 ease-in-out hover:shadow-md">
                                     <CardHeader className="p-4">
                                       <CardTitle className="text-base flex items-center gap-2">
-                                        <Icon className="h-4 w-4 text-primary" />
-                                        {res.title}
+                                        <Icon className="h-5 w-5 text-primary" />
+                                        <span className='truncate'>{res.title}</span>
                                       </CardTitle>
                                     </CardHeader>
                                     <CardContent className="p-4 pt-0 text-sm flex-grow">
-                                      <p>{res.description}</p>
+                                      <p className="line-clamp-3">{res.description}</p>
                                     </CardContent>
                                     <CardFooter className="p-4 pt-0">
-                                        <Button size="sm" variant="link" className="p-0 h-auto">{t('chat.viewResource')}</Button>
+                                        <Button size="sm" variant="link" className="p-0 h-auto text-primary">{t('chat.viewResource')}</Button>
                                     </CardFooter>
                                   </Card>
                                   </a>
@@ -213,6 +242,12 @@ export default function ChatClient() {
                 <Loader2 className="h-5 w-5 animate-spin" />
                </div>
             </div>
+          )}
+          {error && (
+            <Alert variant="destructive" className="mt-4">
+              <AlertTitle>{t('chat.errorTitle')}</AlertTitle>
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
           )}
         </div>
       </ScrollArea>
@@ -263,3 +298,5 @@ function CrisisAlertDialog({open, onOpenChange, t}: {open: boolean, onOpenChange
     </AlertDialog>
   )
 }
+
+    

@@ -13,6 +13,7 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import {getWellnessResources, ResourceTypeEnum} from '@/ai/resources';
 import {provideBookRecommendations} from '@/ai/flows/chatbot-book-recommendations';
+import {ToolRequest, tool} from 'genkit/ai';
 
 const findResourcesTool = ai.defineTool(
   {
@@ -62,7 +63,12 @@ const bookRecommendationTool = ai.defineTool(
 const ChatbotInputSchema = z.object({
   language: z.enum(['en', 'hi', 'hinglish', 'ta', 'kn', 'bn']).describe('The language code to respond in (en: English, hi: Hindi, hinglish: Hinglish, ta: Tamil, kn: Kannada, bn: Bengali).'),
   message: z.string().describe('The user message to respond to.'),
-  conversationHistory: z.string().describe('The history of the conversation with the user.'),
+  conversationHistory: z.array(z.object({
+    role: z.enum(['user', 'model']),
+    content: z.array(z.object({
+        text: z.string()
+    }))
+  })).describe('The history of the conversation with the user.'),
 });
 export type ChatbotInput = z.infer<typeof ChatbotInputSchema>;
 
@@ -83,12 +89,7 @@ export async function chatbotRespondMultilingually(input: ChatbotInput): Promise
   return chatbotRespondMultilinguallyFlow(input);
 }
 
-const prompt = ai.definePrompt({
-  name: 'chatbotPrompt',
-  input: {schema: ChatbotInputSchema},
-  output: {schema: ChatbotOutputSchema},
-  tools: [findResourcesTool, bookRecommendationTool],
-  prompt: `You are Aarambh.AI, a helpful and empathetic AI wellness coach for young people. Your goal is to provide detailed, practical, and youth-friendly guidance. Your responses should be structured like expert advice from a wellness coach, providing a comprehensive and supportive answer.
+const prompt = `You are Aarambh.AI, a helpful and empathetic AI wellness coach for young people. Your goal is to provide detailed, practical, and youth-friendly guidance. Your responses should be structured like expert advice from a wellness coach, providing a comprehensive and supportive answer.
 
 CRITICAL SAFETY PROTOCOL:
 If the user's message contains any indication of self-harm, suicide, or severe crisis (e.g., "I want to die", "kill myself", "end my life"), you MUST follow these steps and ONLY these steps:
@@ -124,15 +125,7 @@ Key instructions:
 - The response must be tailored to the user's message.
 - For video resources, create a highly specific and accurate YouTube search query in the 'link' field based on the user's feelings.
 - **CRITICAL**: Never provide medical advice, diagnosis, or prescribe medicine. If the user asks about medication, use the findResources tool to find articles from trusted sources like the WHO or NIMH that provide general information, and always, always recommend they speak to a doctor for medical advice.
-
-Your Task:
-Respond to the user's message below. Your primary task is to generate the text for the 'response' field. This field MUST contain the full, structured, and detailed response. If, and only if, it is relevant, you may also use the 'findResources' or 'provideBookRecommendations' tools to provide a list of helpful resources in the 'resources' field. The response must be in the specified language.
-
-Language: {{language}}
-Conversation History: {{{conversationHistory}}}
-Message: {{{message}}}
-`,
-});
+`
 
 const chatbotRespondMultilinguallyFlow = ai.defineFlow(
   {
@@ -141,9 +134,45 @@ const chatbotRespondMultilinguallyFlow = ai.defineFlow(
     outputSchema: ChatbotOutputSchema,
   },
   async (input) => {
-    const llmResponse = await prompt(input);
-    const output = llmResponse.output;
+    const { language, message, conversationHistory } = input;
+    const history = conversationHistory || [];
+    
+    const tools = [findResourcesTool, bookRecommendationTool];
+    const model = ai.getmodel('gemini-1.5-flash');
 
+    const fullPrompt = `${prompt}\n\nYour Task:\nRespond to the user's message below. Your primary task is to generate the text for the 'response' field. This field MUST contain the full, structured, and detailed response. If, and only if, it is relevant, you may also use the 'findResources' or 'provideBookRecommendations' tools to provide a list of helpful resources in the 'resources' field. The response must be in the specified language.\n\nLanguage: ${language}\nMessage: ${message}`;
+    
+    const { response } = await ai.generate({
+        model,
+        tools,
+        prompt: fullPrompt,
+        history,
+        output: {
+            schema: ChatbotOutputSchema,
+        },
+        config: {
+            safetySettings: [
+                {
+                    category: 'HARM_CATEGORY_HATE_SPEECH',
+                    threshold: 'BLOCK_ONLY_HIGH',
+                },
+                {
+                    category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
+                    threshold: 'BLOCK_ONLY_HIGH',
+                },
+                {
+                    category: 'HARM_CATEGORY_HARASSMENT',
+                    threshold: 'BLOCK_ONLY_HIGH',
+                },
+                {
+                    category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
+                    threshold: 'BLOCK_ONLY_HIGH',
+                },
+            ]
+        }
+    });
+
+    const output = response.output();
     if (!output) {
       throw new Error('The AI model failed to produce a valid response.');
     }

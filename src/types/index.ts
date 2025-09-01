@@ -6,6 +6,11 @@ export type ChatMessage = {
   resources?: Resource[];
 };
 
+export type GenkitChatMessage = {
+  role: 'user' | 'model';
+  content: { text: string }[];
+};
+
 export type Language = 'en' | 'hi' | 'hinglish' | 'ta' | 'kn' | 'bn';
 
 export type ResourceType = 'book' | 'video' | 'article' | 'podcast' | 'helpline' | 'music' | 'exercise' | 'app';
@@ -23,3 +28,5 @@ export type CommunityEntry = {
     entry: string;
     timestamp: number;
 }
+
+    
