@@ -22,6 +22,8 @@ import { Button } from './ui/button';
 import {
   Sheet,
   SheetContent,
+  SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from './ui/sheet';
 import ThemeToggle from './ThemeToggle';
@@ -67,12 +69,12 @@ const SidebarContent = () => {
     ];
     return (
         <div className='h-full flex flex-col'>
-            <div className="p-4 border-b">
+            <SheetHeader className="p-4 border-b">
                  <Link href="/" className="flex items-center gap-3">
                   <AarambhIcon className="h-10 w-10" />
-                  <h1 className="text-2xl font-bold font-headline">Aarambh.AI</h1>
+                   <SheetTitle className="text-2xl font-bold font-headline">Aarambh.AI</SheetTitle>
                 </Link>
-            </div>
+            </SheetHeader>
             <nav className="p-4 space-y-2 flex-1">
               {navItems.map((item) => (
                 <NavLink key={item.href} {...item} />
@@ -103,33 +105,34 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
 
   return (
-    <div className="flex flex-col h-screen bg-secondary/30">
-        <header className="flex items-center justify-between p-2 border-b bg-card">
-            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-              <SheetTrigger asChild>
-                <Button
-                  variant="ghost"
-                  aria-label={t('nav.openMenu')}
-                  className="px-2"
-                >
-                  <PanelLeft className="h-6 w-6" />
-                   <span className="sr-only">{t('common.menu')}</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="w-80 p-0 flex flex-col">
-                <SidebarContent />
-              </SheetContent>
-            </Sheet>
+    <div className="min-h-screen bg-secondary/30">
+      <div className="flex flex-col h-screen">
+          <header className="flex items-center justify-between p-2 border-b bg-card">
+              <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+                <SheetTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    aria-label={t('nav.openMenu')}
+                    className="px-2"
+                  >
+                    <PanelLeft className="h-6 w-6" />
+                    <span className="sr-only">{t('common.menu')}</span>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="w-80 p-0 flex flex-col">
+                  <SidebarContent />
+                </SheetContent>
+              </Sheet>
 
-            <Link href="/" className="flex items-center gap-2">
-              <AarambhIcon />
-              <h1 className="text-xl font-bold font-headline">Aarambh.AI</h1>
-            </Link>
-          
-            {/* Empty div for spacing to keep title centered */}
-            <div className='w-10'></div>
-        </header>
-        <main className="flex-1 overflow-y-auto p-4 md:p-8">{children}</main>
+              <Link href="/" className="flex items-center gap-2" aria-label="Aarambh.AI Home">
+                <AarambhIcon className="h-8 w-8" />
+                <h1 className="text-xl font-bold font-headline hidden sm:block">Aarambh.AI</h1>
+              </Link>
+            
+              <div className='w-10'></div>
+          </header>
+          <main className="flex-1 overflow-y-auto p-4 md:p-8">{children}</main>
+      </div>
     </div>
   );
 }
