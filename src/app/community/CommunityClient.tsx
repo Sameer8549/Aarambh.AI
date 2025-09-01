@@ -31,7 +31,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 function CommunityFeed() {
   const [entries, setEntries] = useState<CommunityEntry[]>([]);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { t } = useLanguage();
 
   useEffect(() => {
@@ -57,16 +56,6 @@ function CommunityFeed() {
     return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    // Scroll to bottom when new messages arrive
-    if (scrollAreaRef.current) {
-        setTimeout(() => {
-             if (scrollAreaRef.current) {
-                scrollAreaRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-             }
-        }, 100);
-    }
-  }, [entries]);
 
   return (
     <Card>
@@ -77,7 +66,7 @@ function CommunityFeed() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <ScrollArea className="h-96 pr-4" ref={scrollAreaRef}>
+        <ScrollArea className="h-96 pr-4">
           <div className="space-y-4">
              <AnimatePresence>
                 {entries.map((item, index) => (
@@ -158,12 +147,12 @@ export default function CommunityClient() {
   return (
     <div className="space-y-8">
       <header>
-        <h1 className="text-4xl font-bold font-headline">{t('community.title')}</h1>
-        <p className="text-lg text-muted-foreground mt-2">{t('community.subtitle')}</p>
+        <h1 className="text-3xl md:text-4xl font-bold font-headline">{t('community.title')}</h1>
+        <p className="text-md md:text-lg text-muted-foreground mt-2">{t('community.subtitle')}</p>
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        <Card className="lg:sticky lg:top-8">
+        <Card>
           <CardHeader>
             <CardTitle>{t('journal.newEntry')}</CardTitle>
             <CardDescription>{t('community.placeholder')}</CardDescription>

@@ -2,5 +2,9 @@
 import StoryClient from "./StoryClient";
 
 export default function StoryPage() {
-    return <StoryClient />;
+    return (
+        <div>
+            <StoryClient />
+        </div>
+    );
 }

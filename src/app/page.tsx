@@ -9,6 +9,7 @@ import {
   Library,
   HeartPulse,
   Wand,
+  Users,
 } from 'lucide-react';
 import AarambhIcon from '@/components/AarambhIcon';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -34,6 +35,12 @@ export default function Home() {
       description: t('features.journal.description'),
       href: '/journal',
       icon: <BookText className="h-8 w-8 text-primary" />,
+    },
+    {
+       title: t('features.community.title'),
+       description: t('features.community.description'),
+       href: '/community',
+       icon: <Users className="h-8 w-8 text-primary" />,
     },
     {
       title: t('features.resources.title'),
@@ -62,7 +69,7 @@ export default function Home() {
         </p>
       </header>
 
-      <main className="w-full max-w-4xl">
+      <main className="w-full max-w-5xl">
         <div className="text-center my-8">
             <h2 className="font-headline text-3xl font-bold text-foreground">
                 {t('home.offerTitle')}
@@ -71,7 +78,7 @@ export default function Home() {
                 {t('home.offerSubtitle')}
             </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature) => (
             <Link href={feature.href} key={feature.href} passHref>
               <Card className="h-full transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer bg-card/80 backdrop-blur-sm">

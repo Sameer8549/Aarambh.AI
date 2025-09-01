@@ -77,8 +77,8 @@ export default function ResourcesPage() {
   return (
     <div>
       <header className="mb-8">
-        <h1 className="text-4xl font-bold font-headline">{t('resources.title')}</h1>
-        <p className="text-lg text-muted-foreground mt-2">
+        <h1 className="text-3xl md:text-4xl font-bold font-headline">{t('resources.title')}</h1>
+        <p className="text-md md:text-lg text-muted-foreground mt-2">
           {t('resources.subtitle')}
         </p>
       </header>
@@ -97,7 +97,7 @@ export default function ResourcesPage() {
                         <CategoryIcon className="h-6 w-6 text-primary" />
                         {categoryTitle}
                     </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                         {resources.map((item) => (
                             <a
                             key={item.title}

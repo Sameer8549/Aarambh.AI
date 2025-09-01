@@ -8,8 +8,8 @@ export default function JournalPage() {
     return (
         <div className="space-y-8">
             <header>
-                <h1 className="text-4xl font-bold font-headline">{t('journal.title')}</h1>
-                <p className="text-lg text-muted-foreground mt-2">{t('journal.subtitle')}</p>
+                <h1 className="text-3xl md:text-4xl font-bold font-headline">{t('journal.title')}</h1>
+                <p className="text-md md:text-lg text-muted-foreground mt-2">{t('journal.subtitle')}</p>
             </header>
             <JournalClient />
         </div>

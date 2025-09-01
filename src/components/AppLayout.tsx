@@ -3,7 +3,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import {
   MessageCircle,
   Wind,
@@ -11,7 +11,6 @@ import {
   Library,
   Home,
   PanelLeft,
-  ArrowLeft,
   Wand,
   Users,
 } from 'lucide-react';
@@ -46,59 +45,79 @@ const NavLink = ({
     <Link href={href} passHref>
       <Button
         variant={isActive ? 'secondary' : 'ghost'}
-        className={'w-full justify-start'}
+        className={'w-full justify-start text-base py-6'}
         aria-current={isActive ? 'page' : undefined}
       >
-        <Icon className="h-5 w-5 mr-3" />
+        <Icon className="h-5 w-5 mr-4" />
         <span className={'font-medium'}>{label}</span>
       </Button>
     </Link>
   );
 };
 
+
+const SidebarContent = () => {
+    const { t } = useLanguage();
+    const navItems = [
+        { href: '/', label: t('nav.home'), icon: Home },
+        { href: '/chat', label: t('nav.chat'), icon: MessageCircle },
+        { href: '/calm', label: t('nav.calm'), icon: Wind },
+        { href: '/journal', label: t('nav.journal'), icon: BookText },
+        { href: '/community', label: t('nav.community'), icon: Users },
+        { href: '/resources', label: t('nav.resources'), icon: Library },
+        { href: '/story', label: t('nav.story'), icon: Wand },
+    ];
+    return (
+        <div className='h-full flex flex-col'>
+            <div className="p-4 border-b">
+                 <Link href="/" className="flex items-center gap-3">
+                  <AarambhIcon className="h-10 w-10" />
+                  <h1 className="text-2xl font-bold font-headline">Aarambh.AI</h1>
+                </Link>
+            </div>
+            <nav className="p-4 space-y-2 flex-1">
+              {navItems.map((item) => (
+                <NavLink key={item.href} {...item} />
+              ))}
+            </nav>
+            <div className="p-4 border-t space-y-4">
+              <div>
+                <p className="text-sm font-semibold text-muted-foreground mb-2">{t('common.language')}</p>
+                <LanguageToggle />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-muted-foreground mb-2">{t('common.theme')}</p>
+                <ThemeToggle />
+              </div>
+            </div>
+        </div>
+    )
+}
+
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
   const pathname = usePathname();
-  const router = useRouter();
   const { t } = useLanguage();
-
-  const navItems = [
-    { href: '/', label: t('nav.home'), icon: Home },
-    { href: '/chat', label: t('nav.chat'), icon: MessageCircle },
-    { href: '/calm', label: t('nav.calm'), icon: Wind },
-    { href: '/journal', label: t('nav.journal'), icon: BookText },
-    { href: '/community', label: t('nav.community'), icon: Users },
-    { href: '/resources', label: t('nav.resources'), icon: Library },
-    { href: '/story', label: t('nav.story'), icon: Wand },
-  ];
 
   React.useEffect(() => {
     setIsSheetOpen(false);
   }, [pathname]);
 
-  const showBackButton = pathname !== '/';
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex h-screen bg-secondary/30">
+        {/* Desktop Sidebar */}
+        <aside className="hidden lg:block w-72 border-r bg-card">
+            <SidebarContent />
+        </aside>
+
       <div className="flex-1 flex flex-col overflow-hidden">
-        <header className="flex items-center justify-between p-4 border-b bg-card">
-          <div className="flex items-center gap-2">
-            {showBackButton && (
-              <Button
-                variant="ghost"
-                onClick={() => router.back()}
-                aria-label={t('common.back')}
-                className="pl-0 pr-2"
-              >
-                <ArrowLeft className="h-6 w-6" />
-              </Button>
-            )}
-             <Link href="/" className="flex items-center gap-2">
+        <header className="flex items-center justify-between p-2 border-b bg-card lg:hidden">
+            <Link href="/" className="flex items-center gap-2">
               <AarambhIcon />
               <h1 className="text-xl font-bold font-headline">Aarambh.AI</h1>
             </Link>
-          </div>
-          <div className="flex items-center gap-4">
+          
             <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
               <SheetTrigger asChild>
                 <Button
@@ -107,31 +126,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                   className="px-2"
                 >
                   <PanelLeft className="h-6 w-6" />
-                   <span className="ml-2 font-medium hidden sm:inline">{t('common.menu')}</span>
+                   <span className="sr-only">{t('common.menu')}</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-72 p-0 flex flex-col">
-                <SheetHeader className="p-4 border-b">
-                  <SheetTitle>{t('nav.title')}</SheetTitle>
-                </SheetHeader>
-                <nav className="p-4 space-y-2 flex-1">
-                  {navItems.map((item) => (
-                    <NavLink key={item.href} {...item} />
-                  ))}
-                </nav>
-                <div className="p-4 border-t space-y-4">
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-2">{t('common.language')}</p>
-                    <LanguageToggle />
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-2">{t('common.theme')}</p>
-                    <ThemeToggle />
-                  </div>
-                </div>
+              <SheetContent side="left" className="w-80 p-0 flex flex-col">
+                <SidebarContent />
               </SheetContent>
             </Sheet>
-          </div>
         </header>
         <main className="flex-1 overflow-y-auto p-4 md:p-8">{children}</main>
       </div>
