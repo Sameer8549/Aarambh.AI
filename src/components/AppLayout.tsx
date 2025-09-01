@@ -13,6 +13,7 @@ import {
   PanelLeft,
   ArrowLeft,
   Wand,
+  Users,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -66,6 +67,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     { href: '/chat', label: t('nav.chat'), icon: MessageCircle },
     { href: '/calm', label: t('nav.calm'), icon: Wind },
     { href: '/journal', label: t('nav.journal'), icon: BookText },
+    { href: '/community', label: t('nav.community'), icon: Users },
     { href: '/resources', label: t('nav.resources'), icon: Library },
     { href: '/story', label: t('nav.story'), icon: Wand },
   ];

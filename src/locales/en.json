@@ -11,6 +11,7 @@
         "chat": "AI Chat",
         "calm": "Calming Activities",
         "journal": "Gratitude Journal",
+        "community": "Community",
         "resources": "Resource Hub",
         "story": "AI Storyteller",
         "openMenu": "Open navigation menu",
@@ -40,6 +41,10 @@
         "journal": {
             "title": "Gratitude Journal",
             "description": "Reflect on the good things in your life."
+        },
+        "community": {
+            "title": "Community Feed",
+            "description": "Share positive thoughts anonymously with others."
         },
         "resources": {
             "title": "Resource Hub",
@@ -119,6 +124,31 @@
             "error": {
                 "title": "Error",
                 "description": "Could not save reflection. Please try again."
+            }
+        }
+    },
+    "community": {
+        "title": "Community Feed",
+        "subtitle": "Share your positive thoughts anonymously with others.",
+        "feedTitle": "Latest Shared Thoughts",
+        "placeholder": "Share a positive thought or moment of gratitude here...",
+        "button": "Share Anonymously",
+        "toast": {
+            "moderating": {
+                "title": "Reviewing your entry...",
+                "description": "Just making sure it's safe for the community."
+            },
+            "success": {
+                "title": "Shared Successfully!",
+                "description": "Your positivity is now part of the community."
+            },
+            "rejected": {
+                "title": "Entry Not Shared",
+                "description": "Your entry did not meet our guidelines."
+            },
+            "error": {
+                "title": "An Error Occurred",
+                "description": "Your entry could not be shared. Please try again."
             }
         }
     },
