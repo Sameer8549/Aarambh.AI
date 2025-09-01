@@ -22,8 +22,6 @@ import { Button } from './ui/button';
 import {
   Sheet,
   SheetContent,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from './ui/sheet';
 import ThemeToggle from './ThemeToggle';
@@ -105,19 +103,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
 
   return (
-    <div className="flex h-screen bg-secondary/30">
-        {/* Desktop Sidebar */}
-        <aside className="hidden lg:block w-72 border-r bg-card">
-            <SidebarContent />
-        </aside>
-
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <header className="flex items-center justify-between p-2 border-b bg-card lg:hidden">
-            <Link href="/" className="flex items-center gap-2">
-              <AarambhIcon />
-              <h1 className="text-xl font-bold font-headline">Aarambh.AI</h1>
-            </Link>
-          
+    <div className="flex flex-col h-screen bg-secondary/30">
+        <header className="flex items-center justify-between p-2 border-b bg-card">
             <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
               <SheetTrigger asChild>
                 <Button
@@ -133,9 +120,16 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <SidebarContent />
               </SheetContent>
             </Sheet>
+
+            <Link href="/" className="flex items-center gap-2">
+              <AarambhIcon />
+              <h1 className="text-xl font-bold font-headline">Aarambh.AI</h1>
+            </Link>
+          
+            {/* Empty div for spacing to keep title centered */}
+            <div className='w-10'></div>
         </header>
         <main className="flex-1 overflow-y-auto p-4 md:p-8">{children}</main>
-      </div>
     </div>
   );
 }
