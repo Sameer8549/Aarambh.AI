@@ -16,17 +16,17 @@ export default function AarambhIcon({ className }: { className?: string }) {
           fx="50%"
           fy="50%"
         >
-          <stop offset="0%" stopColor="#8A2BE2" stopOpacity="0.8" />
-          <stop offset="50%" stopColor="#4169E1" stopOpacity="0.7" />
-          <stop offset="100%" stopColor="#FF8C00" stopOpacity="0.3" />
+          <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.8" />
+          <stop offset="50%" stopColor="hsl(var(--accent))" stopOpacity="0.7" />
+          <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
         </radialGradient>
         <linearGradient id="path-gradient-blue-purple" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#4169E1" />
-          <stop offset="100%" stopColor="#8A2BE2" />
+          <stop offset="0%" stopColor="hsl(var(--secondary-foreground))" />
+          <stop offset="100%" stopColor="hsl(var(--primary))" />
         </linearGradient>
         <linearGradient id="path-gradient-orange" x1="0%" y1="100%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#FF8C00" />
-          <stop offset="100%" stopColor="#FFD700" />
+          <stop offset="0%" stopColor="hsl(var(--accent))" />
+          <stop offset="100%" stopColor="hsl(var(--ring))" />
         </linearGradient>
 
         <filter id="glow-effect" x="-50%" y="-50%" width="200%" height="200%">
