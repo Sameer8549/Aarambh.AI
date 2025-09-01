@@ -31,7 +31,7 @@
     },
     "features": {
         "chat": {
-            "title": "AI Chat",
+            "title": "AI Wellness Coach",
             "description": "Talk anonymously with an empathetic AI friend."
         },
         "calm": {
@@ -110,13 +110,15 @@
         "newEntry": "New Entry",
         "prompt": "Today, I am grateful for...",
         "placeholder": "Write about three things that went well today, or anything that brings you joy.",
-        "reflect": "Reflect",
+        "reflect": "Save Reflection",
         "ariaLabel": "Journal entry textarea",
-        "reflectAriaLabel": "Reflect on journal entry",
+        "reflectAriaLabel": "Save journal entry reflection",
+        "feedTitle": "My Reflections",
+        "noEntries": "Your saved journal entries will appear here.",
         "toast": {
             "empty": {
                 "title": "Empty Entry",
-                "description": "Please write something before reflecting."
+                "description": "Please write something before saving."
             },
             "saved": {
                 "title": "Reflection Saved"

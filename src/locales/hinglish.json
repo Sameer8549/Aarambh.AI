@@ -31,7 +31,7 @@
     },
     "features": {
         "chat": {
-            "title": "AI Chat",
+            "title": "AI Wellness Coach",
             "description": "Ek empathetic AI dost ke saath gumnam roop se baat karen."
         },
         "calm": {
@@ -110,20 +110,22 @@
         "newEntry": "Nayi Entry",
         "prompt": "Aaj, main iske liye aabhari hoon...",
         "placeholder": "Aaj acchi tarah se chali teen cheezon ke baare mein likhein, ya kuch bhi jo aapko khushi de.",
-        "reflect": "Vichar Karein",
+        "reflect": "Reflection Save Karein",
         "ariaLabel": "Journal entry textarea",
-        "reflectAriaLabel": "Journal entry par vichar karein",
+        "reflectAriaLabel": "Journal entry reflection save karein",
+        "feedTitle": "Mere Reflections",
+        "noEntries": "Aapki save ki hui journal entries yahan dikhengi.",
         "toast": {
             "empty": {
                 "title": "Khali Entry",
-                "description": "Kripya vichar karne se pehle kuch likhein."
+                "description": "Kripya save karne se pehle kuch likhein."
             },
             "saved": {
-                "title": "Vichar Save Ho Gaya"
+                "title": "Reflection Save Ho Gaya"
             },
             "error": {
                 "title": "Galti",
-                "description": "Vichar save nahi ho saka. Kripya phir se prayas karen."
+                "description": "Reflection save nahi ho saka. Kripya phir se prayas karen."
             }
         }
     },
