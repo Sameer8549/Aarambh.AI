@@ -334,7 +334,7 @@ export const wellnessResources: Resource[] = [
       description: 'An easy and proven way to build good habits and break bad ones. Learn how small changes can lead to remarkable results.',
       link: 'Atomic Habits by James Clear',
       type: ResourceTypeEnum.Book,
-      keywords: ['book', 'habits', 'self-improvement', 'productivity', 'motivation', 'james clear'],
+      keywords: ['book', 'self-improvement', 'productivity', 'motivation', 'james clear'],
     },
     {
       title: 'Man\'s Search for Meaning by Viktor Frankl',
@@ -392,7 +392,7 @@ export function getWellnessResources(query: string, resourceType?: ResourceTypeE
     });
 
     // Return a limited number of the best matches
-    return matchedResources.slice(0, 3);
+    return matchedResources.slice(0, 5);
 }
 
 

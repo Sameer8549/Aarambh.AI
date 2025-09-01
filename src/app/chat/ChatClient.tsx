@@ -26,6 +26,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
 
 import { useLanguage } from '@/contexts/LanguageContext';
 import { chatbotRespondMultilingually } from '@/ai/flows/multilingual-chatbot';
@@ -130,7 +137,7 @@ export default function ChatClient() {
               )}
             >
               {message.role === 'assistant' && (
-                <Avatar className="h-8 w-8">
+                <Avatar className="h-8 w-8 self-start">
                   <AvatarFallback>
                     <Bot />
                   </AvatarFallback>
@@ -138,7 +145,7 @@ export default function ChatClient() {
               )}
               <div
                 className={cn(
-                  'max-w-md rounded-2xl p-3 shadow-sm',
+                  'max-w-2xl rounded-2xl p-3 shadow-sm flex flex-col',
                   message.role === 'user'
                     ? 'bg-primary text-primary-foreground rounded-br-none'
                     : 'bg-secondary text-secondary-foreground rounded-bl-none'
@@ -146,29 +153,43 @@ export default function ChatClient() {
               >
                 <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                  {message.resources && message.resources.length > 0 && (
-                  <div className="space-y-2 mt-4">
-                     <h4 className='font-bold text-sm flex items-center gap-2'><Book className='h-4 w-4'/> {t('chat.helpfulResources')}</h4>
-                    {message.resources.map((res, index) => {
-                      const Icon = resourceIcons[res.type] || Book;
-                      return (
-                        <Card key={index} className="bg-background/70">
-                          <CardHeader className="p-4">
-                            <CardTitle className="text-base flex items-center gap-2">
-                              <Icon className="h-4 w-4 text-primary" />
-                              {res.title}
-                            </CardTitle>
-                          </CardHeader>
-                          <CardContent className="p-4 pt-0 text-sm">
-                            <p>{res.description}</p>
-                          </CardContent>
-                          <CardFooter className="p-4 pt-0">
-                            <a href={res.link} target="_blank" rel="noopener noreferrer">
-                              <Button size="sm">{t('chat.viewResource')}</Button>
-                            </a>
-                          </CardFooter>
-                        </Card>
-                      )
-                    })}
+                  <div className="mt-4">
+                     <h4 className='font-bold text-sm flex items-center gap-2 mb-2'><Book className='h-4 w-4'/> {t('chat.helpfulResources')}</h4>
+                     <Carousel
+                        opts={{
+                          align: "start",
+                          loop: false,
+                        }}
+                        className="w-full max-w-sm sm:max-w-md md:max-w-lg"
+                      >
+                        <CarouselContent>
+                          {message.resources.map((res, index) => {
+                            const Icon = resourceIcons[res.type] || Book;
+                            return (
+                              <CarouselItem key={index} className="basis-4/5">
+                                 <a href={res.link} target="_blank" rel="noopener noreferrer" className="h-full block">
+                                  <Card className="bg-background/70 hover:bg-background h-full flex flex-col">
+                                    <CardHeader className="p-4">
+                                      <CardTitle className="text-base flex items-center gap-2">
+                                        <Icon className="h-4 w-4 text-primary" />
+                                        {res.title}
+                                      </CardTitle>
+                                    </CardHeader>
+                                    <CardContent className="p-4 pt-0 text-sm flex-grow">
+                                      <p>{res.description}</p>
+                                    </CardContent>
+                                    <CardFooter className="p-4 pt-0">
+                                        <Button size="sm" variant="link" className="p-0 h-auto">{t('chat.viewResource')}</Button>
+                                    </CardFooter>
+                                  </Card>
+                                  </a>
+                              </CarouselItem>
+                            )
+                          })}
+                        </CarouselContent>
+                        <CarouselPrevious className="-left-4" />
+                        <CarouselNext className="-right-4" />
+                      </Carousel>
                   </div>
                 )}
               </div>
