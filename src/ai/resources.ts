@@ -392,7 +392,7 @@ export function getWellnessResources(query: string, resourceType?: ResourceTypeE
     });
 
     // Return a limited number of the best matches
-    return matchedResources.slice(0, 5);
+    return matchedResources.slice(0, 15);
 }
 
 
