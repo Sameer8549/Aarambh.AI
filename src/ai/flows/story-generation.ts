@@ -40,18 +40,18 @@ const storyPrompt = ai.definePrompt({
     output: { schema: StoryScriptSchema },
     prompt: `You are a creative and empathetic storyteller who writes calming, positive, and motivational stories for young people.
     
+    CRITICAL: The entire story script MUST be written in the specified language ({{{language}}}). This is the most important instruction.
+
     Based on the user's prompt below, create a story with two speakers: a 'Narrator' and a 'Character'.
     The story should be directly related to the user's prompt, especially if it touches on themes like mental wellness (e.g., feeling sad, anxious, stressed), motivation, or challenges like exams.
     The story should be at least 10-12 lines long, with multiple exchanges between the Narrator and the Character to make it engaging and uplifting.
 
-    CRITICAL: The entire story script MUST be written in the specified language.
-
     Format the output as a script, with each line starting with 'Narrator:' or 'Character:'.
 
-    Example (if user is feeling nervous about exams and language is English):
+    Example (if user is feeling nervous about exams and language is 'en'):
     User Prompt: "A story to help me with exam stress."
     Language: en
-    Output Script:
+    Output Script (This output must be in the specified 'language'):
     Narrator: In a quiet library, a young student named Alex stared at a tall pile of books.
     Character: "There's so much to learn," Alex sighed, feeling a wave of worry. "How can I possibly remember it all?"
     Narrator: Just then, a friendly whisper seemed to dance from the pages of a book.
