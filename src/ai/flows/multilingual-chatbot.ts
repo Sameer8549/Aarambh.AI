@@ -173,7 +173,7 @@ const chatbotRespondMultilinguallyFlow = ai.defineFlow(
         }
     });
 
-    const output = llmResponse.output();
+    const output = llmResponse.output;
     if (!output) {
       throw new Error('The AI model failed to produce a valid response.');
     }
