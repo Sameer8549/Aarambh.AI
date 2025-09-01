@@ -1,3 +1,4 @@
+
 /**
  * @fileOverview A centralized list of curated, verified global mental health resources.
  */
@@ -111,6 +112,41 @@ export const wellnessResources: Resource[] = [
         link: '10-Minute Meditation for Self-Love Great Meditation',
         type: ResourceTypeEnum.Video,
         keywords: ['meditation', 'self-love', 'acceptance', 'short', 'guided', 'sad', 'lonely', 'confidence'],
+    },
+    {
+      title: 'TED - How to deal with anxiety',
+      description: 'An informative TED talk by Olivia Remes on simple, actionable coping skills for anxiety.',
+      link: 'TED how to deal with anxiety Olivia Remes',
+      type: ResourceTypeEnum.Video,
+      keywords: ['video', 'anxiety', 'coping skills', 'ted talk', 'information', 'stress'],
+    },
+    {
+      title: 'AsapSCIENCE - The Science of Motivation',
+      description: 'An engaging and scientific look at what drives motivation and how to harness it.',
+      link: 'AsapSCIENCE The Science of Motivation',
+      type: ResourceTypeEnum.Video,
+      keywords: ['video', 'motivation', 'science', 'procrastination', 'study', 'work'],
+    },
+    {
+      title: 'Headspace - 10-Minute Meditation for Sleep',
+      description: 'A calming guided meditation from Headspace designed to help you unwind and prepare for a restful sleep.',
+      link: 'Headspace 10 minute meditation for sleep',
+      type: ResourceTypeEnum.Video,
+      keywords: ['video', 'meditation', 'sleep', 'headspace', 'calm', 'relax', 'anxiety'],
+    },
+    {
+      title: 'Anna Freud Centre - Dealing with loss and bereavement',
+      description: 'Advice for young people on how to cope with feelings of grief and loss, from a leading UK charity.',
+      link: 'Anna Freud Centre dealing with loss and bereavement for young people',
+      type: ResourceTypeEnum.Video,
+      keywords: ['video', 'grief', 'loss', 'bereavement', 'sad', 'coping', 'support'],
+    },
+    {
+      title: 'Kurzgesagt – In a Nutshell - Gratitude',
+      description: 'A beautifully animated video explaining the science and benefits of practicing gratitude.',
+      link: 'Kurzgesagt Gratitude',
+      type: ResourceTypeEnum.Video,
+      keywords: ['video', 'gratitude', 'happiness', 'animation', 'science', 'positive'],
     },
     
     // === Exercises for Mental Health ===
