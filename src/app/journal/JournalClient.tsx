@@ -25,7 +25,7 @@ import {
   limit,
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import type { CommunityEntry as JournalEntry } from '@/types';
+import type { JournalEntry } from '@/types';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { AnimatePresence, motion } from 'framer-motion';
 import { format } from 'date-fns';
@@ -204,4 +204,3 @@ export default function JournalClient() {
       </div>
   );
 }
-

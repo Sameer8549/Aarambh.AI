@@ -23,10 +23,8 @@ export type Resource = {
     keywords?: string[];
 };
 
-export type CommunityEntry = {
+export type JournalEntry = {
     id: string;
     entry: string;
     timestamp: number;
 }
-
-    

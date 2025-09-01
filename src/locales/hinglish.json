@@ -11,7 +11,6 @@
         "chat": "AI Chat",
         "calm": "Calming Activities",
         "journal": "Gratitude Journal",
-        "community": "Community",
         "resources": "Resource Hub",
         "story": "AI Storyteller",
         "openMenu": "Navigation menu kholen",
@@ -41,10 +40,6 @@
         "journal": {
             "title": "Gratitude Journal",
             "description": "Apne jeevan ki achhi cheezon par vichar karen."
-        },
-         "community": {
-            "title": "Community Feed",
-            "description": "Doosron ke saath gumnam roop se positive vichar share karein."
         },
         "resources": {
             "title": "Resource Hub",
@@ -130,31 +125,6 @@
             },
              "encouragement": {
                 "title": "Thoda Protsahan"
-            }
-        }
-    },
-    "community": {
-        "title": "Community Feed",
-        "subtitle": "Doosron ke saath gumnam roop se apne positive vichar share karein.",
-        "feedTitle": "Latest Shared Thoughts",
-        "placeholder": "Yahan ek positive vichar ya gratitude ka pal share karein...",
-        "button": "Gumnam Roop Se Share Karein",
-        "toast": {
-            "moderating": {
-                "title": "Aapki entry review ki ja rahi hai...",
-                "description": "Yeh sunischit karne ke liye ki yeh community ke liye surakshit hai."
-            },
-            "success": {
-                "title": "Safaltapoorvak Share Kiya Gaya!",
-                "description": "Aapki positivity ab community ka hissa hai."
-            },
-            "rejected": {
-                "title": "Entry Share Nahi Hui",
-                "description": "Aapki entry hamare dishanirdeshon ko poora nahi karti thi."
-            },
-            "error": {
-                "title": "Ek Galti Hui",
-                "description": "Aapki entry share nahi ki ja saki. Kripya phir se prayas karen."
             }
         }
     },

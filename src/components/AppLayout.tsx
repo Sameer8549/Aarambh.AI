@@ -12,7 +12,6 @@ import {
   Home,
   PanelLeft,
   Wand,
-  Users,
   ArrowLeft,
 } from 'lucide-react';
 
@@ -64,14 +63,13 @@ const SidebarContent = () => {
         { href: '/chat', label: t('nav.chat'), icon: MessageCircle },
         { href: '/calm', label: t('nav.calm'), icon: Wind },
         { href: '/journal', label: t('nav.journal'), icon: BookText },
-        { href: '/community', label: t('nav.community'), icon: Users },
         { href: '/resources', label: t('nav.resources'), icon: Library },
         { href: '/story', label: t('nav.story'), icon: Wand },
     ];
     return (
         <div className='h-full flex flex-col'>
             <SheetHeader className="p-4 border-b">
-                 <SheetTitle className="sr-only">Aarambh.AI Navigation</SheetTitle>
+                 <SheetTitle className="sr-only">{t('nav.title')}</SheetTitle>
                  <Link href="/" className="flex items-center gap-3">
                   <AarambhIcon className="h-10 w-10" />
                    <h2 className="text-2xl font-bold font-headline">Aarambh.AI</h2>
@@ -128,14 +126,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                     <Button
                         variant="ghost"
                         aria-label={t('nav.openMenu')}
-                        className={cn("px-2", !isHomePage && "sm:hidden")}
+                        className="px-2"
                     >
                         <PanelLeft className="h-6 w-6" />
                         <span className="sr-only">{t('common.menu')}</span>
                     </Button>
                     </SheetTrigger>
                     <SheetContent side="left" className="w-80 p-0 flex flex-col">
-                    <SidebarContent />
+                      <SidebarContent />
                     </SheetContent>
                 </Sheet>
               </div>

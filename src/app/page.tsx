@@ -9,7 +9,6 @@ import {
   Library,
   HeartPulse,
   Wand,
-  Users,
 } from 'lucide-react';
 import AarambhIcon from '@/components/AarambhIcon';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -35,12 +34,6 @@ export default function Home() {
       description: t('features.journal.description'),
       href: '/journal',
       icon: <BookText className="h-8 w-8 text-primary" />,
-    },
-    {
-       title: t('features.community.title'),
-       description: t('features.community.description'),
-       href: '/community',
-       icon: <Users className="h-8 w-8 text-primary" />,
     },
     {
       title: t('features.resources.title'),
