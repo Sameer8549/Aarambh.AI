@@ -121,11 +121,15 @@
                 "description": "Kripya save karne se pehle kuch likhein."
             },
             "saved": {
-                "title": "Reflection Save Ho Gaya"
+                "title": "Reflection Save Ho Gaya!",
+                "description": "Aapki journal entry surakshit roop se store ho gayi hai."
             },
             "error": {
                 "title": "Galti",
                 "description": "Reflection save nahi ho saka. Kripya phir se prayas karen."
+            },
+             "encouragement": {
+                "title": "Thoda Protsahan"
             }
         }
     },

@@ -121,11 +121,15 @@
                 "description": "Please write something before saving."
             },
             "saved": {
-                "title": "Reflection Saved"
+                "title": "Reflection Saved!",
+                "description": "Your journal entry has been safely stored."
             },
             "error": {
                 "title": "Error",
                 "description": "Could not save reflection. Please try again."
+            },
+            "encouragement": {
+                "title": "A Little Encouragement"
             }
         }
     },

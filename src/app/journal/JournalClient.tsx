@@ -130,16 +130,12 @@ export default function JournalClient() {
         entry,
         timestamp: Timestamp.now(),
       });
-      
-      const result = await calmingActivityEncouragement({
-        activityType: 'gratitude journaling',
-      });
 
       toast({
         title: t('journal.toast.saved.title'),
-        description: result.encouragementMessage,
+        description: t('journal.toast.saved.description'),
       });
-
+      
       setEntry('');
 
     } catch (error) {
@@ -150,6 +146,20 @@ export default function JournalClient() {
       });
     } finally {
         setIsLoading(false);
+    }
+
+    // Get AI encouragement asynchronously without blocking the UI
+    try {
+        const result = await calmingActivityEncouragement({
+            activityType: 'gratitude journaling',
+        });
+        toast({
+            title: t('journal.toast.encouragement.title'),
+            description: result.encouragementMessage,
+        });
+    } catch (e) {
+        // Silently fail or show a less intrusive notification if needed
+        console.error("Failed to get AI encouragement:", e);
     }
   };
 
@@ -190,3 +200,4 @@ export default function JournalClient() {
       </div>
   );
 }
+
