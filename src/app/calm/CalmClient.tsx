@@ -19,10 +19,11 @@ import { getResourcesByType, ResourceTypeEnum } from '@/ai/resources';
 import type { Resource } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext';
 import EncouragementDialog from './EncouragementDialog';
+import type { Language } from '@/types';
 
 type BreathingTechnique = 'default' | 'box' | '4-7-8';
 
-const BreathingAnimation = ({ onComplete, technique, t }: { onComplete: () => void, technique: BreathingTechnique, t: (key: string) => string }) => {
+const BreathingAnimation = ({ onComplete, technique, t, language }: { onComplete: () => void, technique: BreathingTechnique, t: (key: string) => string, language: Language }) => {
   const [isBreathing, setIsBreathing] = useState(false);
   const [text, setText] = useState(t('breathing.getReady'));
   const [isMuted, setIsMuted] = useState(false);
@@ -62,18 +63,32 @@ const BreathingAnimation = ({ onComplete, technique, t }: { onComplete: () => vo
   
   const { cycle } = breathingTechniques[technique];
 
-   // Effect to select a friendly voice
+   // Effect to select a friendly voice based on the current language
   useEffect(() => {
     const getVoices = () => {
       if ('speechSynthesis' in window) {
         const voices = window.speechSynthesis.getVoices();
         if (voices.length > 0) {
-          // Prioritize high-quality, friendly female voices
-          const friendlyVoices = voices.filter(v => v.lang.startsWith('en') && v.name.includes('Google') && v.name.includes('Female'));
-          const femaleVoices = voices.filter(v => v.lang.startsWith('en') && (v.name.includes('Female') || v.name.includes('Samantha') || v.name.includes('Karen')));
-          const englishVoices = voices.filter(v => v.lang.startsWith('en'));
+            // Filter for voices matching the current app language
+            const languageVoices = voices.filter(v => v.lang.startsWith(language));
+            const englishVoices = voices.filter(v => v.lang.startsWith('en'));
 
-          setSelectedVoice(friendlyVoices[0] || femaleVoices[0] || englishVoices[0] || voices[0]);
+            // Prioritize high-quality, "Google" voices if available for the selected language
+            const highQualityLanguageVoices = languageVoices.filter(v => v.name.includes('Google'));
+            
+            // Fallback for English voices
+            const friendlyEnglishVoices = englishVoices.filter(v => v.lang.startsWith('en') && v.name.includes('Google') && v.name.includes('Female'));
+            const femaleEnglishVoices = englishVoices.filter(v => v.lang.startsWith('en') && (v.name.includes('Female') || v.name.includes('Samantha') || v.name.includes('Karen')));
+
+            // Set the selected voice based on priority
+            setSelectedVoice(
+                highQualityLanguageVoices[0] ||
+                languageVoices[0] ||
+                friendlyEnglishVoices[0] ||
+                femaleEnglishVoices[0] ||
+                englishVoices[0] ||
+                voices[0]
+            );
         }
       }
     };
@@ -82,7 +97,7 @@ const BreathingAnimation = ({ onComplete, technique, t }: { onComplete: () => vo
     if ('speechSynthesis' in window && window.speechSynthesis.onvoiceschanged !== undefined) {
       window.speechSynthesis.onvoiceschanged = getVoices;
     }
-  }, []);
+  }, [language]);
 
   // Effect for speech synthesis
   useEffect(() => {
@@ -221,7 +236,7 @@ const MusicPlayer = ({ onComplete }: { onComplete: (activity: string) => void })
   );
 };
 
-const BreathingPage = ({onComplete}: {onComplete: (activity: string) => void}) => {
+const BreathingPage = ({onComplete, language}: {onComplete: (activity: string) => void, language: Language}) => {
   const [technique, setTechnique] = useState<BreathingTechnique>('default');
   const { t } = useLanguage();
   
@@ -266,7 +281,7 @@ const BreathingPage = ({onComplete}: {onComplete: (activity: string) => void}) =
           </Card>
         </div>
         <div className="lg:col-span-2">
-           <BreathingAnimation onComplete={() => onComplete(selectedTechnique.name)} technique={technique} t={t} />
+           <BreathingAnimation onComplete={() => onComplete(selectedTechnique.name)} technique={technique} t={t} language={language} />
         </div>
 
     </div>
@@ -279,7 +294,7 @@ export default function CalmClient() {
   const [showDialog, setShowDialog] = useState(false);
   const [encouragement, setEncouragement] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const handleActivityCompletion = async (activityType: string) => {
     setIsLoading(true);
@@ -309,7 +324,7 @@ export default function CalmClient() {
           <MusicPlayer onComplete={(activity) => handleActivityCompletion(activity)} />
         </TabsContent>
         <TabsContent value="breathing">
-           <BreathingPage onComplete={(activity) => handleActivityCompletion(activity)} />
+           <BreathingPage onComplete={(activity) => handleActivityCompletion(activity)} language={language} />
         </TabsContent>
       </Tabs>
       
