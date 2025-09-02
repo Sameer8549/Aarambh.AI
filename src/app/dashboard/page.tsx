@@ -31,50 +31,25 @@ import {
 } from 'recharts';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-
-// Mock data simulating aggregated insights from BigQuery
-const stressTopicsData = [
-  { topic: 'Exams', mentions: 450, fill: 'var(--color-exams)' },
-  { topic: 'Family', mentions: 300, fill: 'var(--color-family)' },
-  { topic: 'Relationships', mentions: 200, fill: 'var(--color-relationships)' },
-  { topic: 'Future', mentions: 278, fill: 'var(--color-future)' },
-  { topic: 'Loneliness', mentions: 189, fill: 'var(--color-loneliness)' },
-];
+import { useState, useEffect } from 'react';
+import { collection, onSnapshot, query, where, Timestamp } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import type { AnonymousInsight } from '@/types';
+import { format, subDays } from 'date-fns';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const stressTopicsConfig = {
-  mentions: {
-    label: 'Mentions',
-  },
-  exams: {
-    label: 'Exams',
-    color: 'hsl(var(--chart-1))',
-  },
-  family: {
-    label: 'Family',
-    color: 'hsl(var(--chart-2))',
-  },
-  relationships: {
-    label: 'Relationships',
-    color: 'hsl(var(--chart-3))',
-  },
-  future: {
-    label: 'Future',
-    color: 'hsl(var(--chart-4))',
-  },
-  loneliness: {
-    label: 'Loneliness',
-    color: 'hsl(var(--chart-5))',
-  },
+  mentions: { label: 'Mentions' },
+  Exams: { label: 'Exams', color: 'hsl(var(--chart-1))' },
+  Family: { label: 'Family', color: 'hsl(var(--chart-2))' },
+  Relationships: { label: 'Relationships', color: 'hsl(var(--chart-3))' },
+  Future: { label: 'Future', color: 'hsl(var(--chart-4))' },
+  Loneliness: { label: 'Loneliness', color: 'hsl(var(--chart-5))' },
+  Gratitude: { label: 'Gratitude', color: 'hsl(var(--chart-1))' },
+  Stress: { label: 'Stress', color: 'hsl(var(--chart-2))' },
+  Confidence: { label: 'Confidence', color: 'hsl(var(--chart-3))' },
+  Sleep: { label: 'Sleep', color: 'hsl(var(--chart-4))' },
 } satisfies ChartConfig;
-
-const moodTrendsData = [
-  { month: 'Jan', moodScore: 3.5 },
-  { month: 'Feb', moodScore: 3.2 },
-  { month: 'Mar', moodScore: 2.8 }, // Exam stress dip
-  { month: 'Apr', moodScore: 2.9 },
-  { month: 'May', moodScore: 3.8 }, // Holidays
-  { month: 'Jun', moodScore: 3.6 },
-];
 
 const moodTrendsConfig = {
   moodScore: {
@@ -83,23 +58,88 @@ const moodTrendsConfig = {
   },
 } satisfies ChartConfig;
 
-const languageData = [
-  { name: 'English', value: 400, fill: 'var(--color-english)' },
-  { name: 'Hinglish', value: 300, fill: 'var(--color-hinglish)' },
-  { name: 'Hindi', value: 200, fill: 'var(--color-hindi)' },
-  { name: 'Kannada', value: 100, fill: 'var(--color-kannada)' },
-];
-
 const languageConfig = {
-    english: { label: 'English', color: 'hsl(var(--chart-1))' },
-    hinglish: { label: 'Hinglish', color: 'hsl(var(--chart-2))' },
-    hindi: { label: 'Hindi', color: 'hsl(var(--chart-3))' },
-    kannada: { label: 'Kannada', color: 'hsl(var(--chart-4))' },
+    en: { label: 'English', color: 'hsl(var(--chart-1))' },
+    hi: { label: 'Hindi', color: 'hsl(var(--chart-2))' },
+    hinglish: { label: 'Hinglish', color: 'hsl(var(--chart-3))' },
+    kn: { label: 'Kannada', color: 'hsl(var(--chart-4))' },
+    ta: { label: 'Tamil', color: 'hsl(var(--chart-5))' },
+    bn: { label: 'Bengali', color: 'hsl(var(--chart-1))' },
 } satisfies ChartConfig;
 
 
 export default function DashboardPage() {
   const { t } = useLanguage();
+  const [stressTopicsData, setStressTopicsData] = useState<any[]>([]);
+  const [moodTrendsData, setMoodTrendsData] = useState<any[]>([]);
+  const [languageData, setLanguageData] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const insightsRef = collection(db, 'anonymous-insights');
+    const sevenDaysAgo = Timestamp.fromDate(subDays(new Date(), 7));
+    const q = query(insightsRef, where('timestamp', '>=', sevenDaysAgo));
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const insights: AnonymousInsight[] = [];
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        insights.push({
+          id: doc.id,
+          sentiment: data.sentiment,
+          topics: data.topics,
+          language: data.language,
+          source: data.source,
+          timestamp: data.timestamp.seconds,
+        });
+      });
+
+      // Process data for Stress Topics Chart
+      const topicCounts = insights.flatMap(i => i.topics).reduce((acc, topic) => {
+        acc[topic] = (acc[topic] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>);
+      
+      const formattedStressData = Object.entries(topicCounts)
+        .map(([topic, mentions]) => ({ topic, mentions, fill: `var(--color-${topic})` }))
+        .sort((a, b) => b.mentions - a.mentions);
+      setStressTopicsData(formattedStressData);
+
+      // Process data for Language Usage Chart
+      const langCounts = insights.reduce((acc, insight) => {
+        acc[insight.language] = (acc[insight.language] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>);
+
+      const formattedLangData = Object.entries(langCounts)
+        .map(([name, value]) => ({ name, value, fill: `var(--color-${name.toLowerCase()})` }))
+        .sort((a, b) => b.value - a.value);
+      setLanguageData(formattedLangData);
+      
+      // Process data for Mood Trends Chart
+       const sentimentToScore = { 'Positive': 5, 'Neutral': 3, 'Negative': 1 };
+       const trendDataByDay = insights.reduce((acc, insight) => {
+         const day = format(new Date(insight.timestamp * 1000), 'MMM d');
+         if (!acc[day]) {
+           acc[day] = { scores: [], count: 0 };
+         }
+         acc[day].scores.push(sentimentToScore[insight.sentiment]);
+         acc[day].count += 1;
+         return acc;
+       }, {} as Record<string, { scores: number[], count: number }>);
+ 
+       const formattedTrendData = Object.entries(trendDataByDay).map(([day, data]) => ({
+         month: day,
+         moodScore: data.scores.reduce((a, b) => a + b, 0) / data.count,
+       })).sort((a,b) => new Date(a.month) > new Date(b.month) ? 1 : -1);
+       setMoodTrendsData(formattedTrendData);
+
+
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <div className="space-y-8">
@@ -129,23 +169,27 @@ export default function DashboardPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={stressTopicsConfig} className="min-h-[350px] w-full">
-              <BarChart accessibilityLayer data={stressTopicsData}>
-                <CartesianGrid vertical={false} />
-                <XAxis
-                  dataKey="topic"
-                  tickLine={false}
-                  tickMargin={10}
-                  axisLine={false}
-                />
-                 <YAxis label={{ value: t('dashboard.stressTopicsYLabel'), angle: -90, position: 'insideLeft' }} />
-                <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent indicator="dot" />}
-                />
-                <Bar dataKey="mentions" radius={4} />
-              </BarChart>
-            </ChartContainer>
+            {isLoading ? (
+                <Skeleton className="h-[350px] w-full" />
+            ) : (
+                <ChartContainer config={stressTopicsConfig} className="min-h-[350px] w-full">
+                <BarChart accessibilityLayer data={stressTopicsData}>
+                    <CartesianGrid vertical={false} />
+                    <XAxis
+                    dataKey="topic"
+                    tickLine={false}
+                    tickMargin={10}
+                    axisLine={false}
+                    />
+                    <YAxis label={{ value: t('dashboard.stressTopicsYLabel'), angle: -90, position: 'insideLeft' }} />
+                    <ChartTooltip
+                    cursor={false}
+                    content={<ChartTooltipContent indicator="dot" />}
+                    />
+                    <Bar dataKey="mentions" radius={4} />
+                </BarChart>
+                </ChartContainer>
+            )}
           </CardContent>
         </Card>
 
@@ -157,27 +201,31 @@ export default function DashboardPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={moodTrendsConfig} className="min-h-[300px] w-full">
-              <LineChart accessibilityLayer data={moodTrendsData}>
-                <CartesianGrid vertical={false} />
-                <XAxis
-                  dataKey="month"
-                  tickLine={false}
-                  axisLine={false}
-                  tickMargin={8}
-                />
-                 <YAxis domain={[1, 5]} label={{ value: t('dashboard.moodTrendsYLabel'), angle: -90, position: 'insideLeft' }}/>
-                <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-                <ChartLegend content={<ChartLegendContent />} />
-                <Line
-                  dataKey="moodScore"
-                  type="monotone"
-                  stroke="var(--color-moodScore)"
-                  strokeWidth={2}
-                  dot={false}
-                />
-              </LineChart>
-            </ChartContainer>
+            {isLoading ? (
+                <Skeleton className="h-[300px] w-full" />
+            ) : (
+                 <ChartContainer config={moodTrendsConfig} className="min-h-[300px] w-full">
+                    <LineChart accessibilityLayer data={moodTrendsData}>
+                        <CartesianGrid vertical={false} />
+                        <XAxis
+                        dataKey="month"
+                        tickLine={false}
+                        axisLine={false}
+                        tickMargin={8}
+                        />
+                        <YAxis domain={[1, 5]} label={{ value: t('dashboard.moodTrendsYLabel'), angle: -90, position: 'insideLeft' }}/>
+                        <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+                        <ChartLegend content={<ChartLegendContent />} />
+                        <Line
+                        dataKey="moodScore"
+                        type="monotone"
+                        stroke="var(--color-moodScore)"
+                        strokeWidth={2}
+                        dot={false}
+                        />
+                    </LineChart>
+                </ChartContainer>
+            )}
           </CardContent>
         </Card>
 
@@ -189,28 +237,34 @@ export default function DashboardPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ChartContainer
-                config={languageConfig}
-                className="mx-auto aspect-square max-h-[300px]"
-            >
-                <RechartsPieChart>
-                    <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent hideLabel />}
-                    />
-                    <Pie data={languageData} dataKey="value" nameKey="name" innerRadius={60} label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
-                    labelLine={false}
-                     >
-                       {languageData.map((entry) => (
-                        <Cell key={entry.name} fill={entry.fill} />
-                        ))}
-                    </Pie>
-                     <ChartLegend
-                        content={<ChartLegendContent nameKey="name" />}
-                        className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
-                    />
-                </RechartsPieChart>
-            </ChartContainer>
+             {isLoading ? (
+                <div className="mx-auto aspect-square max-h-[300px] flex items-center justify-center">
+                    <Skeleton className="h-[250px] w-[250px] rounded-full" />
+                </div>
+            ) : (
+                <ChartContainer
+                    config={languageConfig}
+                    className="mx-auto aspect-square max-h-[300px]"
+                >
+                    <RechartsPieChart>
+                        <ChartTooltip
+                        cursor={false}
+                        content={<ChartTooltipContent hideLabel />}
+                        />
+                        <Pie data={languageData} dataKey="value" nameKey="name" innerRadius={60} label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
+                        labelLine={false}
+                        >
+                        {languageData.map((entry) => (
+                            <Cell key={entry.name} fill={entry.fill} />
+                            ))}
+                        </Pie>
+                        <ChartLegend
+                            content={<ChartLegendContent nameKey="name" />}
+                            className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
+                        />
+                    </RechartsPieChart>
+                </ChartContainer>
+            )}
           </CardContent>
         </Card>
       </div>
