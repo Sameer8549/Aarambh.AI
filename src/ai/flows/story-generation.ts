@@ -12,7 +12,6 @@ import { ai } from '@/ai/genkit';
 import { googleAI } from '@genkit-ai/googleai';
 import { z } from 'genkit';
 import wav from 'wav';
-import { generateImage } from './image-generation';
 
 // Define Zod schemas for input and output
 const StoryGenerationInputSchema = z.object({
@@ -24,7 +23,6 @@ export type StoryGenerationInput = z.infer<typeof StoryGenerationInputSchema>;
 const StoryGenerationOutputSchema = z.object({
   audioUrl: z.string().describe('The data URI of the generated audio story in WAV format.'),
   storyScript: z.string().describe('The full script of the generated story, including the introduction.'),
-  imageUrl: z.string().describe('A data URI for a generated image related to the story.'),
 });
 export type StoryGenerationOutput = z.infer<typeof StoryGenerationOutputSchema>;
 
@@ -117,16 +115,12 @@ const storyGenerationFlow = ai.defineFlow(
       outputSchema: StoryGenerationOutputSchema,
     },
     async (input) => {
-      // 1. Generate the story script and image in parallel
-      const scriptPromise = storyPrompt({
+      // 1. Generate the story script
+      const scriptResponse = await storyPrompt({
         prompt: input.prompt,
         language: input.language,
       });
 
-      const imagePromise = generateImage({ prompt: input.prompt });
-
-      const [scriptResponse, imageResponse] = await Promise.all([scriptPromise, imagePromise]);
-      
       const storyScript = scriptResponse.output?.storyScript;
 
       if (!storyScript) {
@@ -174,7 +168,6 @@ const storyGenerationFlow = ai.defineFlow(
         return {
           audioUrl: `data:audio/wav;base64,${wavBase64}`,
           storyScript: fullScript,
-          imageUrl: imageResponse.imageUrl,
         };
       } catch (e: any) {
         // Check for a specific quota error from the API

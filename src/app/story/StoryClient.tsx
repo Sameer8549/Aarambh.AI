@@ -2,7 +2,6 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -208,7 +207,6 @@ export default function StoryClient() {
   const [isLoading, setIsLoading] = useState(false);
   const [generatedAudioUrl, setGeneratedAudioUrl] = useState<string | null>(null);
   const [generatedScript, setGeneratedScript] = useState<string | null>(null);
-  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleGeneration = async () => {
@@ -218,13 +216,11 @@ export default function StoryClient() {
     setError(null);
     setGeneratedAudioUrl(null);
     setGeneratedScript(null);
-    setGeneratedImageUrl(null);
 
     try {
       const result = await generateStory({ prompt, language });
       setGeneratedAudioUrl(result.audioUrl);
       setGeneratedScript(result.storyScript);
-      setGeneratedImageUrl(result.imageUrl);
     } catch (e: any) {
       console.error(e);
       // Handle the specific quota error message from the flow
@@ -292,7 +288,7 @@ export default function StoryClient() {
                     <AlertTitle>{t('story.generatingTitle')}</AlertTitle>
                     <AlertDescription>{t('story.generatingDescription')}</AlertDescription>
                 </Alert>
-                <Skeleton className="w-full h-[400px] rounded-lg" />
+                <Skeleton className="w-full h-[250px] rounded-lg" />
             </div>
         )}
 
@@ -304,7 +300,7 @@ export default function StoryClient() {
         )}
         
         <AnimatePresence>
-            {generatedAudioUrl && generatedImageUrl && (
+            {generatedAudioUrl && (
                 <motion.div
                     key="story-result"
                     initial={{ opacity: 0, y: 20 }}
@@ -312,17 +308,6 @@ export default function StoryClient() {
                     transition={{ duration: 0.5, delay: 0.1 }}
                     className="space-y-6"
                 >
-                    <Card className="overflow-hidden">
-                        <div className="relative aspect-video">
-                            <Image 
-                                src={generatedImageUrl} 
-                                alt="Generated story image" 
-                                fill
-                                className="object-cover"
-                            />
-                        </div>
-                    </Card>
-
                     <CustomAudioPlayer 
                         audioUrl={generatedAudioUrl}
                         onPlaybackEnd={() => console.log("Playback finished")}
