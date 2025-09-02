@@ -34,7 +34,7 @@ const imageGenerationFlow = ai.defineFlow(
     
     const { media } = await ai.generate({
         model: googleAI.model('imagen-4.0-fast-generate-001'),
-        prompt: `A beautiful and uplifting image that visually represents the following thought: '${input.prompt}'. The style should be artistic and hopeful.`,
+        prompt: `Create a beautiful, symbolic, and gender-neutral visual representation of the following thought: '${input.prompt}'. The style should be artistic and hopeful, focusing on abstract concepts, nature, or objects rather than specific people.`,
         config: {
             aspectRatio: '16:9'
         }
