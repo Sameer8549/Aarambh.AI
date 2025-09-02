@@ -173,7 +173,8 @@ export default function DashboardPage() {
                 <Skeleton className="h-[350px] w-full" />
             ) : (
                 <ChartContainer config={stressTopicsConfig} className="min-h-[350px] w-full">
-                <BarChart accessibilityLayer data={stressTopicsData}>
+                <ResponsiveContainer>
+                <BarChart data={stressTopicsData}>
                     <CartesianGrid vertical={false} />
                     <XAxis
                     dataKey="topic"
@@ -186,8 +187,13 @@ export default function DashboardPage() {
                     cursor={false}
                     content={<ChartTooltipContent indicator="dot" />}
                     />
-                    <Bar dataKey="mentions" radius={4} />
+                    <Bar dataKey="mentions" radius={4}>
+                      {stressTopicsData.map((entry) => (
+                          <Cell key={`cell-${entry.topic}`} fill={stressTopicsConfig[entry.topic as keyof typeof stressTopicsConfig]?.color || 'hsl(var(--primary))'} />
+                        ))}
+                    </Bar>
                 </BarChart>
+                </ResponsiveContainer>
                 </ChartContainer>
             )}
           </CardContent>
@@ -205,7 +211,8 @@ export default function DashboardPage() {
                 <Skeleton className="h-[300px] w-full" />
             ) : (
                  <ChartContainer config={moodTrendsConfig} className="min-h-[300px] w-full">
-                    <LineChart accessibilityLayer data={moodTrendsData}>
+                  <ResponsiveContainer>
+                    <LineChart data={moodTrendsData}>
                         <CartesianGrid vertical={false} />
                         <XAxis
                         dataKey="month"
@@ -221,9 +228,10 @@ export default function DashboardPage() {
                         type="monotone"
                         stroke="var(--color-moodScore)"
                         strokeWidth={2}
-                        dot={false}
+                        dot={true}
                         />
                     </LineChart>
+                    </ResponsiveContainer>
                 </ChartContainer>
             )}
           </CardContent>
@@ -235,7 +243,7 @@ export default function DashboardPage() {
               <PieChartIcon className="h-5 w-5" />
               {t('dashboard.languageUseTitle')}
             </CardTitle>
-          </CardHeader>
+          </Header>
           <CardContent>
              {isLoading ? (
                 <div className="mx-auto aspect-square max-h-[300px] flex items-center justify-center">
@@ -246,6 +254,7 @@ export default function DashboardPage() {
                     config={languageConfig}
                     className="mx-auto aspect-square max-h-[300px]"
                 >
+                  <ResponsiveContainer>
                     <RechartsPieChart>
                         <ChartTooltip
                         cursor={false}
@@ -255,7 +264,7 @@ export default function DashboardPage() {
                         labelLine={false}
                         >
                         {languageData.map((entry) => (
-                            <Cell key={entry.name} fill={entry.fill} />
+                            <Cell key={`cell-${entry.name}`} fill={entry.fill} />
                             ))}
                         </Pie>
                         <ChartLegend
@@ -263,6 +272,7 @@ export default function DashboardPage() {
                             className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
                         />
                     </RechartsPieChart>
+                    </ResponsiveContainer>
                 </ChartContainer>
             )}
           </CardContent>
