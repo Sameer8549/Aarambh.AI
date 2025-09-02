@@ -12,6 +12,7 @@ import { ai } from '@/ai/genkit';
 import { googleAI } from '@genkit-ai/googleai';
 import { z } from 'genkit';
 import wav from 'wav';
+import { generateImage } from './image-generation';
 
 // Define Zod schemas for input and output
 const StoryGenerationInputSchema = z.object({
@@ -23,6 +24,7 @@ export type StoryGenerationInput = z.infer<typeof StoryGenerationInputSchema>;
 const StoryGenerationOutputSchema = z.object({
   audioUrl: z.string().describe('The data URI of the generated audio story in WAV format.'),
   storyScript: z.string().describe('The full script of the generated story, including the introduction.'),
+  imageUrl: z.string().describe('A data URI for a generated image related to the story.'),
 });
 export type StoryGenerationOutput = z.infer<typeof StoryGenerationOutputSchema>;
 
@@ -97,7 +99,7 @@ const getIntroduction = (language: z.infer<typeof StoryGenerationInputSchema>['l
     en: "Hello, I am Aarambh.AI. 'Aarambh' means 'a new beginning'. I have listened to you. I will now tell you a story to help you feel more confident and overcome your challenges.",
     hi: "नमस्ते, मैं आरंभ.AI हूँ। 'आरंभ' का मतलब है 'एक नई शुरुआत'। मैंने आपकी बात सुनी है। अब मैं आपको अधिक आत्मविश्वासी महसूस कराने और आपकी चुनौतियों से उबरने में मदद करने के लिए एक कहानी सुनाऊंगा।",
     hinglish: "Hello, main Aarambh.AI hoon. 'Aarambh' ka matlab hai 'ek nayi shuruaat'. Maine aapki baat suni hai. Ab main aapko ek kahani sunaunga jo aapko confident feel karne aur aapki challenges ko paar karne mein madad karegi.",
-    ta: "வணக்கம், நான் ஆரம்ப்.AI. 'ஆரம்ப்' என்றால் 'ஒரு புதிய ஆரம்பம்'. நான் உங்கள் பேச்சைக் கேட்டேன். இப்போது நீங்கள் அதிக நம்பிக்கையுடனும் உங்கள் சவால்களை சமாளிக்கவும் உதவும் ஒரு கதையைச் சொல்லப் போகிறேன்.",
+    ta: "வணக்கம், நான் ஆரம்ப்.AI. 'ஆரம்ப்' என்றால் 'ஒரு புதிய ஆரம்பம்'. நான் உங்கள் பேச்சைக் கேட்டேன்। இப்போது நீங்கள் அதிக நம்பிக்கையுடனும் உங்கள் சவால்களை சமாளிக்கவும் உதவும் ஒரு கதையைச் சொல்லப் போகிறேன்.",
     kn: "ನಮಸ್ಕಾರ, ನಾನು ಆರಂಭ್.AI. 'ಆರಂಭ್' ಎಂದರೆ 'ಒಂದು ಹೊಸ ಆರಂಭ'. ನಾನು ನಿಮ್ಮ ಮಾತನ್ನು ಕೇಳಿದ್ದೇನೆ. ಈಗ ನಾನು ನಿಮಗೆ ಹೆಚ್ಚು ಆತ್ಮವಿಶ್ವಾಸವನ್ನು ನೀಡಲು ಮತ್ತು ನಿಮ್ಮ ಸವಾಲುಗಳನ್ನು ನಿವಾರಿಸಲು ಸಹಾಯ ಮಾಡಲು ಒಂದು ಕಥೆಯನ್ನು ಹೇಳುತ್ತೇನೆ.",
     bn: "নমস্কার, আমি আরম্ভ.AI। 'আরম্ভ' মানে 'একটি নতুন শুরু'। আমি আপনার কথা শুনেছি। এখন আমি আপনাকে আরও আত্মবিশ্বাসী বোধ করতে এবং আপনার চ্যালেঞ্জগুলি কাটিয়ে উঠতে সাহায্য করার জন্য একটি গল্প বলব।",
   };
@@ -115,11 +117,16 @@ const storyGenerationFlow = ai.defineFlow(
       outputSchema: StoryGenerationOutputSchema,
     },
     async (input) => {
-      // 1. Generate the story script
-      const scriptResponse = await storyPrompt({
+      // 1. Generate the story script and image in parallel
+      const scriptPromise = storyPrompt({
         prompt: input.prompt,
         language: input.language,
       });
+
+      const imagePromise = generateImage({ prompt: input.prompt });
+
+      const [scriptResponse, imageResponse] = await Promise.all([scriptPromise, imagePromise]);
+      
       const storyScript = scriptResponse.output?.storyScript;
 
       if (!storyScript) {
@@ -167,6 +174,7 @@ const storyGenerationFlow = ai.defineFlow(
         return {
           audioUrl: `data:audio/wav;base64,${wavBase64}`,
           storyScript: fullScript,
+          imageUrl: imageResponse.imageUrl,
         };
       } catch (e: any) {
         // Check for a specific quota error from the API

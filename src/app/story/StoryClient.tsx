@@ -2,6 +2,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -11,6 +12,7 @@ import { generateStory } from '@/ai/flows/story-generation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const CustomAudioPlayer = ({ audioUrl, onPlaybackEnd }: { audioUrl: string; onPlaybackEnd: () => void }) => {
     const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -161,7 +163,7 @@ const CustomAudioPlayer = ({ audioUrl, onPlaybackEnd }: { audioUrl: string; onPl
                                     exit={{ opacity: 0, scale: 0.5 }}
                                     className="absolute inset-0 flex items-center justify-center"
                                 >
-                                    <Pause className="h-8 w-8 text-currentColor" />
+                                    <Pause className="h-8 w-8 text-primary-foreground" />
                                 </motion.div>
                             ) : (
                                 <motion.div
@@ -171,7 +173,7 @@ const CustomAudioPlayer = ({ audioUrl, onPlaybackEnd }: { audioUrl: string; onPl
                                     exit={{ opacity: 0, scale: 0.5 }}
                                     className="absolute inset-0 flex items-center justify-center"
                                 >
-                                    <Play className="h-8 w-8 text-currentColor" />
+                                    <Play className="h-8 w-8 text-primary-foreground" />
                                 </motion.div>
                             )}
                         </AnimatePresence>
@@ -206,6 +208,7 @@ export default function StoryClient() {
   const [isLoading, setIsLoading] = useState(false);
   const [generatedAudioUrl, setGeneratedAudioUrl] = useState<string | null>(null);
   const [generatedScript, setGeneratedScript] = useState<string | null>(null);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleGeneration = async () => {
@@ -215,11 +218,13 @@ export default function StoryClient() {
     setError(null);
     setGeneratedAudioUrl(null);
     setGeneratedScript(null);
+    setGeneratedImageUrl(null);
 
     try {
       const result = await generateStory({ prompt, language });
       setGeneratedAudioUrl(result.audioUrl);
       setGeneratedScript(result.storyScript);
+      setGeneratedImageUrl(result.imageUrl);
     } catch (e: any) {
       console.error(e);
       // Handle the specific quota error message from the flow
@@ -281,11 +286,14 @@ export default function StoryClient() {
         </Card>
 
         {isLoading && (
-            <Alert>
-                <Loader2 className="h-5 w-5 animate-spin" />
-                <AlertTitle>{t('story.generatingTitle')}</AlertTitle>
-                <AlertDescription>{t('story.generatingDescription')}</AlertDescription>
-            </Alert>
+            <div className="space-y-6">
+                <Alert>
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    <AlertTitle>{t('story.generatingTitle')}</AlertTitle>
+                    <AlertDescription>{t('story.generatingDescription')}</AlertDescription>
+                </Alert>
+                <Skeleton className="w-full h-[400px] rounded-lg" />
+            </div>
         )}
 
         {error && (
@@ -296,7 +304,7 @@ export default function StoryClient() {
         )}
         
         <AnimatePresence>
-            {generatedAudioUrl && (
+            {generatedAudioUrl && generatedImageUrl && (
                 <motion.div
                     key="story-result"
                     initial={{ opacity: 0, y: 20 }}
@@ -304,6 +312,17 @@ export default function StoryClient() {
                     transition={{ duration: 0.5, delay: 0.1 }}
                     className="space-y-6"
                 >
+                    <Card className="overflow-hidden">
+                        <div className="relative aspect-video">
+                            <Image 
+                                src={generatedImageUrl} 
+                                alt="Generated story image" 
+                                fill
+                                className="object-cover"
+                            />
+                        </div>
+                    </Card>
+
                     <CustomAudioPlayer 
                         audioUrl={generatedAudioUrl}
                         onPlaybackEnd={() => console.log("Playback finished")}
