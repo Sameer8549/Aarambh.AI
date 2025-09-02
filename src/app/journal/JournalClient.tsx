@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { calmingActivityEncouragement } from '@/ai/flows/calming-activity-encouragement';
+import { anonymizeAndAnalyze } from '@/ai/flows/anonymize-and-analyze';
 import {
   Card,
   CardContent,
@@ -111,7 +112,7 @@ export default function JournalClient() {
   const [entry, setEntry] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const getAIEncouragement = async () => {
     try {
@@ -123,8 +124,22 @@ export default function JournalClient() {
             description: result.encouragementMessage,
         });
     } catch (e) {
-        // Silently fail or show a less intrusive notification if needed
         console.error("Failed to get AI encouragement:", e);
+    }
+  }
+
+  const processForDashboard = async (journalEntry: string) => {
+    try {
+      const analysis = await anonymizeAndAnalyze({ text: journalEntry });
+      await addDoc(collection(db, 'anonymous-insights'), {
+        sentiment: analysis.sentiment,
+        topics: analysis.topics,
+        language: language,
+        source: 'journal',
+        timestamp: Timestamp.now(),
+      });
+    } catch (error) {
+      console.error("Failed to process entry for dashboard:", error);
     }
   }
 
@@ -139,10 +154,10 @@ export default function JournalClient() {
     }
 
     setIsLoading(true);
+    const entryToSave = entry;
     try {
-      // Save entry to Firestore
       await addDoc(collection(db, 'journal-entries'), {
-        entry,
+        entry: entryToSave,
         timestamp: Timestamp.now(),
       });
 
@@ -153,7 +168,8 @@ export default function JournalClient() {
       
       setEntry('');
 
-      // Get AI encouragement asynchronously after saving is complete
+      // Asynchronously process for dashboard and get encouragement
+      processForDashboard(entryToSave);
       getAIEncouragement();
 
     } catch (error) {
