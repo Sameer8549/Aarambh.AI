@@ -12,7 +12,7 @@
 import {ai} from '@/ai/genkit';
 import {googleAI} from '@genkit-ai/googleai';
 import {z} from 'genkit';
-import {getWellnessResources, ResourceTypeEnum} from '@/ai/resources';
+import {searchResources} from '@/services/search';
 import {provideBookRecommendations} from '@/ai/flows/chatbot-book-recommendations';
 import {ToolRequest, tool} from 'genkit/ai';
 
@@ -21,20 +21,20 @@ const findResourcesTool = ai.defineTool(
     name: 'findResources',
     description: 'Finds relevant resources (articles, videos, exercises, apps, books, etc.) for the user based on a query. You MUST use this tool if the user is in crisis or asks for help or is looking for specific content like books or podcasts.',
     inputSchema: z.object({
-      query: z.string().describe('A search query describing the type of resource needed (e.g., "video for anxiety", "article on stress", "exercise for energy", "helpline for crisis in India", "books on mindfulness").'),
-      resourceType: z.string().optional().describe('The specific type of resource to find.'),
+      query: z.string().describe('A descriptive search query in English to find the most relevant resource (e.g., "guided meditation for anxiety and overthinking", "article on how to deal with exam stress", "helpline for suicide crisis in India").'),
     }),
     outputSchema: z.array(
       z.object({
         title: z.string(),
         description: z.string(),
         link: z.string(),
-        type: z.nativeEnum(ResourceTypeEnum),
+        type: z.enum(['book', 'video', 'article', 'podcast', 'helpline', 'music', 'exercise', 'app']),
       })
     ),
   },
-  async ({query, resourceType}) => {
-    return getWellnessResources(query, resourceType ? (resourceType as ResourceTypeEnum) : undefined);
+  async ({query}) => {
+    // Call the new Vertex AI Search service
+    return searchResources(query);
   }
 );
 

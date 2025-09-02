@@ -402,35 +402,6 @@ export const wellnessResources: Resource[] = [
     }
 ];
 
-/**
- * A simple keyword-based search function to find relevant resources.
- * @param query The search query from the AI.
- * @param resourceType Optional filter for the resource type.
- * @returns A list of matching resources.
- */
-export function getWellnessResources(query: string, resourceType?: ResourceTypeEnum): Resource[] {
-    const queryKeywords = query.toLowerCase().split(/\s+/);
-    
-    const matchedResources = wellnessResources.filter(resource => {
-        // Filter by resource type if provided
-        if (resourceType && resource.type !== resourceType) {
-            return false;
-        }
-
-        // Check for keyword matches in title, description, and keywords
-        const searchCorpus = [
-            resource.title.toLowerCase(),
-            resource.description.toLowerCase(),
-            ...(resource.keywords || [])
-        ].join(' ');
-
-        return queryKeywords.some(qWord => searchCorpus.includes(qWord));
-    });
-
-    // Return a limited number of the best matches
-    return matchedResources.slice(0, 15);
-}
-
 
 /**
  * Returns a filtered list of resources by type.
