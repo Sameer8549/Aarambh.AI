@@ -44,7 +44,7 @@ export default function LanguageToggle() {
   return (
     <DropdownMenu>
        <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className={cn("px-2", isHomePage && "hidden")}>
+        <Button variant="ghost" className="px-2">
            <Languages className="h-5 w-5"/>
            <span className="sr-only">{t('common.language')}</span>
         </Button>

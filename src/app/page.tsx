@@ -54,12 +54,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-full p-4 md:p-8 from-background to-secondary/50 bg-gradient-to-b">
-       <div className='absolute top-4 right-4 flex items-center gap-2'>
-        <LanguageToggle />
-        <ThemeToggle />
-       </div>
-
-      <header className="text-center mb-8 md:mb-12">
+      <header className="text-center mb-8 md:mb-12 pt-16 lg:pt-0">
         <AarambhIcon className="h-40 w-40 mx-auto" />
         <h1 className="font-headline text-4xl md:text-5xl font-bold text-foreground tracking-tight mt-4">
           Aarambh.AI

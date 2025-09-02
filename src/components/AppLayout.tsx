@@ -55,8 +55,7 @@ const NavLink = ({
   );
 };
 
-
-const SidebarContent = () => {
+const SidebarContent = ({ isSheet = false }: { isSheet?: boolean }) => {
     const { t } = useLanguage();
     const navItems = [
         { href: '/', label: t('nav.home'), icon: Home },
@@ -68,28 +67,29 @@ const SidebarContent = () => {
     ];
     return (
         <div className='h-full flex flex-col'>
-             <SheetHeader className="p-4 border-b">
-                 <SheetTitle className="sr-only">{t('nav.title')}</SheetTitle>
-                 <Link href="/" className="flex items-center gap-3">
-                  <AarambhIcon className="h-10 w-10" />
-                   <h2 className="text-2xl font-bold font-headline">Aarambh.AI</h2>
-                </Link>
-            </SheetHeader>
+            <SheetHeader className="p-4 border-b">
+                <Link href="/" className="flex items-center gap-3">
+                 <AarambhIcon className="h-10 w-10" />
+                  <h2 className="text-2xl font-bold font-headline">Aarambh.AI</h2>
+               </Link>
+           </SheetHeader>
             <nav className="p-4 space-y-2 flex-1">
               {navItems.map((item) => (
                 <NavLink key={item.href} {...item} />
               ))}
             </nav>
-            <div className="p-4 border-t space-y-4">
-              <div>
-                <p className="text-sm font-semibold text-muted-foreground mb-2">{t('common.language')}</p>
-                <LanguageToggle />
+            {isSheet && (
+              <div className="p-4 border-t space-y-4">
+                <div>
+                  <p className="text-sm font-semibold text-muted-foreground mb-2">{t('common.language')}</p>
+                  <LanguageToggle />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-muted-foreground mb-2">{t('common.theme')}</p>
+                  <ThemeToggle />
+                </div>
               </div>
-              <div>
-                <p className="text-sm font-semibold text-muted-foreground mb-2">{t('common.theme')}</p>
-                <ThemeToggle />
-              </div>
-            </div>
+            )}
         </div>
     )
 }
@@ -106,10 +106,25 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   const isHomePage = pathname === '/';
 
+  if (isHomePage) {
+    return (
+        <div className="relative min-h-screen bg-secondary/30">
+            <div className='absolute top-4 right-4 flex items-center gap-2'>
+                <LanguageToggle />
+                <ThemeToggle />
+            </div>
+            {children}
+        </div>
+    )
+  }
+
   return (
-    <div className="min-h-screen bg-secondary/30">
+    <div className="min-h-screen bg-secondary/30 lg:grid lg:grid-cols-[280px_1fr]">
+        <aside className="hidden lg:flex lg:flex-col lg:border-r bg-card">
+            <SidebarContent />
+        </aside>
       <div className="flex flex-col h-screen">
-          <header className="flex items-center justify-between p-2 border-b bg-card">
+          <header className="flex items-center justify-between p-2 border-b bg-card lg:hidden">
               <div className="flex items-center gap-2">
                  <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
                     <SheetTrigger asChild>
@@ -123,19 +138,17 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                     </Button>
                     </SheetTrigger>
                     <SheetContent side="left" className="w-80 p-0 flex flex-col">
-                      <SidebarContent />
+                      <SidebarContent isSheet={true} />
                     </SheetContent>
                 </Sheet>
-                {!isHomePage && (
-                     <Button
-                        variant="ghost"
-                        onClick={() => router.back()}
-                        aria-label={t('common.back')}
-                        className="px-2"
-                    >
-                        <ArrowLeft className="h-6 w-6" />
-                    </Button>
-                )}
+                 <Button
+                    variant="ghost"
+                    onClick={() => router.back()}
+                    aria-label={t('common.back')}
+                    className="px-2"
+                >
+                    <ArrowLeft className="h-6 w-6" />
+                </Button>
               </div>
 
               <Link href="/" className="flex items-center gap-2" aria-label="Aarambh.AI Home">
@@ -143,9 +156,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <h1 className="text-xl font-bold font-headline hidden sm:block">Aarambh.AI</h1>
               </Link>
             
-               <div className="flex items-center gap-2 w-24 justify-end">
-                <LanguageToggle />
-                <ThemeToggle />
+               <div className="w-24 justify-end">
+                 {/* Toggles are in the sheet on mobile */}
                </div>
           </header>
           <main className="flex-1 overflow-y-auto p-4 md:p-8">{children}</main>

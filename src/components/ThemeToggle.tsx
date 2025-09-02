@@ -13,15 +13,11 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils';
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
   const { t } = useLanguage();
-  const pathname = usePathname();
-  const isHomePage = pathname === '/';
 
 
   React.useEffect(() => {
@@ -33,7 +29,7 @@ export default function ThemeToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" aria-label={t('theme.toggle')} className={cn("px-2", isHomePage && "hidden")}>
+        <Button variant="ghost" aria-label={t('theme.toggle')} className="px-2">
           <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           <span className="sr-only">
