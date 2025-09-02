@@ -13,34 +13,31 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
   const { t } = useLanguage();
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
+
 
   React.useEffect(() => {
     setMounted(true);
   }, []);
 
-  const getThemeName = () => {
-    if (!mounted) return t('common.theme');
-    switch (theme) {
-        case 'system': return t('theme.system');
-        case 'dark': return t('theme.dark');
-        case 'light': return t('theme.light');
-        default: return t('common.theme');
-    }
-  }
+  if (!mounted) return <div className="h-9 w-9" />;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" aria-label={t('theme.toggle')} className="w-full justify-start">
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="ml-2 font-medium">
-            {getThemeName()}
+        <Button variant="ghost" aria-label={t('theme.toggle')} className={cn("px-2", isHomePage && "hidden")}>
+          <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <span className="sr-only">
+            {t('theme.toggle')}
           </span>
         </Button>
       </DropdownMenuTrigger>

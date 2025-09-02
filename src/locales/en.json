@@ -13,6 +13,7 @@
         "journal": "Gratitude Journal",
         "resources": "Resource Hub",
         "story": "AI Storyteller",
+        "dashboard": "Impact Dashboard",
         "openMenu": "Open navigation menu",
         "title": "App Navigation"
     },
@@ -48,6 +49,10 @@
         "story": {
             "title": "AI Storyteller",
             "description": "Create a personalized audio story with AI."
+        },
+        "dashboard": {
+            "title": "Social Impact Dashboard",
+            "description": "View anonymous, aggregated mental health trends."
         }
     },
     "calm": {
@@ -155,5 +160,16 @@
         "errorDescription": "Sorry, we couldn't generate your story. Please try a different prompt.",
         "errorQuota": "We're sorry, but the daily limit for story generation has been reached. Please try again tomorrow.",
         "intro": "Hello, I am Aarambh.AI. 'Aarambh' means 'a new beginning'. I have listened to you. I will now tell you a story to help you feel more confident and overcome your challenges."
+    },
+    "dashboard": {
+        "title": "Social Impact Dashboard",
+        "subtitle": "Aggregated, anonymous insights for NGOs, educators, and policymakers.",
+        "privacyTitle": "Privacy First: How We Protect User Anonymity",
+        "privacyDescription": "This dashboard visualizes trends from anonymized data and metadata. No personally identifiable information (PII), private journal entries, or chat logs are ever stored or displayed. We use technologies like Google's Cloud Data Loss Prevention (DLP) API to automatically detect and redact sensitive data, ensuring user privacy is always protected. All data is aggregated to show broad patterns, not individual activity.",
+        "stressTopicsTitle": "Most Discussed Topics in Stress-Related Conversations",
+        "stressTopicsYLabel": "Number of Mentions",
+        "moodTrendsTitle": "Overall Mood Trends",
+        "moodTrendsYLabel": "Mood Score (1-5)",
+        "languageUseTitle": "User Language Preferences"
     }
 }

@@ -8,16 +8,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Button } from './ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from './ui/dropdown-menu';
+import { Languages } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import type { Language } from '@/types';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
-const languages: { value: Language; label: string }[] = [
-  { value: 'en', label: 'English' },
-  { value: 'hi', label: 'हिंदी' },
-  { value: 'hinglish', label: 'Hinglish' },
-  { value: 'ta', label: 'தமிழ்' },
-  { value: 'kn', label: 'ಕನ್ನಡ' },
-  { value: 'bn', label: 'বাংলা' },
+
+const languages: { value: Language; label: string, short: string }[] = [
+  { value: 'en', label: 'English', short: 'En' },
+  { value: 'hi', label: 'हिंदी', short: 'हिं' },
+  { value: 'hinglish', label: 'Hinglish', short: 'Hi' },
+  { value: 'ta', label: 'தமிழ்', short: 'த' },
+  { value: 'kn', label: 'ಕನ್ನಡ', short: 'ಕ' },
+  { value: 'bn', label: 'বাংলা', short: 'বা' },
 ];
 
 export default function LanguageToggle() {
@@ -27,18 +38,24 @@ export default function LanguageToggle() {
     setLanguage(value as Language);
   };
 
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
+
   return (
-    <Select value={language} onValueChange={handleValueChange}>
-      <SelectTrigger className="w-full">
-        <SelectValue placeholder={t('common.language')} />
-      </SelectTrigger>
-      <SelectContent>
+    <DropdownMenu>
+       <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className={cn("px-2", isHomePage && "hidden")}>
+           <Languages className="h-5 w-5"/>
+           <span className="sr-only">{t('common.language')}</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
         {languages.map((lang) => (
-          <SelectItem key={lang.value} value={lang.value}>
+          <DropdownMenuItem key={lang.value} onClick={() => handleValueChange(lang.value)}>
             {lang.label}
-          </SelectItem>
+          </DropdownMenuItem>
         ))}
-      </SelectContent>
-    </Select>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

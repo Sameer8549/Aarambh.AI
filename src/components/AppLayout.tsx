@@ -13,6 +13,7 @@ import {
   PanelLeft,
   Wand,
   ArrowLeft,
+  BarChart,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -65,10 +66,11 @@ const SidebarContent = () => {
         { href: '/journal', label: t('nav.journal'), icon: BookText },
         { href: '/resources', label: t('nav.resources'), icon: Library },
         { href: '/story', label: t('nav.story'), icon: Wand },
+        { href: '/dashboard', label: t('nav.dashboard'), icon: BarChart },
     ];
     return (
         <div className='h-full flex flex-col'>
-            <SheetHeader className="p-4 border-b">
+             <SheetHeader className="p-4 border-b">
                  <SheetTitle className="sr-only">{t('nav.title')}</SheetTitle>
                  <Link href="/" className="flex items-center gap-3">
                   <AarambhIcon className="h-10 w-10" />
@@ -143,7 +145,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <h1 className="text-xl font-bold font-headline hidden sm:block">Aarambh.AI</h1>
               </Link>
             
-               <div className="w-10"></div>
+               <div className="flex items-center gap-2 w-24 justify-end">
+                <LanguageToggle />
+                <ThemeToggle />
+               </div>
           </header>
           <main className="flex-1 overflow-y-auto p-4 md:p-8">{children}</main>
       </div>

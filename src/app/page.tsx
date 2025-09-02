@@ -9,9 +9,12 @@ import {
   Library,
   HeartPulse,
   Wand,
+  BarChart,
 } from 'lucide-react';
 import AarambhIcon from '@/components/AarambhIcon';
 import { useLanguage } from '@/contexts/LanguageContext';
+import LanguageToggle from '@/components/LanguageToggle';
+import ThemeToggle from '@/components/ThemeToggle';
 
 export default function Home() {
   const { t } = useLanguage();
@@ -47,11 +50,22 @@ export default function Home() {
       href: '/story',
       icon: <Wand className="h-8 w-8 text-primary" />,
     },
+     {
+      title: t('features.dashboard.title'),
+      description: t('features.dashboard.description'),
+      href: '/dashboard',
+      icon: <BarChart className="h-8 w-8 text-primary" />,
+    },
   ];
 
 
   return (
     <div className="flex flex-col items-center justify-center min-h-full p-4 md:p-8 from-background to-secondary/50 bg-gradient-to-b">
+       <div className='absolute top-4 right-4 flex items-center gap-2'>
+        <LanguageToggle />
+        <ThemeToggle />
+       </div>
+
       <header className="text-center mb-8 md:mb-12">
         <AarambhIcon className="h-40 w-40 mx-auto" />
         <h1 className="font-headline text-4xl md:text-5xl font-bold text-foreground tracking-tight mt-4">
@@ -72,8 +86,8 @@ export default function Home() {
             </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature) => (
-            <Link href={feature.href} key={feature.href} passHref>
+          {features.map((feature, index) => (
+             <Link href={feature.href} key={feature.href} passHref className={index === features.length - 1 ? 'sm:col-span-2 lg:col-span-1 lg:col-start-2' : ''}>
               <Card className="h-full transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer bg-card/80 backdrop-blur-sm">
                 <CardHeader className="flex flex-row items-center gap-4 space-y-0">
                   {feature.icon}
