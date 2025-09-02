@@ -66,19 +66,11 @@ const SidebarContent = () => {
         { href: '/story', label: t('nav.story'), icon: Wand },
     ];
     return (
-        <div className='h-full flex flex-col'>
-            <div className="p-4 border-b">
-                <Link href="/" className="flex items-center gap-3">
-                 <AarambhIcon className="h-10 w-10" />
-                  <h2 className="text-2xl font-bold font-headline">Aarambh.AI</h2>
-               </Link>
-           </div>
-            <nav className="p-4 space-y-2 flex-1">
-              {navItems.map((item) => (
-                <NavLink key={item.href} {...item} />
-              ))}
-            </nav>
-        </div>
+        <nav className="p-4 space-y-2 flex-1">
+          {navItems.map((item) => (
+            <NavLink key={item.href} {...item} />
+          ))}
+        </nav>
     )
 }
 
@@ -109,6 +101,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-secondary/30 lg:grid lg:grid-cols-[280px_1fr]">
         <aside className="hidden lg:flex lg:flex-col lg:border-r bg-card">
+            <div className="p-4 border-b">
+                <Link href="/" className="flex items-center gap-3">
+                 <AarambhIcon className="h-10 w-10" />
+                  <h2 className="text-2xl font-bold font-headline">Aarambh.AI</h2>
+               </Link>
+           </div>
             <SidebarContent />
         </aside>
       <div className="flex flex-col h-screen">
