@@ -26,6 +26,7 @@ const BreathingAnimation = ({ onComplete, technique, t }: { onComplete: () => vo
   const [isBreathing, setIsBreathing] = useState(false);
   const [text, setText] = useState(t('breathing.getReady'));
   const [isMuted, setIsMuted] = useState(false);
+  const [selectedVoice, setSelectedVoice] = useState<SpeechSynthesisVoice | null>(null);
   const timerRef = useRef<NodeJS.Timeout>();
 
   const breathingTechniques = {
@@ -61,6 +62,28 @@ const BreathingAnimation = ({ onComplete, technique, t }: { onComplete: () => vo
   
   const { cycle } = breathingTechniques[technique];
 
+   // Effect to select a friendly voice
+  useEffect(() => {
+    const getVoices = () => {
+      if ('speechSynthesis' in window) {
+        const voices = window.speechSynthesis.getVoices();
+        if (voices.length > 0) {
+          // Prioritize high-quality, friendly female voices
+          const friendlyVoices = voices.filter(v => v.lang.startsWith('en') && v.name.includes('Google') && v.name.includes('Female'));
+          const femaleVoices = voices.filter(v => v.lang.startsWith('en') && (v.name.includes('Female') || v.name.includes('Samantha') || v.name.includes('Karen')));
+          const englishVoices = voices.filter(v => v.lang.startsWith('en'));
+
+          setSelectedVoice(friendlyVoices[0] || femaleVoices[0] || englishVoices[0] || voices[0]);
+        }
+      }
+    };
+    
+    getVoices();
+    if ('speechSynthesis' in window && window.speechSynthesis.onvoiceschanged !== undefined) {
+      window.speechSynthesis.onvoiceschanged = getVoices;
+    }
+  }, []);
+
   // Effect for speech synthesis
   useEffect(() => {
     if ('speechSynthesis' in window && isBreathing && !isMuted) {
@@ -68,9 +91,14 @@ const BreathingAnimation = ({ onComplete, technique, t }: { onComplete: () => vo
       window.speechSynthesis.cancel();
       // Speak the new text
       const utterance = new SpeechSynthesisUtterance(text);
+      if (selectedVoice) {
+        utterance.voice = selectedVoice;
+        utterance.pitch = 1;
+        utterance.rate = 1;
+      }
       window.speechSynthesis.speak(utterance);
     }
-  }, [text, isBreathing, isMuted]);
+  }, [text, isBreathing, isMuted, selectedVoice]);
   
   const startBreathingCycle = () => {
     setIsBreathing(true);
