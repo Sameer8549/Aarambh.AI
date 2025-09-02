@@ -26,7 +26,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from './ui/sheet';
-import ThemeToggle from './ThemeToggle';
+import ThemeToggle from './ui/../ThemeToggle';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const NavLink = ({
@@ -129,7 +129,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                     </Button>
                     </SheetTrigger>
                     <SheetContent side="left" className="w-80 p-0 flex flex-col">
-                        <SheetHeader className="p-4 border-b">
+                         <SheetHeader className="p-4 border-b">
                             <Link href="/" className="flex items-center gap-3">
                                 <AarambhIcon className="h-10 w-10" />
                                 <h2 className="text-2xl font-bold font-headline">Aarambh.AI</h2>
