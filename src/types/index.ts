@@ -27,4 +27,5 @@ export type JournalEntry = {
     id: string;
     entry: string;
     timestamp: number;
+    imageUrl?: string;
 }

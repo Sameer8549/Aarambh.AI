@@ -106,11 +106,14 @@
         "newEntry": "New Entry",
         "prompt": "Today, I am grateful for...",
         "placeholder": "Write about three things that went well today, or anything that brings you joy.",
-        "reflect": "Save Reflection",
+        "reflect": "Save Reflection & Generate Image",
         "ariaLabel": "Journal entry textarea",
-        "reflectAriaLabel": "Save journal entry reflection",
+        "reflectAriaLabel": "Save journal entry and generate image",
         "feedTitle": "My Reflections",
         "noEntries": "Your saved journal entries will appear here.",
+        "generatingImage": "Generating visual for your reflection...",
+        "saving": "Saving...",
+        "generating": "Generating...",
         "toast": {
             "empty": {
                 "title": "Empty Entry",
@@ -123,6 +126,10 @@
             "error": {
                 "title": "Error",
                 "description": "Could not save reflection. Please try again."
+            },
+            "imageError": {
+                "title": "Image Generation Failed",
+                "description": "We couldn't generate an image, but your journal entry was saved."
             },
             "encouragement": {
                 "title": "A Little Encouragement"

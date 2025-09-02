@@ -1,10 +1,12 @@
 
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { calmingActivityEncouragement } from '@/ai/flows/calming-activity-encouragement';
+import { generateImage } from '@/ai/flows/image-generation';
 import {
   Card,
   CardContent,
@@ -13,7 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Loader2, BookOpen } from 'lucide-react';
+import { Loader2, BookOpen, Sparkles } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import {
   collection,
@@ -29,6 +31,7 @@ import type { JournalEntry } from '@/types';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { AnimatePresence, motion } from 'framer-motion';
 import { format } from 'date-fns';
+import { Skeleton } from '@/components/ui/skeleton';
 
 
 function JournalFeed() {
@@ -51,6 +54,7 @@ function JournalFeed() {
           id: doc.id,
           entry: data.entry,
           timestamp: data.timestamp.seconds,
+          imageUrl: data.imageUrl,
         });
       });
       setEntries(newEntries);
@@ -68,7 +72,7 @@ function JournalFeed() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <ScrollArea className="h-96 pr-4" ref={scrollAreaRef}>
+        <ScrollArea className="h-[600px] pr-4" ref={scrollAreaRef}>
           {entries.length === 0 ? (
             <div className='flex items-center justify-center h-full text-muted-foreground'>
                 <p>{t('journal.noEntries')}</p>
@@ -85,7 +89,18 @@ function JournalFeed() {
                         exit={{ opacity: 0, y: -20, scale: 0.95 }}
                         transition={{ duration: 0.3, delay: index * 0.05 }}
                     >
-                    <Card className="bg-secondary/50 border-primary/20">
+                    <Card className="bg-card border-primary/20 overflow-hidden">
+                        {item.imageUrl && (
+                            <div className="relative aspect-video">
+                                <Image
+                                    src={item.imageUrl}
+                                    alt={item.entry.substring(0, 50)}
+                                    fill
+                                    className="object-cover"
+                                    data-ai-hint="abstract art"
+                                />
+                            </div>
+                        )}
                         <CardContent className="p-4 text-sm text-secondary-foreground">
                             <p>"{item.entry}"</p>
                         </CardContent>
@@ -110,6 +125,7 @@ function JournalFeed() {
 export default function JournalClient() {
   const [entry, setEntry] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const { toast } = useToast();
   const { t, language } = useLanguage();
 
@@ -139,10 +155,29 @@ export default function JournalClient() {
 
     setIsLoading(true);
     const entryToSave = entry;
+    
+    // Generate image first
+    setIsGeneratingImage(true);
+    let imageUrl = '';
+    try {
+        const imageResult = await generateImage({ prompt: entryToSave });
+        imageUrl = imageResult.imageUrl;
+    } catch(e) {
+        console.error("Failed to generate image:", e);
+        toast({
+            title: t('journal.toast.imageError.title'),
+            description: t('journal.toast.imageError.description'),
+            variant: 'destructive',
+        });
+    } finally {
+        setIsGeneratingImage(false);
+    }
+
     try {
       await addDoc(collection(db, 'journal-entries'), {
         entry: entryToSave,
         timestamp: Timestamp.now(),
+        imageUrl: imageUrl,
       });
 
       toast({
@@ -186,14 +221,21 @@ export default function JournalClient() {
                     disabled={isLoading}
                     aria-label={t('journal.ariaLabel')}
                 />
+                 {isGeneratingImage && (
+                    <div className='flex flex-col items-center gap-2 text-sm text-muted-foreground'>
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                        <p>{t('journal.generatingImage')}</p>
+                        <Skeleton className="h-32 w-full rounded-lg" />
+                    </div>
+                )}
                 <Button
                     onClick={handleJournalSubmit}
                     disabled={isLoading}
                     className="w-full"
                     aria-label={t('journal.reflectAriaLabel')}
                 >
-                    {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    {t('journal.reflect')}
+                    {(isLoading || isGeneratingImage) ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4" />}
+                    {isLoading ? t('journal.saving') : (isGeneratingImage ? t('journal.generating') : t('journal.reflect'))}
                 </Button>
                 </div>
             </CardContent>
