@@ -108,6 +108,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                </Link>
            </div>
             <SidebarContent />
+            <div className="p-4 border-t mt-auto">
+                <p className="text-sm font-semibold text-muted-foreground mb-2">{t('common.language')}</p>
+                <LanguageToggle />
+                 <p className="text-sm font-semibold text-muted-foreground mt-4 mb-2">{t('common.theme')}</p>
+                <ThemeToggle />
+            </div>
         </aside>
       <div className="flex flex-col h-screen">
           <header className="flex items-center justify-between p-2 border-b bg-card lg:hidden">
@@ -120,7 +126,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                         className="px-2"
                     >
                         <PanelLeft className="h-6 w-6" />
-                        <span className="sr-only">{t('common.menu')}</span>
                     </Button>
                     </SheetTrigger>
                     <SheetContent side="left" className="w-80 p-0 flex flex-col">
@@ -132,13 +137,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                             <SheetTitle className="sr-only">{t('nav.title')}</SheetTitle>
                         </SheetHeader>
                         <SidebarContent />
-                         <div className="p-4 border-t space-y-4">
+                         <div className="p-4 border-t mt-auto">
                             <div>
                                 <p className="text-sm font-semibold text-muted-foreground mb-2">{t('common.language')}</p>
                                 <LanguageToggle />
                             </div>
                             <div>
-                                <p className="text-sm font-semibold text-muted-foreground mb-2">{t('common.theme')}</p>
+                                <p className="text-sm font-semibold text-muted-foreground mt-4 mb-2">{t('common.theme')}</p>
                                 <ThemeToggle />
                             </div>
                         </div>
@@ -160,7 +165,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               </Link>
             
                <div className="w-24 justify-end flex items-center">
-                 <div className="lg:hidden">
+                 <div className="lg:hidden flex items-center gap-2">
                     <ThemeToggle />
                     <LanguageToggle />
                  </div>
