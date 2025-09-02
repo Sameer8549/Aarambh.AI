@@ -38,6 +38,7 @@ function JournalFeed() {
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { t } = useLanguage();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const q = query(
@@ -58,6 +59,10 @@ function JournalFeed() {
         });
       });
       setEntries(newEntries);
+      setIsLoading(false);
+    }, (error) => {
+      console.error("Error fetching journal entries: ", error);
+      setIsLoading(false);
     });
 
     return () => unsubscribe();
@@ -73,7 +78,22 @@ function JournalFeed() {
       </CardHeader>
       <CardContent>
         <ScrollArea className="h-[600px] pr-4" ref={scrollAreaRef}>
-          {entries.length === 0 ? (
+          {isLoading ? (
+             <div className="space-y-4">
+                {[...Array(3)].map((_, i) => (
+                    <Card key={i} className="bg-card border-primary/20 overflow-hidden">
+                        <Skeleton className="aspect-video w-full" />
+                        <CardContent className="p-4">
+                           <Skeleton className="h-4 w-full" />
+                           <Skeleton className="h-4 w-3/4 mt-2" />
+                        </CardContent>
+                        <CardFooter className='p-4 pt-0'>
+                           <Skeleton className="h-3 w-1/2" />
+                        </CardFooter>
+                    </Card>
+                ))}
+             </div>
+          ) : entries.length === 0 ? (
             <div className='flex items-center justify-center h-full text-muted-foreground'>
                 <p>{t('journal.noEntries')}</p>
             </div>
@@ -97,6 +117,7 @@ function JournalFeed() {
                                     alt={item.entry.substring(0, 50)}
                                     fill
                                     className="object-cover"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                     data-ai-hint="abstract art"
                                 />
                             </div>
@@ -124,8 +145,6 @@ function JournalFeed() {
 
 export default function JournalClient() {
   const [entry, setEntry] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [loadingMessage, setLoadingMessage] = useState('');
   const { toast } = useToast();
   const { t } = useLanguage();
 
@@ -153,54 +172,55 @@ export default function JournalClient() {
       return;
     }
 
-    setIsLoading(true);
     const entryToSave = entry;
+    // Clear the input field immediately for a responsive feel
     setEntry('');
 
-    let imageUrl = '';
-    try {
-      // 1. Generate Image
-      setLoadingMessage(t('journal.generatingImage'));
+    // Perform saving and image generation in the background
+    const processEntry = async () => {
+      let imageUrl = '';
       try {
-          const imageResult = await generateImage({ prompt: entryToSave });
-          imageUrl = imageResult.imageUrl;
-      } catch(e) {
-          console.error("Failed to generate image:", e);
-          toast({
-              title: t('journal.toast.imageError.title'),
-              description: t('journal.toast.imageError.description'),
-              variant: 'destructive',
-          });
+        // 1. Generate Image
+        try {
+            const imageResult = await generateImage({ prompt: entryToSave });
+            imageUrl = imageResult.imageUrl;
+        } catch(e) {
+            console.error("Failed to generate image:", e);
+            toast({
+                title: t('journal.toast.imageError.title'),
+                description: t('journal.toast.imageError.description'),
+                variant: 'destructive',
+            });
+        }
+
+        // 2. Save to Firestore
+        await addDoc(collection(db, 'journal-entries'), {
+          entry: entryToSave,
+          timestamp: Timestamp.now(),
+          imageUrl: imageUrl,
+        });
+
+        toast({
+          title: t('journal.toast.saved.title'),
+          description: t('journal.toast.saved.description'),
+        });
+        
+        // 3. Get encouragement (fire and forget)
+        getAIEncouragement();
+
+      } catch (error) {
+        toast({
+          title: t('journal.toast.error.title'),
+          description: t('journal.toast.error.description'),
+          variant: 'destructive',
+        });
+         // Restore the entry if saving fails, allowing the user to try again
+         setEntry(entryToSave);
       }
-
-      // 2. Save to Firestore
-      setLoadingMessage(t('journal.saving'));
-      await addDoc(collection(db, 'journal-entries'), {
-        entry: entryToSave,
-        timestamp: Timestamp.now(),
-        imageUrl: imageUrl,
-      });
-
-      toast({
-        title: t('journal.toast.saved.title'),
-        description: t('journal.toast.saved.description'),
-      });
-      
-      // 3. Get encouragement (fire and forget)
-      getAIEncouragement();
-
-    } catch (error) {
-      toast({
-        title: t('journal.toast.error.title'),
-        description: t('journal.toast.error.description'),
-        variant: 'destructive',
-      });
-       // Restore the entry if saving fails
-       setEntry(entryToSave);
-    } finally {
-        setIsLoading(false);
-        setLoadingMessage('');
-    }
+    };
+    
+    // Start the background process without awaiting it
+    processEntry();
   };
 
   return (
@@ -220,26 +240,15 @@ export default function JournalClient() {
                     onChange={(e) => setEntry(e.target.value)}
                     placeholder={t('journal.placeholder')}
                     className="min-h-[200px] text-base"
-                    disabled={isLoading}
                     aria-label={t('journal.ariaLabel')}
                 />
-                 {isLoading && (
-                    <div className='flex flex-col items-center gap-2 text-sm text-muted-foreground'>
-                        <Loader2 className="h-5 w-5 animate-spin" />
-                        <p>{loadingMessage}</p>
-                        {loadingMessage === t('journal.generatingImage') && (
-                            <Skeleton className="h-32 w-full rounded-lg" />
-                        )}
-                    </div>
-                )}
                 <Button
                     onClick={handleJournalSubmit}
-                    disabled={isLoading}
                     className="w-full"
                     aria-label={t('journal.reflectAriaLabel')}
                 >
-                    {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4" />}
-                    {isLoading ? loadingMessage : t('journal.reflect')}
+                    <Sparkles className="mr-2 h-4 w-4" />
+                    {t('journal.reflect')}
                 </Button>
                 </div>
             </CardContent>
