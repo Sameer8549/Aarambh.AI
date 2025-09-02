@@ -4,8 +4,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2, Sparkles, Wand, Play, Pause, CircleStop } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Loader2, Sparkles, Wand, Play, Pause, CircleStop, Download, FileText } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { generateStory } from '@/ai/flows/story-generation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -14,6 +14,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 const CustomAudioPlayer = ({ audioUrl, onPlaybackEnd }: { audioUrl: string; onPlaybackEnd: () => void }) => {
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const progressRef = useRef<HTMLDivElement>(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isReady, setIsReady] = useState(false);
     const [duration, setDuration] = useState(0);
@@ -35,19 +36,21 @@ const CustomAudioPlayer = ({ audioUrl, onPlaybackEnd }: { audioUrl: string; onPl
           onPlaybackEnd();
         }
 
-        audio.addEventListener('loadeddata', () => {
-            setAudioData();
+        const handleCanPlay = () => {
             setIsReady(true);
-        });
+        }
+
+        audio.addEventListener('loadeddata', setAudioData);
         audio.addEventListener('timeupdate', setAudioTime);
         audio.addEventListener('ended', handlePlaybackEnd);
-
+        audio.addEventListener('canplay', handleCanPlay);
 
         return () => {
             audio.pause();
             audio.removeEventListener('loadeddata', setAudioData);
             audio.removeEventListener('timeupdate', setAudioTime);
             audio.removeEventListener('ended', handlePlaybackEnd);
+            audio.removeEventListener('canplay', handleCanPlay);
             audioRef.current = null;
         };
     }, [audioUrl, onPlaybackEnd]);
@@ -61,7 +64,27 @@ const CustomAudioPlayer = ({ audioUrl, onPlaybackEnd }: { audioUrl: string; onPl
         setIsPlaying(!isPlaying);
     };
 
+    const stopPlayback = () => {
+        if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
+            setIsPlaying(false);
+        }
+    }
+
+    const handleSeek = (event: React.MouseEvent<HTMLDivElement>) => {
+        if (progressRef.current && audioRef.current) {
+            const rect = progressRef.current.getBoundingClientRect();
+            const clickX = event.clientX - rect.left;
+            const percentage = clickX / rect.width;
+            const newTime = duration * percentage;
+            audioRef.current.currentTime = newTime;
+            setCurrentTime(newTime);
+        }
+    }
+
     const formatTime = (time: number) => {
+        if (isNaN(time) || time === Infinity) return "0:00";
         const minutes = Math.floor(time / 60);
         const seconds = Math.floor(time % 60);
         return `${minutes}:${seconds.toString().padStart(2, '0')}`;
@@ -70,7 +93,7 @@ const CustomAudioPlayer = ({ audioUrl, onPlaybackEnd }: { audioUrl: string; onPl
     const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
     return (
-        <Card className="bg-secondary/50">
+        <Card className="bg-secondary/50 overflow-hidden">
             <CardContent className="p-6 flex flex-col items-center justify-center space-y-4">
                  <div className="flex items-center justify-center w-full max-w-xs h-16">
                    <AnimatePresence mode="wait">
@@ -107,7 +130,7 @@ const CustomAudioPlayer = ({ audioUrl, onPlaybackEnd }: { audioUrl: string; onPl
                    </AnimatePresence>
                  </div>
                  <div className="w-full">
-                    <div className="relative h-2 w-full bg-muted rounded-full">
+                    <div ref={progressRef} onClick={handleSeek} className="relative h-2 w-full bg-muted rounded-full cursor-pointer">
                         <motion.div 
                             className="absolute h-2 left-0 top-0 bg-primary rounded-full"
                             initial={{ width: 0 }}
@@ -120,15 +143,29 @@ const CustomAudioPlayer = ({ audioUrl, onPlaybackEnd }: { audioUrl: string; onPl
                         <span>{formatTime(duration)}</span>
                     </div>
                  </div>
+                
+                <div className="flex items-center gap-4">
+                    <Button
+                        onClick={togglePlayPause}
+                        disabled={!isReady}
+                        size="lg"
+                        className="rounded-full w-16 h-16"
+                        aria-label={isPlaying ? "Pause story" : "Play story"}
+                    >
+                        {isPlaying ? <Pause className="h-8 w-8" /> : <Play className="h-8 w-8" />}
+                    </Button>
+                    <Button
+                        onClick={stopPlayback}
+                        disabled={!isReady}
+                        variant="secondary"
+                        size="icon"
+                        className="rounded-full w-12 h-12"
+                        aria-label="Stop story"
+                    >
+                        <CircleStop className="h-6 w-6" />
+                    </Button>
+                </div>
 
-                <Button
-                    onClick={togglePlayPause}
-                    disabled={!isReady}
-                    size="lg"
-                    className="rounded-full w-16 h-16"
-                >
-                    {isPlaying ? <Pause className="h-8 w-8" /> : <Play className="h-8 w-8" />}
-                </Button>
             </CardContent>
              <style>{`
                 @keyframes waveform {
@@ -146,6 +183,7 @@ export default function StoryClient() {
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [generatedAudioUrl, setGeneratedAudioUrl] = useState<string | null>(null);
+  const [generatedScript, setGeneratedScript] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleGeneration = async () => {
@@ -154,10 +192,12 @@ export default function StoryClient() {
     setIsLoading(true);
     setError(null);
     setGeneratedAudioUrl(null);
+    setGeneratedScript(null);
 
     try {
       const result = await generateStory({ prompt, language });
       setGeneratedAudioUrl(result.audioUrl);
+      setGeneratedScript(result.storyScript);
     } catch (e: any) {
       console.error(e);
       // Handle the specific quota error message from the flow
@@ -171,6 +211,16 @@ export default function StoryClient() {
     }
   };
 
+  const downloadAudio = () => {
+    if (!generatedAudioUrl) return;
+    const link = document.createElement('a');
+    link.href = generatedAudioUrl;
+    link.download = `aarambh-ai-story-${Date.now()}.wav`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
   return (
     <div>
       <header className="mb-8">
@@ -178,66 +228,107 @@ export default function StoryClient() {
         <p className="text-lg text-muted-foreground mt-2">{t('story.subtitle')}</p>
       </header>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Wand className="h-6 w-6" />
-            {t('story.cardTitle')}
-            </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex flex-col gap-2">
-             <Textarea
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              placeholder={t('story.promptPlaceholder')}
-              className="flex-1 text-base min-h-[100px]"
-              disabled={isLoading}
-              aria-label="Story prompt"
-            />
-            <Button onClick={handleGeneration} disabled={isLoading} className="w-full sm:w-auto">
-              {isLoading ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <Sparkles className="mr-2 h-4 w-4" />
-              )}
-              {t('story.buttonText')}
-            </Button>
-          </div>
+      <div className='space-y-6'>
+        <Card>
+            <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+                <Wand className="h-6 w-6" />
+                {t('story.cardTitle')}
+                </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+            <div className="flex flex-col gap-2">
+                <Textarea
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                placeholder={t('story.promptPlaceholder')}
+                className="flex-1 text-base min-h-[100px]"
+                disabled={isLoading}
+                aria-label="Story prompt"
+                />
+                <Button onClick={handleGeneration} disabled={isLoading} className="w-full sm:w-auto">
+                {isLoading ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                    <Sparkles className="mr-2 h-4 w-4" />
+                )}
+                {t('story.buttonText')}
+                </Button>
+            </div>
+            </CardContent>
+        </Card>
 
-          {isLoading && (
+        {isLoading && (
             <Alert>
-              <Loader2 className="h-5 w-5 animate-spin" />
-              <AlertTitle>{t('story.generatingTitle')}</AlertTitle>
-              <AlertDescription>{t('story.generatingDescription')}</AlertDescription>
+                <Loader2 className="h-5 w-5 animate-spin" />
+                <AlertTitle>{t('story.generatingTitle')}</AlertTitle>
+                <AlertDescription>{t('story.generatingDescription')}</AlertDescription>
             </Alert>
-          )}
+        )}
 
-          {error && (
+        {error && (
             <Alert variant="destructive">
-              <AlertTitle>{t('story.errorTitle')}</AlertTitle>
-              <AlertDescription>{error}</AlertDescription>
+                <AlertTitle>{t('story.errorTitle')}</AlertTitle>
+                <AlertDescription>{error}</AlertDescription>
             </Alert>
-          )}
-
-          <AnimatePresence>
+        )}
+        
+        <AnimatePresence>
             {generatedAudioUrl && (
                 <motion.div
-                    key="audio-player"
+                    key="story-result"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="mt-6"
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                    className="space-y-6"
                 >
                     <CustomAudioPlayer 
                         audioUrl={generatedAudioUrl}
                         onPlaybackEnd={() => console.log("Playback finished")}
                     />
+
+                    {generatedScript && (
+                        <Card>
+                           <CardHeader>
+                               <CardTitle className="flex items-center gap-2 text-xl">
+                                  <FileText className="h-5 w-5"/>
+                                  {t('story.scriptTitle')}
+                               </CardTitle>
+                           </CardHeader>
+                           <CardContent>
+                                <div className="whitespace-pre-wrap p-4 bg-muted/50 rounded-lg text-muted-foreground leading-relaxed">
+                                    {generatedScript.split('\n').map((line, index) => {
+                                        const isNarrator = line.startsWith('Narrator:');
+                                        const isCharacter = line.startsWith('Character:');
+                                        let content = line;
+                                        if (isNarrator) content = line.substring('Narrator:'.length).trim();
+                                        if (isCharacter) content = line.substring('Character:'.length).trim();
+
+                                        return (
+                                            <p key={index} className={cn('mb-2', (isNarrator || isCharacter) && 'pl-10 relative')}>
+                                                {(isNarrator || isCharacter) && (
+                                                    <span className="absolute left-0 font-bold text-primary">
+                                                        {isNarrator ? t('story.narrator') : t('story.character')}:
+                                                    </span>
+                                                )}
+                                                {content}
+                                            </p>
+                                        );
+                                    })}
+                                </div>
+                           </CardContent>
+                           <CardFooter>
+                                <Button onClick={downloadAudio} variant="outline">
+                                    <Download className="mr-2 h-4 w-4" />
+                                    {t('story.download')}
+                                </Button>
+                           </CardFooter>
+                        </Card>
+                    )}
                 </motion.div>
             )}
-          </AnimatePresence>
-        </CardContent>
-      </Card>
+        </AnimatePresence>
+      </div>
     </div>
   );
 }

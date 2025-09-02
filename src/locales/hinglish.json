@@ -153,6 +153,10 @@
         "errorTitle": "Kahani banane mein vifal",
         "errorDescription": "Maaf kijiye, hum aapki kahani nahi bana sake. Kripya ek alag prompt try karein.",
         "errorQuota": "Humein afsos hai, lekin kahani banane ki roz ki seema poori ho gayi hai. Kripya kal phir koshish karein.",
-        "intro": "Hello, main Aarambh.AI hoon. 'Aarambh' ka matlab hai 'ek nayi shuruaat'. Maine aapki baat suni hai. Ab main aapko ek kahani sunaunga jo aapko confident feel karne aur aapki challenges ko paar karne mein madad karegi."
+        "intro": "Hello, main Aarambh.AI hoon. 'Aarambh' ka matlab hai 'ek nayi shuruaat'. Maine aapki baat suni hai. Ab main aapko ek kahani sunaunga jo aapko confident feel karne aur aapki challenges ko paar karne mein madad karegi.",
+        "scriptTitle": "Kahani Ki Script",
+        "download": "Kahani Download Karein",
+        "narrator": "Narrator",
+        "character": "Character"
     }
 }

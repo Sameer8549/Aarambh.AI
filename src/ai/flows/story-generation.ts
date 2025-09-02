@@ -22,6 +22,7 @@ export type StoryGenerationInput = z.infer<typeof StoryGenerationInputSchema>;
 
 const StoryGenerationOutputSchema = z.object({
   audioUrl: z.string().describe('The data URI of the generated audio story in WAV format.'),
+  storyScript: z.string().describe('The full script of the generated story, including the introduction.'),
 });
 export type StoryGenerationOutput = z.infer<typeof StoryGenerationOutputSchema>;
 
@@ -165,6 +166,7 @@ const storyGenerationFlow = ai.defineFlow(
 
         return {
           audioUrl: `data:audio/wav;base64,${wavBase64}`,
+          storyScript: fullScript,
         };
       } catch (e: any) {
         // Check for a specific quota error from the API

@@ -154,6 +154,10 @@
         "errorTitle": "Story Generation Failed",
         "errorDescription": "Sorry, we couldn't generate your story. Please try a different prompt.",
         "errorQuota": "We're sorry, but the daily limit for story generation has been reached. Please try again tomorrow.",
-        "intro": "Hello, I am Aarambh.AI. 'Aarambh' means 'a new beginning'. I have listened to you. I will now tell you a story to help you feel more confident and overcome your challenges."
+        "intro": "Hello, I am Aarambh.AI. 'Aarambh' means 'a new beginning'. I have listened to you. I will now tell you a story to help you feel more confident and overcome your challenges.",
+        "scriptTitle": "Story Script",
+        "download": "Download Story",
+        "narrator": "Narrator",
+        "character": "Character"
     }
 }
