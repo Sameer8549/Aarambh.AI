@@ -35,7 +35,7 @@ import { useState, useEffect } from 'react';
 import { collection, onSnapshot, query, where, Timestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import type { AnonymousInsight } from '@/types';
-import { format, subDays } from 'date-fns';
+import { format, subDays, parse } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const stressTopicsConfig: ChartConfig = {
@@ -49,6 +49,9 @@ const stressTopicsConfig: ChartConfig = {
   Stress: { label: 'Stress', color: 'hsl(var(--chart-2))' },
   Confidence: { label: 'Confidence', color: 'hsl(var(--chart-3))' },
   Sleep: { label: 'Sleep', color: 'hsl(var(--chart-4))' },
+  Work: { label: 'Work', color: 'hsl(var(--chart-5))' },
+  Health: { label: 'Health', color: 'hsl(var(--chart-1))' },
+  Other: { label: 'Other', color: 'hsl(var(--chart-2))' },
 };
 
 const moodTrendsConfig: ChartConfig = {
@@ -83,14 +86,16 @@ export default function DashboardPage() {
       const insights: AnonymousInsight[] = [];
       snapshot.forEach(doc => {
         const data = doc.data();
-        insights.push({
-          id: doc.id,
-          sentiment: data.sentiment,
-          topics: data.topics,
-          language: data.language,
-          source: data.source,
-          timestamp: data.timestamp.seconds,
-        });
+        if(data.timestamp) {
+            insights.push({
+                id: doc.id,
+                sentiment: data.sentiment,
+                topics: data.topics,
+                language: data.language,
+                source: data.source,
+                timestamp: data.timestamp.seconds,
+            });
+        }
       });
 
       // Process data for Stress Topics Chart
@@ -106,7 +111,8 @@ export default function DashboardPage() {
 
       // Process data for Language Usage Chart
       const langCounts = insights.reduce((acc, insight) => {
-        acc[insight.language] = (acc[insight.language] || 0) + 1;
+        const langKey = insight.language || 'en';
+        acc[langKey] = (acc[langKey] || 0) + 1;
         return acc;
       }, {} as Record<string, number>);
 
@@ -130,11 +136,14 @@ export default function DashboardPage() {
        const formattedTrendData = Object.entries(trendDataByDay).map(([day, data]) => ({
          month: day,
          moodScore: data.scores.reduce((a, b) => a + b, 0) / data.count,
-       })).sort((a,b) => new Date(a.month) > new Date(b.month) ? 1 : -1);
+       })).sort((a,b) => parse(a.month, 'MMM d', new Date()).getTime() - parse(b.month, 'MMM d', new Date()).getTime());
        setMoodTrendsData(formattedTrendData);
 
 
       setIsLoading(false);
+    }, (error) => {
+        console.error("Error fetching real-time insights:", error);
+        setIsLoading(false);
     });
 
     return () => unsubscribe();
