@@ -38,45 +38,45 @@ import type { AnonymousInsight } from '@/types';
 import { format, subDays, parse } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
 
+const stressTopicsConfig: ChartConfig = {
+    mentions: { label: 'Mentions' },
+    Exams: { label: 'Exams', color: 'hsl(var(--chart-1))' },
+    Family: { label: 'Family', color: 'hsl(var(--chart-2))' },
+    Relationships: { label: 'Relationships', color: 'hsl(var(--chart-3))' },
+    Future: { label: 'Future', color: 'hsl(var(--chart-4))' },
+    Loneliness: { label: 'Loneliness', color: 'hsl(var(--chart-5))' },
+    Gratitude: { label: 'Gratitude', color: 'hsl(var(--chart-1))' },
+    Stress: { label: 'Stress', color: 'hsl(var(--chart-2))' },
+    Confidence: { label: 'Confidence', color: 'hsl(var(--chart-3))' },
+    Sleep: { label: 'Sleep', color: 'hsl(var(--chart-4))' },
+    Work: { label: 'Work', color: 'hsl(var(--chart-5))' },
+    Health: { label: 'Health', color: 'hsl(var(--chart-1))' },
+    Other: { label: 'Other', color: 'hsl(var(--chart-2))' },
+};
+
+const moodTrendsConfig: ChartConfig = {
+    moodScore: {
+        label: 'Mood Score',
+        color: 'hsl(var(--chart-1))',
+    },
+};
+
+const languageConfig: ChartConfig = {
+    en: { label: 'English', color: 'hsl(var(--chart-1))' },
+    hi: { label: 'Hindi', color: 'hsl(var(--chart-2))' },
+    hinglish: { label: 'Hinglish', color: 'hsl(var(--chart-3))' },
+    kn: { label: 'Kannada', color: 'hsl(var(--chart-4))' },
+    ta: { label: 'Tamil', color: 'hsl(var(--chart-5))' },
+    bn: { label: 'Bengali', color: 'hsl(var(--chart-1))' },
+};
+
+
 export default function DashboardPage() {
   const { t } = useLanguage();
   const [stressTopicsData, setStressTopicsData] = useState<any[]>([]);
   const [moodTrendsData, setMoodTrendsData] = useState<any[]>([]);
   const [languageData, setLanguageData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  const stressTopicsConfig: ChartConfig = {
-      mentions: { label: 'Mentions' },
-      Exams: { label: 'Exams', color: 'hsl(var(--chart-1))' },
-      Family: { label: 'Family', color: 'hsl(var(--chart-2))' },
-      Relationships: { label: 'Relationships', color: 'hsl(var(--chart-3))' },
-      Future: { label: 'Future', color: 'hsl(var(--chart-4))' },
-      Loneliness: { label: 'Loneliness', color: 'hsl(var(--chart-5))' },
-      Gratitude: { label: 'Gratitude', color: 'hsl(var(--chart-1))' },
-      Stress: { label: 'Stress', color: 'hsl(var(--chart-2))' },
-      Confidence: { label: 'Confidence', color: 'hsl(var(--chart-3))' },
-      Sleep: { label: 'Sleep', color: 'hsl(var(--chart-4))' },
-      Work: { label: 'Work', color: 'hsl(var(--chart-5))' },
-      Health: { label: 'Health', color: 'hsl(var(--chart-1))' },
-      Other: { label: 'Other', color: 'hsl(var(--chart-2))' },
-  };
-
-  const moodTrendsConfig: ChartConfig = {
-      moodScore: {
-          label: 'Mood Score',
-          color: 'hsl(var(--chart-1))',
-      },
-  };
-
-  const languageConfig: ChartConfig = {
-      en: { label: 'English', color: 'hsl(var(--chart-1))' },
-      hi: { label: 'Hindi', color: 'hsl(var(--chart-2))' },
-      hinglish: { label: 'Hinglish', color: 'hsl(var(--chart-3))' },
-      kn: { label: 'Kannada', color: 'hsl(var(--chart-4))' },
-      ta: { label: 'Tamil', color: 'hsl(var(--chart-5))' },
-      bn: { label: 'Bengali', color: 'hsl(var(--chart-1))' },
-  };
-
 
   useEffect(() => {
     const insightsRef = collection(db, 'anonymous-insights');
@@ -147,7 +147,7 @@ export default function DashboardPage() {
     });
 
     return () => unsubscribe();
-  }, [t]);
+  }, []);
 
   return (
     <div className="space-y-8">
