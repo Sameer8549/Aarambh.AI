@@ -65,8 +65,7 @@ const languageConfig: ChartConfig = {
     kn: { label: 'Kannada', color: 'hsl(var(--chart-4))' },
     ta: { label: 'Tamil', color: 'hsl(var(--chart-5))' },
     bn: { label: 'Bengali', color: 'hsl(var(--chart-1))' },
-};
-
+}
 
 export default function DashboardPage() {
   const { t } = useLanguage();
