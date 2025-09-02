@@ -155,6 +155,7 @@ export default function JournalClient() {
 
     setIsLoading(true);
     const entryToSave = entry;
+    setEntry(''); // Clear the input field immediately
     
     // Generate image first
     setIsGeneratingImage(true);
@@ -185,8 +186,6 @@ export default function JournalClient() {
         description: t('journal.toast.saved.description'),
       });
       
-      setEntry('');
-
       // Asynchronously get encouragement
       getAIEncouragement();
 
