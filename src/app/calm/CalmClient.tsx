@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Music, Play, Pause, Wind, ExternalLink } from 'lucide-react';
+import { Music, Play, Pause, Wind, ExternalLink, Volume2, VolumeX } from 'lucide-react';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { calmingActivityEncouragement } from '@/ai/flows/calming-activity-encouragement';
@@ -25,6 +25,8 @@ type BreathingTechnique = 'default' | 'box' | '4-7-8';
 const BreathingAnimation = ({ onComplete, technique, t }: { onComplete: () => void, technique: BreathingTechnique, t: (key: string) => string }) => {
   const [isBreathing, setIsBreathing] = useState(false);
   const [text, setText] = useState(t('breathing.getReady'));
+  const [isMuted, setIsMuted] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout>();
 
   const breathingTechniques = {
     default: {
@@ -58,7 +60,17 @@ const BreathingAnimation = ({ onComplete, technique, t }: { onComplete: () => vo
   };
   
   const { cycle } = breathingTechniques[technique];
-  const timerRef = useRef<NodeJS.Timeout>();
+
+  // Effect for speech synthesis
+  useEffect(() => {
+    if ('speechSynthesis' in window && isBreathing && !isMuted) {
+      // Cancel any ongoing speech
+      window.speechSynthesis.cancel();
+      // Speak the new text
+      const utterance = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.speak(utterance);
+    }
+  }, [text, isBreathing, isMuted]);
   
   const startBreathingCycle = () => {
     setIsBreathing(true);
@@ -76,6 +88,9 @@ const BreathingAnimation = ({ onComplete, technique, t }: { onComplete: () => vo
   const stopBreathingCycle = () => {
     setIsBreathing(false);
     clearTimeout(timerRef.current);
+     if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
     setText(t('breathing.greatJob'));
     onComplete();
   };
@@ -83,15 +98,27 @@ const BreathingAnimation = ({ onComplete, technique, t }: { onComplete: () => vo
   useEffect(() => {
     setIsBreathing(false);
     clearTimeout(timerRef.current);
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
     setText(t('breathing.getReady'));
   }, [technique, t]);
 
   useEffect(() => {
-    return () => clearTimeout(timerRef.current);
+    return () => {
+      clearTimeout(timerRef.current);
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    }
   }, []);
 
   return (
-    <Card className="flex flex-col items-center justify-center p-8 text-center h-96">
+    <Card className="flex flex-col items-center justify-center p-8 text-center h-96 relative">
+       <Button variant="ghost" size="icon" className="absolute top-4 right-4" onClick={() => setIsMuted(!isMuted)}>
+        {isMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
+        <span className="sr-only">{isMuted ? 'Unmute' : 'Mute'}</span>
+      </Button>
       <div className="relative flex items-center justify-center w-48 h-48 mb-6">
         <div
           className={cn(
