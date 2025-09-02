@@ -65,7 +65,7 @@ const languageConfig: ChartConfig = {
     kn: { label: 'Kannada', color: 'hsl(var(--chart-4))' },
     ta: { label: 'Tamil', color: 'hsl(var(--chart-5))' },
     bn: { label: 'Bengali', color: 'hsl(var(--chart-1))' },
-}
+};
 
 export default function DashboardPage() {
   const { t } = useLanguage();
@@ -181,7 +181,7 @@ export default function DashboardPage() {
                     tickMargin={10}
                     axisLine={false}
                     />
-                    <YAxis label={{ value: t('dashboard.stressTopicsYLabel'), angle: -90, position: 'insideLeft' }} />
+                    <YAxis allowDecimals={false} label={{ value: t('dashboard.stressTopicsYLabel'), angle: -90, position: 'insideLeft' }} />
                     <ChartTooltip
                     cursor={false}
                     content={<ChartTooltipContent indicator="dot" />}
@@ -219,7 +219,7 @@ export default function DashboardPage() {
                         axisLine={false}
                         tickMargin={8}
                         />
-                        <YAxis domain={[1, 5]} label={{ value: t('dashboard.moodTrendsYLabel'), angle: -90, position: 'insideLeft' }}/>
+                        <YAxis domain={[1, 5]} allowDecimals={false} label={{ value: t('dashboard.moodTrendsYLabel'), angle: -90, position: 'insideLeft' }}/>
                         <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
                         <ChartLegend content={<ChartLegendContent />} />
                         <Line
@@ -263,7 +263,7 @@ export default function DashboardPage() {
                         labelLine={false}
                         >
                         {languageData.map((entry) => (
-                            <Cell key={`cell-${entry.name}`} fill={entry.fill} />
+                            <Cell key={`cell-${entry.name}`} fill={languageConfig[entry.name as keyof typeof languageConfig]?.color || 'hsl(var(--primary))'} />
                             ))}
                         </Pie>
                         <ChartLegend
@@ -280,3 +280,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+    
