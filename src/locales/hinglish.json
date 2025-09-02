@@ -11,7 +11,7 @@
         "chat": "AI Chat",
         "calm": "Calming Activities",
         "journal": "Gratitude Journal",
-        "resources": "Resource Hub",
+        "knowledge": "Knowledge Hub",
         "story": "AI Storyteller",
         "openMenu": "Navigation menu kholen",
         "title": "App Navigation"
@@ -41,9 +41,9 @@
             "title": "Gratitude Journal",
             "description": "Apne jeevan ki achhi cheezon par vichar karen."
         },
-        "resources": {
-            "title": "Resource Hub",
-            "description": "Upyogi lekh, video, aur helplines dhundhen."
+        "knowledge": {
+            "title": "Knowledge Hub",
+            "description": "Upyogi lekh, video, kitabein, aur bahut kuch dhundhen."
         },
         "story": {
             "title": "AI Storyteller",
@@ -128,8 +128,8 @@
             }
         }
     },
-    "resources": {
-        "title": "Resource Hub",
+    "knowledge": {
+        "title": "Knowledge Hub",
         "subtitle": "Mansik swasthya aur kalyan ke liye verified global resources ki ek curated list explore karein.",
         "categories": {
             "helpline": "Global Helplines & Support",

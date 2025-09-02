@@ -6,9 +6,9 @@ import {
   MessageCircle,
   Wind,
   BookText,
-  Library,
   HeartPulse,
   Wand,
+  BrainCircuit,
 } from 'lucide-react';
 import AarambhIcon from '@/components/AarambhIcon';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -38,10 +38,10 @@ export default function Home() {
       icon: <BookText className="h-8 w-8 text-primary" />,
     },
     {
-      title: t('features.resources.title'),
-      description: t('features.resources.description'),
-      href: '/resources',
-      icon: <Library className="h-8 w-8 text-primary" />,
+      title: t('features.knowledge.title'),
+      description: t('features.knowledge.description'),
+      href: '/knowledge',
+      icon: <BrainCircuit className="h-8 w-8 text-primary" />,
     },
     {
       title: t('features.story.title'),

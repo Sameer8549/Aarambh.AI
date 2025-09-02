@@ -13,6 +13,7 @@ import {
   AppWindow,
   ExternalLink,
   Book,
+  BrainCircuit,
 } from 'lucide-react';
 import {
   wellnessResources,
@@ -53,33 +54,36 @@ function constructSearchUrl(item: Resource): string {
 }
 
 
-export default function ResourcesPage() {
+export default function KnowledgePage() {
     const [groupedResources, setGroupedResources] = useState<Record<string, Resource[]>>({});
     const { t } = useLanguage();
 
     const categoryTitles: Record<string, string> = {
-        helpline: t('resources.categories.helpline'),
-        video: t('resources.categories.video'),
-        podcast: t('resources.categories.podcast'),
-        article: t('resources.categories.article'),
-        music: t('resources.categories.music'),
-        exercise: t('resources.categories.exercise'),
-        app: t('resources.categories.app'),
-        book: t('resources.categories.book')
+        helpline: t('knowledge.categories.helpline'),
+        video: t('knowledge.categories.video'),
+        podcast: t('knowledge.categories.podcast'),
+        article: t('knowledge.categories.article'),
+        music: t('knowledge.categories.music'),
+        exercise: t('knowledge.categories.exercise'),
+        app: t('knowledge.categories.app'),
+        book: t('knowledge.categories.book')
     }
 
     useEffect(() => {
         setGroupedResources(groupResourcesByType(wellnessResources));
     }, []);
 
-    const orderedCategories: ResourceType[] = ['helpline', 'exercise', 'app', 'video', 'music', 'podcast', 'article', 'book'];
+    const orderedCategories: ResourceType[] = ['helpline', 'book', 'exercise', 'app', 'video', 'music', 'podcast', 'article'];
 
   return (
     <div>
       <header className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold font-headline">{t('resources.title')}</h1>
+        <h1 className="text-3xl md:text-4xl font-bold font-headline flex items-center gap-3">
+            <BrainCircuit className="h-8 w-8" />
+            {t('knowledge.title')}
+        </h1>
         <p className="text-md md:text-lg text-muted-foreground mt-2">
-          {t('resources.subtitle')}
+          {t('knowledge.subtitle')}
         </p>
       </header>
 

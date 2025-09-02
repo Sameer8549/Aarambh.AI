@@ -11,7 +11,7 @@
         "chat": "AI Chat",
         "calm": "Calming Activities",
         "journal": "Gratitude Journal",
-        "resources": "Resource Hub",
+        "knowledge": "Knowledge Hub",
         "story": "AI Storyteller",
         "openMenu": "Open navigation menu",
         "title": "App Navigation"
@@ -41,9 +41,9 @@
             "title": "Gratitude Journal",
             "description": "Reflect on the good things in your life."
         },
-        "resources": {
-            "title": "Resource Hub",
-            "description": "Find helpful articles, videos, and helplines."
+        "knowledge": {
+            "title": "Knowledge Hub",
+            "description": "Find helpful articles, videos, books, and more."
         },
         "story": {
             "title": "AI Storyteller",
@@ -129,8 +129,8 @@
             }
         }
     },
-    "resources": {
-        "title": "Resource Hub",
+    "knowledge": {
+        "title": "Knowledge Hub",
         "subtitle": "Explore a curated list of verified global resources for mental health and well-being.",
         "categories": {
             "helpline": "Global Helplines & Support",

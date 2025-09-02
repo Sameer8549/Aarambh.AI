@@ -8,11 +8,11 @@ import {
   MessageCircle,
   Wind,
   BookText,
-  Library,
   Home,
   PanelLeft,
   Wand,
   ArrowLeft,
+  BrainCircuit,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -63,7 +63,7 @@ const SidebarContent = () => {
         { href: '/chat', label: t('nav.chat'), icon: MessageCircle },
         { href: '/calm', label: t('nav.calm'), icon: Wind },
         { href: '/journal', label: t('nav.journal'), icon: BookText },
-        { href: '/resources', label: t('nav.resources'), icon: Library },
+        { href: '/knowledge', label: t('nav.knowledge'), icon: BrainCircuit },
         { href: '/story', label: t('nav.story'), icon: Wand },
     ];
     return (

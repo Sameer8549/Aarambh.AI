@@ -19,9 +19,9 @@ import {ToolRequest, tool} from 'genkit/ai';
 const findResourcesTool = ai.defineTool(
   {
     name: 'findResources',
-    description: 'Finds relevant resources (articles, videos, exercises, apps, etc.) for the user based on a query. You MUST use this tool if the user is in crisis or asks for help.',
+    description: 'Finds relevant resources (articles, videos, exercises, apps, books, etc.) for the user based on a query. You MUST use this tool if the user is in crisis or asks for help or is looking for specific content like books or podcasts.',
     inputSchema: z.object({
-      query: z.string().describe('A search query describing the type of resource needed (e.g., "video for anxiety", "article on stress", "exercise for energy", "helpline for crisis in India").'),
+      query: z.string().describe('A search query describing the type of resource needed (e.g., "video for anxiety", "article on stress", "exercise for energy", "helpline for crisis in India", "books on mindfulness").'),
       resourceType: z.string().optional().describe('The specific type of resource to find.'),
     }),
     outputSchema: z.array(
@@ -37,29 +37,6 @@ const findResourcesTool = ai.defineTool(
     return getWellnessResources(query, resourceType ? (resourceType as ResourceTypeEnum) : undefined);
   }
 );
-
-const bookRecommendationTool = ai.defineTool(
-  {
-    name: 'provideBookRecommendations',
-    description: 'Provides book recommendations if the user is looking for books to read.',
-    inputSchema: z.object({
-      conversationHistory: z.string().describe('The history of the conversation with the user.'),
-    }),
-    outputSchema: z.array(
-      z.object({
-        title: z.string().describe('The title of the book.'),
-        author: z.string().describe('The author of the book.'),
-        summary: z.string().describe('A brief summary of the book.'),
-        link: z.string().describe('A Google search link to find the book for purchase or information. The link should be a valid URL.'),
-      })
-    ),
-  },
-  async ({conversationHistory}) => {
-    const result = await provideBookRecommendations({conversationHistory});
-    return result.recommendations;
-  }
-);
-
 
 const ChatbotInputSchema = z.object({
   language: z.enum(['en', 'hi', 'hinglish', 'ta', 'kn', 'bn']).describe('The language code to respond in (en: English, hi: Hindi, hinglish: Hinglish, ta: Tamil, kn: Kannada, bn: Bengali).'),
@@ -102,9 +79,8 @@ For all other conversations, your response MUST follow this structure with the e
 1.  Start with a one-sentence acknowledgement to validate the user's feelings. (e.g., "It sounds like you're going through a lot, and it's completely understandable to feel that way.")
 2.  Add a heading called "Insight:". Under this heading, give a simple, yet comprehensive, relatable explanation for why they might be feeling this way. Provide some context to their feelings. Be detailed and insightful.
 3.  Add a heading called "Advice:". Under this heading, provide a clear, bulleted list (using a '-' for each point) of 2-3 small, manageable steps the user can take right now. The advice should be practical, actionable and detailed.
-4.  If the user's message indicates a need for deeper help (e.g., they mention "anxiety", "stress", "depression", "feeling low", "exercise", "workout", "sad", "lonely"), you MUST use the findResources tool to find helpful resources.
-5. If the user asks for book recommendations, you MUST use the 'provideBookRecommendations' tool.
-6.  Add a heading called "Disclaimer:". Under this heading, you MUST remind the user that you are an AI and not a substitute for a real doctor.
+4.  If the user's message indicates a need for deeper help (e.g., they mention "anxiety", "stress", "depression", "feeling low", "exercise", "workout", "sad", "lonely", "books", "podcasts"), you MUST use the findResources tool to find helpful resources.
+5.  Add a heading called "Disclaimer:". Under this heading, you MUST remind the user that you are an AI and not a substitute for a real doctor.
 
 Example Non-Crisis Response Format:
 It sounds like you are dealing with a lot of pressure right now.
@@ -138,10 +114,10 @@ const chatbotRespondMultilinguallyFlow = ai.defineFlow(
     const { language, message, conversationHistory } = input;
     const history = conversationHistory || [];
     
-    const tools = [findResourcesTool, bookRecommendationTool];
+    const tools = [findResourcesTool];
     const model = googleAI.model('gemini-1.5-flash');
 
-    const fullPrompt = `${prompt}\n\nYour Task:\nRespond to the user's message below. Your primary task is to generate the text for the 'response' field. This field MUST contain the full, structured, and detailed response. If, and only if, it is relevant, you may also use the 'findResources' or 'provideBookRecommendations' tools to provide a list of helpful resources in the 'resources' field. The response must be in the specified language.\n\nLanguage: ${language}\nMessage: ${message}`;
+    const fullPrompt = `${prompt}\n\nYour Task:\nRespond to the user's message below. Your primary task is to generate the text for the 'response' field. This field MUST contain the full, structured, and detailed response. If, and only if, it is relevant, you may also use the 'findResources' tool to provide a list of helpful resources in the 'resources' field. The response must be in the specified language.\n\nLanguage: ${language}\nMessage: ${message}`;
     
     const llmResponse = await ai.generate({
         model,
@@ -181,5 +157,3 @@ const chatbotRespondMultilinguallyFlow = ai.defineFlow(
     return output;
   }
 );
-
-    
