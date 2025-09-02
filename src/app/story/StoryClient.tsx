@@ -296,23 +296,25 @@ export default function StoryClient() {
                                </CardTitle>
                            </CardHeader>
                            <CardContent>
-                                <div className="whitespace-pre-wrap p-4 bg-muted/50 rounded-lg text-muted-foreground leading-relaxed">
+                                <div className="space-y-4 p-4 bg-muted/50 rounded-lg text-muted-foreground leading-relaxed">
                                     {generatedScript.split('\n').map((line, index) => {
                                         const isNarrator = line.startsWith('Narrator:');
                                         const isCharacter = line.startsWith('Character:');
-                                        let content = line;
-                                        if (isNarrator) content = line.substring('Narrator:'.length).trim();
-                                        if (isCharacter) content = line.substring('Character:'.length).trim();
+                                        
+                                        if (!isNarrator && !isCharacter) {
+                                            return <p key={index} className="italic">{line}</p>;
+                                        }
+                                        
+                                        const speaker = isNarrator ? t('story.narrator') : t('story.character');
+                                        const content = isNarrator 
+                                            ? line.substring('Narrator:'.length).trim()
+                                            : line.substring('Character:'.length).trim();
 
                                         return (
-                                            <p key={index} className={cn('mb-2', (isNarrator || isCharacter) && 'pl-10 relative')}>
-                                                {(isNarrator || isCharacter) && (
-                                                    <span className="absolute left-0 font-bold text-primary">
-                                                        {isNarrator ? t('story.narrator') : t('story.character')}:
-                                                    </span>
-                                                )}
-                                                {content}
-                                            </p>
+                                            <div key={index} className="grid grid-cols-[80px_1fr] md:grid-cols-[100px_1fr] items-start gap-4">
+                                                <span className="font-bold text-primary text-right">{speaker}:</span>
+                                                <p className="text-foreground">{content}</p>
+                                            </div>
                                         );
                                     })}
                                 </div>
