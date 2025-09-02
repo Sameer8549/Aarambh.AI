@@ -72,6 +72,7 @@ const SidebarContent = ({ isSheet = false }: { isSheet?: boolean }) => {
                  <AarambhIcon className="h-10 w-10" />
                   <h2 className="text-2xl font-bold font-headline">Aarambh.AI</h2>
                </Link>
+               <SheetTitle className='sr-only'>{t('nav.title')}</SheetTitle>
            </SheetHeader>
             <nav className="p-4 space-y-2 flex-1">
               {navItems.map((item) => (
