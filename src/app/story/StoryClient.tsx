@@ -149,10 +149,32 @@ const CustomAudioPlayer = ({ audioUrl, onPlaybackEnd }: { audioUrl: string; onPl
                         onClick={togglePlayPause}
                         disabled={!isReady}
                         size="lg"
-                        className="rounded-full w-16 h-16"
+                        className="rounded-full w-16 h-16 relative"
                         aria-label={isPlaying ? "Pause story" : "Play story"}
                     >
-                        {isPlaying ? <Pause className="h-8 w-8" /> : <Play className="h-8 w-8" />}
+                        <AnimatePresence initial={false} mode="wait">
+                            {isPlaying ? (
+                                <motion.div
+                                    key="pause"
+                                    initial={{ opacity: 0, scale: 0.5 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.5 }}
+                                    className="absolute inset-0 flex items-center justify-center"
+                                >
+                                    <Pause className="h-8 w-8 text-currentColor" />
+                                </motion.div>
+                            ) : (
+                                <motion.div
+                                    key="play"
+                                    initial={{ opacity: 0, scale: 0.5 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.5 }}
+                                    className="absolute inset-0 flex items-center justify-center"
+                                >
+                                    <Play className="h-8 w-8 text-currentColor" />
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </Button>
                     <Button
                         onClick={stopPlayback}
