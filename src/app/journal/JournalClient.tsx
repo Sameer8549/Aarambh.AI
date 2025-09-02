@@ -125,9 +125,9 @@ function JournalFeed() {
 export default function JournalClient() {
   const [entry, setEntry] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('');
   const { toast } = useToast();
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   const getAIEncouragement = async () => {
     try {
@@ -155,26 +155,26 @@ export default function JournalClient() {
 
     setIsLoading(true);
     const entryToSave = entry;
-    setEntry(''); // Clear the input field immediately
-    
-    // Generate image first
-    setIsGeneratingImage(true);
+    setEntry('');
+
     let imageUrl = '';
     try {
-        const imageResult = await generateImage({ prompt: entryToSave });
-        imageUrl = imageResult.imageUrl;
-    } catch(e) {
-        console.error("Failed to generate image:", e);
-        toast({
-            title: t('journal.toast.imageError.title'),
-            description: t('journal.toast.imageError.description'),
-            variant: 'destructive',
-        });
-    } finally {
-        setIsGeneratingImage(false);
-    }
+      // 1. Generate Image
+      setLoadingMessage(t('journal.generatingImage'));
+      try {
+          const imageResult = await generateImage({ prompt: entryToSave });
+          imageUrl = imageResult.imageUrl;
+      } catch(e) {
+          console.error("Failed to generate image:", e);
+          toast({
+              title: t('journal.toast.imageError.title'),
+              description: t('journal.toast.imageError.description'),
+              variant: 'destructive',
+          });
+      }
 
-    try {
+      // 2. Save to Firestore
+      setLoadingMessage(t('journal.saving'));
       await addDoc(collection(db, 'journal-entries'), {
         entry: entryToSave,
         timestamp: Timestamp.now(),
@@ -186,7 +186,7 @@ export default function JournalClient() {
         description: t('journal.toast.saved.description'),
       });
       
-      // Asynchronously get encouragement
+      // 3. Get encouragement (fire and forget)
       getAIEncouragement();
 
     } catch (error) {
@@ -195,8 +195,11 @@ export default function JournalClient() {
         description: t('journal.toast.error.description'),
         variant: 'destructive',
       });
+       // Restore the entry if saving fails
+       setEntry(entryToSave);
     } finally {
         setIsLoading(false);
+        setLoadingMessage('');
     }
   };
 
@@ -220,11 +223,13 @@ export default function JournalClient() {
                     disabled={isLoading}
                     aria-label={t('journal.ariaLabel')}
                 />
-                 {isGeneratingImage && (
+                 {isLoading && (
                     <div className='flex flex-col items-center gap-2 text-sm text-muted-foreground'>
                         <Loader2 className="h-5 w-5 animate-spin" />
-                        <p>{t('journal.generatingImage')}</p>
-                        <Skeleton className="h-32 w-full rounded-lg" />
+                        <p>{loadingMessage}</p>
+                        {loadingMessage === t('journal.generatingImage') && (
+                            <Skeleton className="h-32 w-full rounded-lg" />
+                        )}
                     </div>
                 )}
                 <Button
@@ -233,8 +238,8 @@ export default function JournalClient() {
                     className="w-full"
                     aria-label={t('journal.reflectAriaLabel')}
                 >
-                    {(isLoading || isGeneratingImage) ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4" />}
-                    {isLoading ? t('journal.saving') : (isGeneratingImage ? t('journal.generating') : t('journal.reflect'))}
+                    {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4" />}
+                    {isLoading ? loadingMessage : t('journal.reflect')}
                 </Button>
                 </div>
             </CardContent>
