@@ -1,11 +1,10 @@
 
 'use client';
 
-import { BarChart, LineChart, PieChart, ShieldCheck } from 'lucide-react';
+import { BarChart as BarChartIcon, LineChart as LineChartIcon, PieChart as PieChartIcon, ShieldCheck } from 'lucide-react';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -16,7 +15,11 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from '@/components/ui/chart';
+import type { ChartConfig } from '@/components/ui/chart';
 import {
+  BarChart,
+  LineChart,
+  PieChart as RechartsPieChart,
   Bar,
   Line,
   Pie,
@@ -24,22 +27,45 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
-  Legend,
   ResponsiveContainer,
-  PieLabel,
 } from 'recharts';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 // Mock data simulating aggregated insights from BigQuery
 const stressTopicsData = [
-  { topic: 'Exams', mentions: 450, fill: 'hsl(var(--chart-1))' },
-  { topic: 'Family', mentions: 300, fill: 'hsl(var(--chart-2))' },
-  { topic: 'Relationships', mentions: 200, fill: 'hsl(var(--chart-3))' },
-  { topic: 'Future', mentions: 278, fill: 'hsl(var(--chart-4))' },
-  { topic: 'Loneliness', mentions: 189, fill: 'hsl(var(--chart-5))' },
+  { topic: 'Exams', mentions: 450, fill: 'var(--color-exams)' },
+  { topic: 'Family', mentions: 300, fill: 'var(--color-family)' },
+  { topic: 'Relationships', mentions: 200, fill: 'var(--color-relationships)' },
+  { topic: 'Future', mentions: 278, fill: 'var(--color-future)' },
+  { topic: 'Loneliness', mentions: 189, fill: 'var(--color-loneliness)' },
 ];
+
+const stressTopicsConfig = {
+  mentions: {
+    label: 'Mentions',
+  },
+  exams: {
+    label: 'Exams',
+    color: 'hsl(var(--chart-1))',
+  },
+  family: {
+    label: 'Family',
+    color: 'hsl(var(--chart-2))',
+  },
+  relationships: {
+    label: 'Relationships',
+    color: 'hsl(var(--chart-3))',
+  },
+  future: {
+    label: 'Future',
+    color: 'hsl(var(--chart-4))',
+  },
+  loneliness: {
+    label: 'Loneliness',
+    color: 'hsl(var(--chart-5))',
+  },
+} satisfies ChartConfig;
 
 const moodTrendsData = [
   { month: 'Jan', moodScore: 3.5 },
@@ -50,12 +76,27 @@ const moodTrendsData = [
   { month: 'Jun', moodScore: 3.6 },
 ];
 
+const moodTrendsConfig = {
+  moodScore: {
+    label: 'Mood Score',
+    color: 'hsl(var(--chart-1))',
+  },
+} satisfies ChartConfig;
+
 const languageData = [
-  { name: 'English', value: 400, fill: 'hsl(var(--chart-1))' },
-  { name: 'Hinglish', value: 300, fill: 'hsl(var(--chart-2))' },
-  { name: 'Hindi', value: 200, fill: 'hsl(var(--chart-3))' },
-  { name: 'Kannada', value: 100, fill: 'hsl(var(--chart-4))' },
+  { name: 'English', value: 400, fill: 'var(--color-english)' },
+  { name: 'Hinglish', value: 300, fill: 'var(--color-hinglish)' },
+  { name: 'Hindi', value: 200, fill: 'var(--color-hindi)' },
+  { name: 'Kannada', value: 100, fill: 'var(--color-kannada)' },
 ];
+
+const languageConfig = {
+    english: { label: 'English', color: 'hsl(var(--chart-1))' },
+    hinglish: { label: 'Hinglish', color: 'hsl(var(--chart-2))' },
+    hindi: { label: 'Hindi', color: 'hsl(var(--chart-3))' },
+    kannada: { label: 'Kannada', color: 'hsl(var(--chart-4))' },
+} satisfies ChartConfig;
+
 
 export default function DashboardPage() {
   const { t } = useLanguage();
@@ -83,107 +124,93 @@ export default function DashboardPage() {
         <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <BarChart className="h-5 w-5" />
+              <BarChartIcon className="h-5 w-5" />
               {t('dashboard.stressTopicsTitle')}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={350}>
-              <BarChart data={stressTopicsData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="topic" />
-                <YAxis label={{ value: t('dashboard.stressTopicsYLabel'), angle: -90, position: 'insideLeft' }} />
-                <Tooltip
-                    contentStyle={{
-                        background: 'hsl(var(--card))',
-                        borderColor: 'hsl(var(--border))'
-                    }}
+            <ChartContainer config={stressTopicsConfig} className="min-h-[350px] w-full">
+              <BarChart accessibilityLayer data={stressTopicsData}>
+                <CartesianGrid vertical={false} />
+                <XAxis
+                  dataKey="topic"
+                  tickLine={false}
+                  tickMargin={10}
+                  axisLine={false}
                 />
-                <Bar dataKey="mentions" radius={[4, 4, 0, 0]}>
-                   {stressTopicsData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.fill} />
-                  ))}
-                </Bar>
+                 <YAxis label={{ value: t('dashboard.stressTopicsYLabel'), angle: -90, position: 'insideLeft' }} />
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent indicator="dot" />}
+                />
+                <Bar dataKey="mentions" radius={4} />
               </BarChart>
-            </ResponsiveContainer>
+            </ChartContainer>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <LineChart className="h-5 w-5" />
+              <LineChartIcon className="h-5 w-5" />
                {t('dashboard.moodTrendsTitle')}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={moodTrendsData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis domain={[1, 5]} label={{ value: t('dashboard.moodTrendsYLabel'), angle: -90, position: 'insideLeft' }}/>
-                <Tooltip
-                     contentStyle={{
-                        background: 'hsl(var(--card))',
-                        borderColor: 'hsl(var(--border))'
-                    }}
-                 />
-                <Legend />
+            <ChartContainer config={moodTrendsConfig} className="min-h-[300px] w-full">
+              <LineChart accessibilityLayer data={moodTrendsData}>
+                <CartesianGrid vertical={false} />
+                <XAxis
+                  dataKey="month"
+                  tickLine={false}
+                  axisLine={false}
+                  tickMargin={8}
+                />
+                 <YAxis domain={[1, 5]} label={{ value: t('dashboard.moodTrendsYLabel'), angle: -90, position: 'insideLeft' }}/>
+                <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+                <ChartLegend content={<ChartLegendContent />} />
                 <Line
-                  type="monotone"
                   dataKey="moodScore"
-                  stroke="hsl(var(--primary))"
+                  type="monotone"
+                  stroke="var(--color-moodScore)"
                   strokeWidth={2}
-                  dot={{ r: 6, fill: 'hsl(var(--primary))' }}
-                  activeDot={{ r: 8 }}
+                  dot={false}
                 />
               </LineChart>
-            </ResponsiveContainer>
+            </ChartContainer>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <PieChart className="h-5 w-5" />
+              <PieChartIcon className="h-5 w-5" />
               {t('dashboard.languageUseTitle')}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Tooltip
-                     contentStyle={{
-                        background: 'hsl(var(--card))',
-                        borderColor: 'hsl(var(--border))'
-                    }}
-                />
-                <Pie
-                  data={languageData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
-                    const RADIAN = Math.PI / 180;
-                    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-                    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-                    const y = cy + radius * Math.sin(-midAngle * RADIAN);
-                    return (
-                      <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-                        {`${(percent * 100).toFixed(0)}%`}
-                      </text>
-                    );
-                  }}
-                  outerRadius={110}
-                  dataKey="value"
-                >
-                  {languageData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.fill} />
-                  ))}
-                </Pie>
-                <Legend iconSize={12} />
-              </PieChart>
-            </ResponsiveContainer>
+            <ChartContainer
+                config={languageConfig}
+                className="mx-auto aspect-square max-h-[300px]"
+            >
+                <RechartsPieChart>
+                    <ChartTooltip
+                    cursor={false}
+                    content={<ChartTooltipContent hideLabel />}
+                    />
+                    <Pie data={languageData} dataKey="value" nameKey="name" innerRadius={60} label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
+                    labelLine={false}
+                     >
+                       {languageData.map((entry) => (
+                        <Cell key={entry.name} fill={entry.fill} />
+                        ))}
+                    </Pie>
+                     <ChartLegend
+                        content={<ChartLegendContent nameKey="name" />}
+                        className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
+                    />
+                </RechartsPieChart>
+            </ChartContainer>
           </CardContent>
         </Card>
       </div>
