@@ -298,4 +298,3 @@ function CrisisAlertDialog({open, onOpenChange, t}: {open: boolean, onOpenChange
     </AlertDialog>
   )
 }
-
