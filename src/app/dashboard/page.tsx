@@ -242,7 +242,7 @@ export default function DashboardPage() {
               <PieChartIcon className="h-5 w-5" />
               {t('dashboard.languageUseTitle')}
             </CardTitle>
-          </Header>
+          </CardHeader>
           <CardContent>
              {isLoading ? (
                 <div className="mx-auto aspect-square max-h-[300px] flex items-center justify-center">
@@ -280,5 +280,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-
-    
