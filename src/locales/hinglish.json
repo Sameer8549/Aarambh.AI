@@ -13,7 +13,6 @@
         "journal": "Gratitude Journal",
         "resources": "Resource Hub",
         "story": "AI Storyteller",
-        "dashboard": "Impact Dashboard",
         "openMenu": "Navigation menu kholen",
         "title": "App Navigation"
     },
@@ -49,10 +48,6 @@
         "story": {
             "title": "AI Storyteller",
             "description": "AI ke saath ek personal audio kahani banayein."
-        },
-        "dashboard": {
-            "title": "Social Impact Dashboard",
-            "description": "Gumnam, ekatrit mansik swasthya trends dekhein."
         }
     },
     "calm": {
@@ -159,16 +154,5 @@
         "errorDescription": "Maaf kijiye, hum aapki kahani nahi bana sake. Kripya ek alag prompt try karein.",
         "errorQuota": "Humein afsos hai, lekin kahani banane ki roz ki seema poori ho gayi hai. Kripya kal phir koshish karein.",
         "intro": "Hello, main Aarambh.AI hoon. 'Aarambh' ka matlab hai 'ek nayi shuruaat'. Maine aapki baat suni hai. Ab main aapko ek kahani sunaunga jo aapko confident feel karne aur aapki challenges ko paar karne mein madad karegi."
-    },
-    "dashboard": {
-        "title": "Social Impact Dashboard",
-        "subtitle": "NGOs, educators, aur policymakers ke liye jama, gumnam insights.",
-        "privacyTitle": "Privacy Pehle: Hum User Anonymity Ko Kaise Protect Karte Hain",
-        "privacyDescription": "Yeh dashboard gumnam data aur metadata se trends ko visualize karta hai. Koi bhi personally identifiable information (PII), private journal entries, ya chat logs kabhi bhi store ya display nahi kiye jaate hain. Hum Google ke Cloud Data Loss Prevention (DLP) API jaisi technologies ka upyog karte hain taaki sensitive data ko automatically detect aur redact kiya ja sake, jisse user ki privacy hamesha surakshit rahe. Sabhi data ko vyapak patterns dikhane ke liye jama kiya jaata hai, na ki individual activity.",
-        "stressTopicsTitle": "Stress-Related Baatcheet Mein Sabse Zyada Discuss Kiye Gaye Topics",
-        "stressTopicsYLabel": "Mentions Ki Sankhya",
-        "moodTrendsTitle": "Overall Mood Trends",
-        "moodTrendsYLabel": "Mood Score (1-5)",
-        "languageUseTitle": "User Language Preferences"
     }
 }

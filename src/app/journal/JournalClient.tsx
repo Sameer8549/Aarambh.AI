@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { calmingActivityEncouragement } from '@/ai/flows/calming-activity-encouragement';
-import { anonymizeAndAnalyze } from '@/ai/flows/anonymize-and-analyze';
 import {
   Card,
   CardContent,
@@ -128,21 +127,6 @@ export default function JournalClient() {
     }
   }
 
-  const processForDashboard = async (journalEntry: string) => {
-    try {
-      const analysis = await anonymizeAndAnalyze({ text: journalEntry });
-      await addDoc(collection(db, 'anonymous-insights'), {
-        sentiment: analysis.sentiment,
-        topics: analysis.topics,
-        language: language,
-        source: 'journal',
-        timestamp: Timestamp.now(),
-      });
-    } catch (error) {
-      console.error("Failed to process entry for dashboard:", error);
-    }
-  }
-
   const handleJournalSubmit = async () => {
     if (!entry.trim()) {
       toast({
@@ -168,8 +152,7 @@ export default function JournalClient() {
       
       setEntry('');
 
-      // Asynchronously process for dashboard and get encouragement
-      processForDashboard(entryToSave);
+      // Asynchronously get encouragement
       getAIEncouragement();
 
     } catch (error) {

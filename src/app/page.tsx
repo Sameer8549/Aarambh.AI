@@ -9,7 +9,6 @@ import {
   Library,
   HeartPulse,
   Wand,
-  BarChart,
 } from 'lucide-react';
 import AarambhIcon from '@/components/AarambhIcon';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -50,12 +49,6 @@ export default function Home() {
       href: '/story',
       icon: <Wand className="h-8 w-8 text-primary" />,
     },
-     {
-      title: t('features.dashboard.title'),
-      description: t('features.dashboard.description'),
-      href: '/dashboard',
-      icon: <BarChart className="h-8 w-8 text-primary" />,
-    },
   ];
 
 
@@ -86,8 +79,8 @@ export default function Home() {
             </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, index) => (
-             <Link href={feature.href} key={feature.href} passHref className={index === features.length - 1 ? 'sm:col-span-2 lg:col-span-1 lg:col-start-2' : ''}>
+          {features.map((feature) => (
+             <Link href={feature.href} key={feature.href} passHref>
               <Card className="h-full transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer bg-card/80 backdrop-blur-sm">
                 <CardHeader className="flex flex-row items-center gap-4 space-y-0">
                   {feature.icon}

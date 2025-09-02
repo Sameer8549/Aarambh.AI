@@ -28,12 +28,3 @@ export type JournalEntry = {
     entry: string;
     timestamp: number;
 }
-
-export type AnonymousInsight = {
-    id: string;
-    sentiment: 'Positive' | 'Neutral' | 'Negative';
-    topics: string[];
-    language: Language;
-    source: string;
-    timestamp: number;
-}

@@ -13,7 +13,6 @@ import {
   PanelLeft,
   Wand,
   ArrowLeft,
-  BarChart,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -66,7 +65,6 @@ const SidebarContent = () => {
         { href: '/journal', label: t('nav.journal'), icon: BookText },
         { href: '/resources', label: t('nav.resources'), icon: Library },
         { href: '/story', label: t('nav.story'), icon: Wand },
-        { href: '/dashboard', label: t('nav.dashboard'), icon: BarChart },
     ];
     return (
         <div className='h-full flex flex-col'>
