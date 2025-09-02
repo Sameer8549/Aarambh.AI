@@ -10,13 +10,7 @@ import {
 } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Music, Play, Pause, Wind, Loader2, ExternalLink } from 'lucide-react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { Music, Play, Pause, Wind, ExternalLink } from 'lucide-react';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { calmingActivityEncouragement } from '@/ai/flows/calming-activity-encouragement';
@@ -24,6 +18,7 @@ import { cn } from '@/lib/utils';
 import { getResourcesByType, ResourceTypeEnum } from '@/ai/resources';
 import type { Resource } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext';
+import EncouragementDialog from './EncouragementDialog';
 
 type BreathingTechnique = 'default' | 'box' | '4-7-8';
 
@@ -262,22 +257,14 @@ export default function CalmClient() {
            <BreathingPage onComplete={(activity) => handleActivityCompletion(activity)} />
         </TabsContent>
       </Tabs>
-      <Dialog open={showDialog} onOpenChange={setShowDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t('calm.dialogTitle')}</DialogTitle>
-          </DialogHeader>
-          <div className="pt-4 text-center text-lg">
-            {isLoading ? (
-              <div className="flex justify-center items-center h-20">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-              </div>
-            ) : (
-              <p>{encouragement}</p>
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
+      
+      <EncouragementDialog
+        showDialog={showDialog}
+        setShowDialog={setShowDialog}
+        isLoading={isLoading}
+        encouragement={encouragement}
+        t={t}
+      />
     </>
   );
 }
