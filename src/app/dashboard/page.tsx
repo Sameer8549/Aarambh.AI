@@ -38,7 +38,7 @@ import type { AnonymousInsight } from '@/types';
 import { format, subDays } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
 
-const stressTopicsConfig = {
+const stressTopicsConfig: ChartConfig = {
   mentions: { label: 'Mentions' },
   Exams: { label: 'Exams', color: 'hsl(var(--chart-1))' },
   Family: { label: 'Family', color: 'hsl(var(--chart-2))' },
@@ -51,14 +51,14 @@ const stressTopicsConfig = {
   Sleep: { label: 'Sleep', color: 'hsl(var(--chart-4))' },
 };
 
-const moodTrendsConfig = {
+const moodTrendsConfig: ChartConfig = {
   moodScore: {
     label: 'Mood Score',
     color: 'hsl(var(--chart-1))',
   },
 };
 
-const languageConfig = {
+const languageConfig: ChartConfig = {
     en: { label: 'English', color: 'hsl(var(--chart-1))' },
     hi: { label: 'Hindi', color: 'hsl(var(--chart-2))' },
     hinglish: { label: 'Hinglish', color: 'hsl(var(--chart-3))' },
