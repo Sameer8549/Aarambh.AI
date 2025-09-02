@@ -49,14 +49,14 @@ const stressTopicsConfig = {
   Stress: { label: 'Stress', color: 'hsl(var(--chart-2))' },
   Confidence: { label: 'Confidence', color: 'hsl(var(--chart-3))' },
   Sleep: { label: 'Sleep', color: 'hsl(var(--chart-4))' },
-} satisfies ChartConfig;
+};
 
 const moodTrendsConfig = {
   moodScore: {
     label: 'Mood Score',
     color: 'hsl(var(--chart-1))',
   },
-} satisfies ChartConfig;
+};
 
 const languageConfig = {
     en: { label: 'English', color: 'hsl(var(--chart-1))' },
@@ -65,7 +65,7 @@ const languageConfig = {
     kn: { label: 'Kannada', color: 'hsl(var(--chart-4))' },
     ta: { label: 'Tamil', color: 'hsl(var(--chart-5))' },
     bn: { label: 'Bengali', color: 'hsl(var(--chart-1))' },
-} satisfies ChartConfig;
+};
 
 
 export default function DashboardPage() {
