@@ -290,7 +290,7 @@ function CrisisAlertDialog({open, onOpenChange, t}: {open: boolean, onOpenChange
               <Phone className="h-4 w-4"/> {t('crisis.callHelpline')}
             </a>
           </AlertDialogAction>
-          <AlertDialogAction asChild variant="outline" className='w-full mt-0' onClick={() => onOpenChange(false)}>
+          <AlertDialogAction asChild variant="secondary" className='w-full mt-0' onClick={() => onOpenChange(false)}>
             <Button>{t('crisis.continueChat')}</Button>
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -299,4 +299,3 @@ function CrisisAlertDialog({open, onOpenChange, t}: {open: boolean, onOpenChange
   )
 }
 
-    
