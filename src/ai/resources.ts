@@ -26,13 +26,6 @@ export const wellnessResources: Resource[] = [
       keywords: ['helpline', 'india', 'government', 'support', 'crisis', 'kiran'],
     },
     {
-      title: 'Vandrevala Foundation (India)',
-      description: 'A 24/7 free and confidential helpline providing emotional support for depression, anxiety, and stress.',
-      link: 'Vandrevala Foundation helpline',
-      type: ResourceTypeEnum.Helpline,
-      keywords: ['helpline', 'india', 'vandrevala', 'depression', 'anxiety', 'support'],
-    },
-    {
       title: 'AASRA (India)',
       description: 'A 24/7 helpline for those who are distressed, depressed, or feeling suicidal. Provides confidential support. Call +91-9820466726.',
       link: 'tel:+91-9820466726',
@@ -40,13 +33,48 @@ export const wellnessResources: Resource[] = [
       keywords: ['helpline', 'india', 'suicide', 'depression', 'support', 'aasra'],
     },
     {
+      title: 'Vandrevala Foundation (India)',
+      description: 'A 24/7 free and confidential helpline providing emotional support for depression, anxiety, and stress in multiple Indian languages.',
+      link: 'Vandrevala Foundation helpline India',
+      type: ResourceTypeEnum.Helpline,
+      keywords: ['helpline', 'india', 'vandrevala', 'depression', 'anxiety', 'support'],
+    },
+    {
+      title: 'Fortis Stress Helpline (India)',
+      description: 'A 24x7 helpline providing support from trained mental health professionals in multiple Indian languages. Call +91-8376804102.',
+      link: 'tel:+91-8376804102',
+      type: ResourceTypeEnum.Helpline,
+      keywords: ['helpline', 'india', 'fortis', 'stress', 'anxiety', 'support'],
+    },
+     {
       title: 'iCALL (India)',
       description: 'A psychosocial helpline run by TISS providing free telephone and email-based counseling services by trained professionals.',
       link: 'iCALL TISS helpline',
       type: ResourceTypeEnum.Helpline,
       keywords: ['helpline', 'india', 'icall', 'counseling', 'tiss', 'support'],
     },
-
+    {
+      title: 'Sangath - "It\'s Ok To Talk" (India)',
+      description: 'An online platform for young people in India to access information and chat-based counseling about mental health.',
+      link: 'Sangath It\'s Ok To Talk',
+      type: ResourceTypeEnum.Helpline,
+      keywords: ['helpline', 'india', 'sangath', 'youth', 'chat', 'counseling'],
+    },
+    {
+      title: 'Childline India',
+      description: 'A 24/7 helpline for children in distress. Call 1098 for free and confidential support.',
+      link: 'tel:1098',
+      type: ResourceTypeEnum.Helpline,
+      keywords: ['helpline', 'india', 'childline', 'children', 'emergency', 'support'],
+    },
+    {
+      title: 'Mitram Foundation (Bangalore, India)',
+      description: 'A suicide prevention helpline providing emotional support to those who are distressed, depressed or suicidal.',
+      link: 'Mitram Foundation helpline',
+      type: ResourceTypeEnum.Helpline,
+      keywords: ['helpline', 'india', 'bangalore', 'suicide', 'mitram'],
+    },
+   
     // === Global Helplines ===
     {
       title: 'Crisis Text Line',
@@ -216,6 +244,14 @@ export const wellnessResources: Resource[] = [
       type: ResourceTypeEnum.App,
       keywords: ['app', 'cbt', 'journaling', 'anxiety', 'stress', 'intellect', 'therapy'],
     },
+    {
+      title: 'Evolve: Self-Care & Mindfulness',
+      description: 'A self-care app designed for mental wellness with guided meditations, CBT, and journaling.',
+      link: 'Evolve Self-Care App',
+      type: ResourceTypeEnum.App,
+      keywords: ['app', 'india', 'self-care', 'cbt', 'meditation', 'evolve'],
+    },
+
 
     // === Podcasts (Stable Platforms) ===
     {
@@ -246,8 +282,15 @@ export const wellnessResources: Resource[] = [
       type: ResourceTypeEnum.Podcast,
       keywords: ['podcast', 'anxiety', 'confidence', 'calm', 'self-help', 'stress'],
     },
+    {
+      title: 'The Mindvalley Podcast with Vishen',
+      description: 'A podcast covering personal growth, mindfulness, and human potential with a global perspective.',
+      link: 'The Mindvalley Podcast with Vishen',
+      type: ResourceTypeEnum.Podcast,
+      keywords: ['podcast', 'mindvalley', 'motivation', 'self-improvement'],
+    },
 
-    // === Articles & Information (Reputable Global Organizations) ===
+    // === Articles & Information (Reputable Global & Indian Organizations) ===
     {
       title: 'World Health Organization (WHO) - Mental Health',
       description: 'Fact sheets, publications, and information on mental health from the global public health agency.',
@@ -268,6 +311,13 @@ export const wellnessResources: Resource[] = [
         link: 'Mind UK mental health information',
         type: ResourceTypeEnum.Article,
         keywords: ['article', 'information', 'mind uk', 'mental health', 'support', 'well-being', 'treatment', 'medicine', 'anxiety'],
+    },
+    {
+      title: 'The Health Collective India - Articles',
+      description: 'A safe space for conversations on mental health in India, featuring personal stories and expert columns.',
+      link: 'The Health Collective India',
+      type: ResourceTypeEnum.Article,
+      keywords: ['article', 'india', 'mental health', 'stories', 'support'],
     },
     {
       title: 'HelpGuide - How to Stop Worrying',
