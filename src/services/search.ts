@@ -4,18 +4,21 @@
  * @fileOverview A service for interacting with Vertex AI Search.
  *
  * - searchResources - A function to search for wellness resources.
+ * 
+ * SECURITY NOTE: This service uses environment variables for Google Cloud configuration.
+ * Ensure GCLOUD_PROJECT_ID and GCLOUD_DATA_STORE_ID are properly set in your .env.local file.
  */
 
 import { SearchServiceClient } from '@google-cloud/discoveryengine';
 import type { Resource, ResourceType } from '@/types';
 
-// IMPORTANT: Update these values with your actual Vertex AI Search configuration.
-const GCLOUD_PROJECT_ID = 'aarambhai-youth-wellness';
+// Load configuration from environment variables
+const GCLOUD_PROJECT_ID = process.env.GCLOUD_PROJECT_ID;
 const GCLOUD_LOCATION = 'global'; // e.g., 'global' or 'us'
-const DATA_STORE_ID = 'aarambhai-resources_1721203923393'; // The ID of your data store
+const DATA_STORE_ID = process.env.GCLOUD_DATA_STORE_ID;
 
 if (!GCLOUD_PROJECT_ID || !DATA_STORE_ID) {
-  console.warn('Vertex AI Search environment variables are not set.');
+  console.warn('Vertex AI Search environment variables are not set. Please check your .env.local file.');
 }
 
 const searchClient = new SearchServiceClient();
