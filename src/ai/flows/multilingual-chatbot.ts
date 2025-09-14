@@ -12,7 +12,7 @@
 import {ai} from '@/ai/genkit';
 import {googleAI} from '@genkit-ai/googleai';
 import {z} from 'genkit';
-import {searchResources} from '@/services/search';
+import {searchResources} from '@/ai/resources';
 import {provideBookRecommendations} from '@/ai/flows/chatbot-book-recommendations';
 import {ToolRequest, tool} from 'genkit/ai';
 
@@ -33,7 +33,7 @@ const findResourcesTool = ai.defineTool(
     ),
   },
   async ({query}) => {
-    // Call the new Vertex AI Search service
+    // Call the new local search service
     return searchResources(query);
   }
 );
